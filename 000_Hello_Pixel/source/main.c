@@ -26,16 +26,20 @@ typedef volatile int32_t vs32;
 #define SCREEN_W 240
 #define SCREEN_H 160
 
+///Gets a memory value to create a colour to display on the screen
+///setColour(red, green, blue)
 u16 setColour(u8 a_red, u8 a_green, u8 a_blue){
 	return (a_red &0x1F) | (a_green & 0x1F) << 5 | (a_blue & 0x1F) << 10; 
 }
 
+///Plots a pixel to a given colour on the screen
+///plotPixel(x, y, colour)
 void plotPixel(s32 a_x, s32 a_y, u16 a_colour){
 	SCREENBUFFER[a_y * SCREEN_W + a_x] = a_colour; //Find the pixel and plot the colour to that pixels memory address
 }
 
 ///Draws a rectangle to the screen
-//drawRect(startLeft, startTop, width, height, colour, filled)
+///drawRect(startLeft, startTop, width, height, colour, filled)
 void drawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
 	
 	//Check if we want a filled or "empty" rect
@@ -47,7 +51,7 @@ void drawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bo
 			}
 		}
 	}else{
-		//Draw an empty rect by drawing out lines
+		//Draw an empty rect by drawing out 4 lines
 		drawLine(a_left, a_top, a_left + a_width, a_top, a_colour); //Top line
 		drawLine(a_left, a_top, a_left, a_top + a_height, a_colour); //Left line
 		drawLine(a_left, a_top + a_height, a_left + a_width, a_top + a_height, a_colour); //Bottom line
