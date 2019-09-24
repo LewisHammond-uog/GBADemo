@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __INTELLISENSE_H__
-#define __INTELLISENSE_H__
+#ifndef __GBA_MACROS_H__
+#define __GBA_MACROS_H__
 
 #if __INTELLISENSE__
 #define __attribute__(q)
@@ -13,4 +13,10 @@
 #define __extension__
 #endif
 
-#endif //__INTELLISENSE_H__
+#ifndef NULL
+#define NULL (void*)0
+#endif
+
+#define INLINE static inline
+
+#endif //__GBA_MACROS_H__
