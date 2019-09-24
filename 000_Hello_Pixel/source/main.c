@@ -35,13 +35,23 @@ void plotPixel(s32 a_x, s32 a_y, u16 a_colour){
 }
 
 ///Draws a rectangle to the screen
-//drawRect(startLeft, startTop, width, height, colour)
-void drawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour){
-	//Loop through all x/y values
-	for(s32 y = 0; y < a_height; ++y){
-		for(s32 x = 0; x < a_width; ++x){
-			plotPixel(a_left + x, a_top +y, a_colour);
+//drawRect(startLeft, startTop, width, height, colour, filled)
+void drawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
+	
+	//Check if we want a filled or "empty" rect
+	if(a_filled){	
+		//Loop through all x/y values
+		for(s32 y = 0; y < a_height; ++y){
+			for(s32 x = 0; x < a_width; ++x){
+				plotPixel(a_left + x, a_top +y, a_colour);
+			}
 		}
+	}else{
+		//Draw an empty rect by drawing out lines
+		drawLine(a_left, a_top, a_left + a_width, a_top, a_colour); //Top line
+		drawLine(a_left, a_top, a_left, a_top + a_height, a_colour); //Left line
+		drawLine(a_left, a_top + a_height, a_left + a_width, a_top + a_height, a_colour); //Bottom line
+		drawLine(a_left + a_width, a_top , a_left + a_width, a_top + a_height, a_colour); //Right line
 	}
 }
 
@@ -82,6 +92,7 @@ void drawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 	s32 num = longest >> 1;
 	for(s32 i = 0; i <= longest; ++i){
 		plotPixel(a_x, a_y, a_colour);
+		num += shortest;
 		if(num > longest){
 			num -= longest;
 			a_x += dx1;
@@ -91,6 +102,7 @@ void drawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 			a_y += dy2;
 		}
 	}
+	
 
 }
 
@@ -101,8 +113,8 @@ int main()
 
 	s32 t = 0;
 	while(1){
-		drawRect(20, 20, SCREEN_W - 40, SCREEN_H - 40, setColour(31,5,12));
-		drawLine(10,5, 230, 5, setColour(20,10,1));
+		drawRect(20, 20, SCREEN_W - 40, SCREEN_H - 40, setColour(31,5,12), false);
+		drawLine(10,5, 230, 70, setColour(20,10,1));
 	}
 	return 0;
 }
