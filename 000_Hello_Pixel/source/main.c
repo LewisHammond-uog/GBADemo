@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#pragma region Tutorial_000_Code
+
 //Basic Types
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -27,35 +29,35 @@ typedef volatile int32_t vs32;
 #define SCREEN_H 160
 
 ///Gets a memory value to create a colour to display on the screen
-///setColour(red, green, blue)
-u16 setColour(u8 a_red, u8 a_green, u8 a_blue){
+///SetColour(red, green, blue)
+u16 SetColour(u8 a_red, u8 a_green, u8 a_blue){
 	return (a_red &0x1F) | (a_green & 0x1F) << 5 | (a_blue & 0x1F) << 10; 
 }
 
 ///Plots a pixel to a given colour on the screen
-///plotPixel(x, y, colour)
-void plotPixel(s32 a_x, s32 a_y, u16 a_colour){
+///PlotPixel(x, y, colour)
+void PlotPixel(s32 a_x, s32 a_y, u16 a_colour){
 	SCREENBUFFER[a_y * SCREEN_W + a_x] = a_colour; //Find the pixel and plot the colour to that pixels memory address
 }
 
 ///Draws a rectangle to the screen
-///drawRect(startLeft, startTop, width, height, colour, filled)
-void drawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
+///DrawRect(startLeft, startTop, width, height, colour, filled)
+void DrawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
 	
 	//Check if we want a filled or "empty" rect
 	if(a_filled){	
 		//Loop through all x/y values
 		for(s32 y = 0; y < a_height; ++y){
 			for(s32 x = 0; x < a_width; ++x){
-				plotPixel(a_left + x, a_top +y, a_colour);
+				PlotPixel(a_left + x, a_top +y, a_colour);
 			}
 		}
 	}else{
 		//Draw an empty rect by drawing out 4 lines
-		drawLine(a_left, a_top, a_left + a_width, a_top, a_colour); //Top line
-		drawLine(a_left, a_top, a_left, a_top + a_height, a_colour); //Left line
-		drawLine(a_left, a_top + a_height, a_left + a_width, a_top + a_height, a_colour); //Bottom line
-		drawLine(a_left + a_width, a_top , a_left + a_width, a_top + a_height, a_colour); //Right line
+		DrawLine(a_left, a_top, a_left + a_width, a_top, a_colour); //Top line
+		DrawLine(a_left, a_top, a_left, a_top + a_height, a_colour); //Left line
+		DrawLine(a_left, a_top + a_height, a_left + a_width, a_top + a_height, a_colour); //Bottom line
+		DrawLine(a_left + a_width, a_top , a_left + a_width, a_top + a_height, a_colour); //Right line
 	}
 }
 
@@ -67,8 +69,8 @@ s32 abs(s32 a_val){
 }
 
 ///Draws a line to the screen
-///drawLine(startX, startY, endX, endY, colour)
-void drawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
+///DrawLine(startX, startY, endX, endY, colour)
+void DrawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 	//Get the horizontal and vertical displacement of the line
 	s32 w = a_x2 - a_x;
@@ -95,7 +97,7 @@ void drawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 	//Get half of the longest displacement
 	s32 num = longest >> 1;
 	for(s32 i = 0; i <= longest; ++i){
-		plotPixel(a_x, a_y, a_colour);
+		PlotPixel(a_x, a_y, a_colour);
 		num += shortest;
 		if(num > longest){
 			num -= longest;
@@ -110,15 +112,170 @@ void drawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 }
 
+#pragma endregion
+
+#pragma region Random_Number_Generation
+//Random Number Generation
+s32 __gba_rand_seed = 22;
+
+//Seed the RNG
+//seedGBARand(a_seed)
+s32 SeedGBARand(s32 a_value){
+	s32 old_seed = __gba_rand_seed;
+	__gba_rand_seed = a_value;
+	return old_seed;
+}
+
+///Generate a rando number using LCG
+s32 GBARand(){
+	__gba_rand_seed = 1664525 + __gba_rand_seed + 1013904223;
+	return(__gba_rand_seed >> 16) & 0x7FFF;
+}
+
+///Generate a random number within a range
+s32 GBARandRange(s32 a_min, s32 a_max){
+	return (GBARand() * (a_max - a_min) >> 15) + a_min;
+}
+
+#pragma endregion
+
+#pragma region VSync
+
+#define REG_VCOUNT (*(vu16*)(0x04000006)) //Keeps count of what scan line we are drawing
+
+//Vsync the screen
+void VSync(){
+	while(REG_VCOUNT >= SCREEN_H);
+	while(REG_VCOUNT < SCREEN_H);
+}
+
+#pragma endregion
+
+#pragma region Pong_Ball
+
+typedef struct Ball{
+	s32 x,y,xDir, yDir, size;
+	u16 colour;
+}Ball;
+
+//Start the ball moving in a random direcition
+void StartBall(Ball* a_ball){
+
+	//Generate Random x dir, we don't want it to be 0
+	while(a_ball->xDir == 0){
+		a_ball->xDir = GBARandRange(-1,2);
+	}
+	a_ball->yDir = GBARandRange(-1,2);
+}
+
+//Initlalise the ball
+void InitBall(Ball* a_ball, s32 a_x, s32 a_y, s32 a_size, u16 a_colour){
+
+	a_ball->x = a_x;
+	a_ball->y = a_y;
+	a_ball->size = a_size;
+	a_ball->colour = a_colour;
+	a_ball->xDir = a_ball->yDir = 0;
+	StartBall(a_ball);
+}
+
+//Move the ball with its current direction
+void MoveBall(Ball* a_ball){
+
+	//Move ball in y direction
+	a_ball->y += a_ball->yDir;
+
+	//Bounds check for top/bottom of screen
+	if(a_ball->y < 0){
+		a_ball->y = 0;
+		a_ball->yDir *= -1;
+	}else if(a_ball->y > SCREEN_H - a_ball->size){
+		a_ball->y = SCREEN_H - a_ball->size;
+		a_ball->yDir *= -1;
+	}
+
+	//Move ball in y direction
+	a_ball->x += a_ball->xDir;
+
+	//Bounds check for left/right (reset ball)
+	if(a_ball->x < 0 || a_ball-> x > SCREEN_W - a_ball->size){
+		a_ball->x = (SCREEN_W >> 1)  - (a_ball->size >> 1); //bitshift >> 1 is the same as *0.5
+		a_ball->y = (SCREEN_H >> 1)  - (a_ball->size >> 1); //bitshift >> 1 is the same as *0.5
+		a_ball->xDir = a_ball->yDir = 0;
+		StartBall(a_ball);
+	}
+
+}
+
+///Draws the ball on the screen
+void DrawBall(Ball* a_ball){
+	DrawRect(a_ball->x, a_ball->y, a_ball->size, a_ball->size, a_ball->colour, true);
+}
+
+///Clears the ball draw
+void ClearBall(Ball* a_ball){
+	DrawRect(a_ball->x, a_ball->y, a_ball->size, a_ball->size, SetColour(0,0,0), true);
+}
+
+#pragma endregion
+
+#pragma region Pong_Paddle
+
+typedef struct Paddle{
+	s32 x,y,width,height;
+	s16 colour;
+}Paddle;
+
+//Initalise the paddle
+void InitPaddle(Paddle* a_paddle, s32 a_x, s32 a_y, s32 a_width, s32 a_height, u16 a_colour){
+	a_paddle->x = a_x;
+	a_paddle->y = a_y;
+	a_paddle->width = a_width;
+	a_paddle->height = a_height;
+	a_paddle->colour = a_colour;
+}
+
+//Draw the paddle
+void DrawPaddle(Paddle* a_paddle){
+	DrawRect(a_paddle->x, a_paddle->y, a_paddle->width, a_paddle->height, a_paddle->colour, true);
+}
+
+//Draw the paddle
+void ClearPaddle(Paddle* a_paddle){
+	DrawRect(a_paddle->x, a_paddle->y, a_paddle->width, a_paddle->height, a_paddle->colour, SetColour(0,0,0));
+}
+
+
+#pragma endregion
+
 int main()
 {
 	//set GBA rendering context to MODE 3 Bitmap Rendering
 	REG_DISPCNT = VIDEOMODE_3 | BG_ENABLE2;
 
-	s32 t = 0;
+	SeedGBARand(2903);
+	
+		
+	Ball ball;
+	InitBall(&ball, SCREEN_H >> 0, SCREEN_H >> 1,10,  SetColour(31,31,31));
+
+	Paddle p1;
+	InitPaddle(&p1, 10, 60, 8,40, SetColour(0,0,31));
+
+	Paddle p2;
+	InitPaddle(&p2, SCREEN_W - 10, 60, 8,40, SetColour(31,0,0));
+
 	while(1){
-		drawRect(20, 20, SCREEN_W - 40, SCREEN_H - 40, setColour(31,5,12), false);
-		drawLine(10,5, 230, 70, setColour(20,10,1));
+		VSync();
+		ClearBall(&ball);
+		ClearPaddle(&p1);
+		ClearPaddle(&p2);
+
+		MoveBall(&ball);
+		DrawBall(&ball);
+		DrawPaddle(&p1);
+		DrawPaddle(&p2);
 	}
+
 	return 0;
 }
