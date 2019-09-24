@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-          "proj_working_dir": "PWD=000_Hello_Pixel",
-          "proj_name":"000_Hello_Pixel"
+          "proj_working_dir": "PWD=Assessment_Tutorial_001",
+          "proj_name":"Assessment_Tutorial_001"
         }
      },
     "tasks": [
