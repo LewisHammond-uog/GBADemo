@@ -1,25 +1,28 @@
 #include "gba_drawing.h"
 #include "gba_gfx.h"
 
-///Gets a memory value to create a colour to display on the screen
-///SetColour(red, green, blue)
+/*
+Creates the block of memory that can be used to create a colour at a given pixel
+*/
 u16 SetColour(u8 a_red, u8 a_green, u8 a_blue){
 	return (a_red &0x1F) | (a_green & 0x1F) << 5 | (a_blue & 0x1F) << 10; 
 }
 
-///Plots a pixel to a given colour on the screen
-///PlotPixel(x, y, colour)
+/*
+Plots a pixel on the screen of a given colour
+*/
 void PlotPixel(s32 a_x, s32 a_y, u16 a_colour){
 	SCREENBUFFER[a_y * SCREEN_W + a_x] = a_colour; //Find the pixel and plot the colour to that pixels memory address
 }
 
-///Draws a rectangle to the screen
-///DrawRect(startLeft, startTop, width, height, colour, filled)
+/*
+Draws a rectangle (filled or unfilled) to the screen
+*/
 void DrawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
 	
 	//Check if we want a filled or "empty" rect
 	if(a_filled){	
-		//Loop through all x/y values
+		//Loop through all x/y values and fill with colour
 		for(s32 y = 0; y < a_height; ++y){
 			for(s32 x = 0; x < a_width; ++x){
 				PlotPixel(a_left + x, a_top +y, a_colour);
@@ -34,8 +37,9 @@ void DrawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bo
 	}
 }
 
-///Draws a line to the screen
-///DrawLine(startX, startY, endX, endY, colour)
+/*
+Draws a line to the screen of a given colour
+*/
 void DrawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 	//Get the horizontal and vertical displacement of the line
@@ -62,6 +66,7 @@ void DrawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 	//Get half of the longest displacement
 	s32 num = longest >> 1;
+	
 	for(s32 i = 0; i <= longest; ++i){
 		PlotPixel(a_x, a_y, a_colour);
 		num += shortest;

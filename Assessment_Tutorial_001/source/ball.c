@@ -1,7 +1,10 @@
 #include "ball.h"
 #include "gba_drawing.h"
 
-//Start the ball moving in a random direcition
+/*
+Starts the ball moving in a random direction. Direction chosen will head towards 
+the paddles on the side of the screen
+*/
 void StartBall(Ball* a_ball){
 
 	//Generate Random x dir, we don't want it to be 0
@@ -11,7 +14,9 @@ void StartBall(Ball* a_ball){
 	a_ball->yDir = GBARandRange(-1,2);
 }
 
-//Initlalise the ball
+/*
+Initalises data properties and calls to start the ball moving in a random direction
+*/
 void InitBall(Ball* a_ball, s32 a_x, s32 a_y, s32 a_size, u16 a_colour){
 
 	a_ball->x = a_x;
@@ -22,7 +27,10 @@ void InitBall(Ball* a_ball, s32 a_x, s32 a_y, s32 a_size, u16 a_colour){
 	StartBall(a_ball);
 }
 
-//Move the ball with its current direction
+/*
+Moves the ball in its current direction. Protecting the ball from going off the screen.
+Resets the ball if it goes behind the paddles
+*/
 void MoveBall(Ball* a_ball){
 
 	//Move ball in y direction
@@ -50,12 +58,16 @@ void MoveBall(Ball* a_ball){
 
 }
 
-///Draws the ball on the screen
+/*
+Draws the ball to the screen
+*/
 void DrawBall(Ball* a_ball){
 	DrawRect(a_ball->x, a_ball->y, a_ball->size, a_ball->size, a_ball->colour, true);
 }
 
-///Clears the ball draw
+/*
+Clears the rect behind the ball on the screen
+*/
 void ClearBall(Ball* a_ball){
 	DrawRect(a_ball->x, a_ball->y, a_ball->size, a_ball->size, SetColour(0,0,0), true);
 }

@@ -8,7 +8,7 @@ Header to contain all of the custom types for GBA
 #include <stdint.h>
 #include <stdbool.h>
 
-//Basic Types
+//Basic Types (Signed and Unsigned ints)
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;

@@ -1,6 +1,8 @@
 #include "gba_gfx.h"
 
-//Vsync the screen
+/*
+Wait until we have syncronised the screen completly
+*/
 void vsync(){
 	while(REG_VCOUNT >= 160);
 	while(REG_VCOUNT < 160);
