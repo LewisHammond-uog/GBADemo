@@ -68,7 +68,7 @@
             ],
             "isBackground": false,
             "windows": {
-                "command": "C:/mGBA/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"
+                "command": "C:/mGBA/mGBA-0.6.2-win32/mGBA-0.6.2-2018-04-04-win32/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"
             },
             "osx": {
                 "command": "/Users/jamies/mGBA/mGBA.app/Contents/MacOS/mGBA",
@@ -87,7 +87,7 @@
             ],
             "isBackground": true,
             "windows": {
-                "command": "C:/mGBA/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"
+                "command": "C:/mGBA/mGBA-0.6.2-win32/mGBA-0.6.2-2018-04-04-win32/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"
             },
             "osx": {
                 "command": "/Users/jamies/mGBA/mGBA.app/Contents/MacOS/mGBA",
