@@ -17,7 +17,7 @@
             "postDebugTask": "stop emulation",
             "serverLaunchTimeout": 10000,
             "stopAtEntry": true,
-            "program": "${workspaceFolder}/Assessment_Tutorial_001/Assessment_Tutorial_001.elf",
+            "program": "${workspaceFolder}/Assessment_Tutorial_002/Assessment_Tutorial_002.elf",
             "MIMode": "gdb",
             "externalConsole": true,
             "targetArchitecture": "arm",

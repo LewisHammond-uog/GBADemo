@@ -6,7 +6,7 @@ Header to contain all of the GBA Memory address defines that we use
 
 //Base adress for external working ram
 //256k in size
-#define	EWRAM		0x02000000
+#define	EWRAM	0x02000000
 #define	EWRAM_END	0x02040000 // From This address up to 0x02FFFFFF is not utilised
 
 //Start for Internal Working Ram
@@ -22,6 +22,6 @@ Header to contain all of the GBA Memory address defines that we use
 
 //Start of the save cart ram
 //64k in size
-#define	SRAM		0x0E000000
+#define	SRAM 0x0E000000
 
 #endif //__GBA_REG_H__

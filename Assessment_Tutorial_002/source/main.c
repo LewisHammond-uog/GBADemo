@@ -29,7 +29,7 @@ int main()
 	InitPaddle(&p2, SCREEN_W - 10, 60, 8,40, B, A, SetColour(31,0,0));
 
 	while(1){
-		vblank_int_wait();
+		vblank_int_wait(); //Wait for vblank
 
 		PollKeys();
 
