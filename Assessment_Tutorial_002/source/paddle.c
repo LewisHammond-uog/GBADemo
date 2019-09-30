@@ -38,5 +38,5 @@ void MovePaddle(Paddle* a_paddle){
 Clears a rectangle behind the paddle on the screen
 */
 void ClearPaddle(Paddle* a_paddle){
-	DrawRect(a_paddle->x, a_paddle->y, a_paddle->width, a_paddle->height, a_paddle->colour, SetColour(0,0,0));
+	DrawRect(a_paddle->x, a_paddle->y, a_paddle->width, a_paddle->height, SetColour(0,0,0), true);
 }
