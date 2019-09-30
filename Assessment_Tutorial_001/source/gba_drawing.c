@@ -66,7 +66,8 @@ void DrawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 	//Get half of the longest displacement
 	s32 num = longest >> 1;
-	
+
+	//Plot the line on the screen
 	for(s32 i = 0; i <= longest; ++i){
 		PlotPixel(a_x, a_y, a_colour);
 		num += shortest;
