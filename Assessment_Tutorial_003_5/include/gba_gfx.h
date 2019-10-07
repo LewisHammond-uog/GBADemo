@@ -25,10 +25,18 @@
 //vcount - checks current scan line being rendered
 #define REG_VCOUNT (*(v_u16*)(REG_BASE + 0x06))
 
-//Pallet/Tile Mem locations
 #define MEM_TILE			((u16*)0x06000000)
 #define MEM_PALETTE			((u16*)0x05000000) 
 
+
+#define VIDEO_PAGE			0x0010	//!< Page indicator
+
+#define VRAM_PAGE_SIZE		0x0A000
+#define VRAM_BACK	(VRAM + VRAM_PAGE_SIZE)
+
+#define vid_mem			((u16*)VRAM)
+#define vid_page_front	((u16*)VRAM)
+#define vid_page_back	((u16*)VRAM_BACK)
 extern void vsync();
 
 #endif //__GBA_GFX_H__

@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-          "proj_working_dir": "PWD=Assessment_Tutorial_003",
-          "proj_name":"Assessment_Tutorial_003"
+          "proj_working_dir": "PWD=Assessment_Tutorial_003_5",
+          "proj_name":"Assessment_Tutorial_003_5"
         }
      },
     "tasks": [
