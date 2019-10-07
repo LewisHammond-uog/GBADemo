@@ -38,7 +38,7 @@ int main()
 			++vidmode;
 			
 			if(vidmode > VIDEOMODE_5){
-				vidmode & VIDEOMODE_3;
+				vidmode = VIDEOMODE_3;
 			}
 
 			switch(vidmode){
