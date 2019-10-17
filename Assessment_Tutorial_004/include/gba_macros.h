@@ -22,4 +22,6 @@
 #define ARM __attribute__((__target__("arm"))) //Target ARM 32 bit Arcitecture
 #define THUMB __attribute__((__target__("thumb"))) //Target thumb 16 bit Arcitecture
 
+#define PACKED(n) __attribute__((packed, aligned(n)))
+
 #endif //__GBA_MACROS_H__
