@@ -9,6 +9,8 @@
 #include "paddle.h"
 #include "gba_input.h"
 
+#include <string.h>
+
 #include "sp_food_8b.h"
 
 int main()
@@ -46,7 +48,25 @@ int main()
 			tileID += 4 << 1;
 			tileID = tileID & 0x1FF;
 		}
-		
+
+		if(KeyReleased(LEFT)){
+			x -= 1;
+		}
+
+		if(KeyReleased(RIGHT)){
+			x += 1;
+		}
+
+		if(KeyReleased(UP)){
+			y -= 1;
+		}
+
+		if(KeyReleased(DOWN)){
+			y += 1;
+		}
+
+		sprite->attr0 = SetSpriteObjectAttribute0(y, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE);
+		sprite->attr1 = SetSpriteObjectAttribute1(x, 0, 1);
 		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
 		oam_copy(MEM_OAM, obj_buffer, 1);
 	}
