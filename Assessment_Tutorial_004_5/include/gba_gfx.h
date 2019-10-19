@@ -50,67 +50,69 @@ extern void vsync();
 typedef struct TILE { u32 data[8]; } PACKED(4) TILE, TILE4;
 typedef struct TILE8 { u32 data[16]; } PACKED(4) TILE8;
 
+
 //GBA Tile memory is split up into different pages
 //There are six pages in total, four for background tiles and two for sprite tiles
 //Each page can hold a total of 512 4bpp tiles or 256 8bpp tiles
 //Defines for TILE blocks for standard tiles and double size tiles
 typedef TILE TILEBLOCK[512];
 typedef TILE8 TILEBLOCK8[256];
-//The following define allows us to access title memory pages the way we would access an array
-#define TILE_MEM ((TILEBLOCK*)0x06000000)
-#define TILE8_MEM ((TILEBLOCK8*)0x06000000)
-#define TILEBLOCK_SIZE 0x4000 //Size of a page of tiles in memory
-#define TILEMAP_BLOCK_SIZE 0x0800 //Size of background tile maps in memory
+#define TILEBLOCK_SIZE      0x4000 //Size of a page of tiles in memory
+#define TILEMAP_BLOCK_SIZE  0x0800 //Size of background tile maps in memory
 
-#pragma region Background Tile Rendering Defines
+//The following define allows us to access title memory pages the way we would access an array
+#define TILE_MEM ((TILEBLOCK*)VRAM)
+#define TILE8_MEM ((TILEBLOCK8*)VRAM)
 
 //Define a base registry for the background controller
 //Accessing this as an array will provide us with the 4 BG Controllers
 //EG REG_BGCNT[0] = 1st Background page
-#define REG_BGCNT ((u16*)(REG_BASE + 0x0008));
+#define REG_BGCNT ((u16*)(REG_BASE+0x0008))
+
 
 /*------DEFINES----*/
 /*
 BIT     DESCRIPTION
 0-1     Background Priority (0 - 3, 0=highest)
 */
-#define BGCNT_PRIORITY_MASK     0x3
-#define BGCNT_PRIORITY_SHIFT    0
-#define BGCNT_PRIORITY(n)       ((n << BGCNT_PRIORITY_SHIFT) & BGCNT_PRIORITY_MASK)
+#define BGCNT_PRIORITY_MASK       0x3
+#define BGCNT_PRIORITY_SHIFT      0
+#define BGCNT_PRIORITY(n)         (( n << BGCNT_PRIORITY_SHIFT) & BGCNT_PRIORITY_MASK)
 /*
 2-3     Character Base Block - Which Block do these tiles live in (0-3)
 */
-#define BGCNT_TILEBLOCK_MASK     0xC
-#define BGCNT_TILEBLOCK_SHIFT    2
-#define BGCNT_TILEBLOCK(n)       ((n << BGCNT_TILEBLOCK_SHIFT) & BGCNT_TILEBLOCK_MASK)
+#define BGCNT_TILEBLOCK_MASK      0xC
+#define BGCNT_TILEBLOCK_SHIFT     2
+#define BGCNT_TILEBLOCK(n)        ((n << BGCNT_TILEBLOCK_SHIFT) & BGCNT_TILEBLOCK_MASK)
 /*
 4-5     Not Used, has to be 0
 */
+
 /*
 6       Mosaic (0=disable, 1=enable)
 */
-#define BGCNT_MOSAIC_MASK     0x40
-#define BGCNT_MOSAIC_SHIFT    6
-#define BGCNT_MOSAIC(n)       ((n << BGCNT_MOSAIC_SHIFT) & BGCNT_MOSAIC_MASK)
+#define BGCNT_MOSAIC_MASK         0x40
+#define BGCNT_MOSAIC_SHIFT        6
+#define BGCNT_MOSAIC(n)           ((n << BGCNT_MOSAIC_SHIFT) & BGCNT_MOSAIC_MASK)
 /*
 7       Colours/Palettes (0=16/16 - 4bpp, 1=256/1 - 8bpp)
 */
-#define BGCNT_COLOUR_MODE_MASK     0x80
-#define BGCNT_COLOUR_MODE_SHIFT    7
-#define BGCNT_COLOUR_MODE(n)       ((n << BGCNT_COLOUR_MODE_SHIFT) & BGCNT_COLOUR_MODE_MASK)
+#define BGCNT_COLOUR_MODE_MASK    0x80
+#define BGCNT_COLOUR_MODE_SHIFT   7
+#define BGCNT_COLOUR_MODE(n)      ((n << BGCNT_COLOUR_MODE_SHIFT) & BGCNT_COLOUR_MODE_MASK)
 /*
 8 - 12  Screen base Block (0-32, in units of 2 KBytes, Background Map Data)
 */
-#define BGCNT_TILEMAP_LOC_MASK     0x80
-#define BGCNT_TILEMAP_LOC_SHIFT    7
-#define BGCNT_TILEMAP_LOC(n)       ((n << BGCNT_TILEMAP_LOC_SHIFT) & BGCNT_TILEMAP_LOC_MASK)
+#define BGCNT_TILEMAP_LOC_MASK    0x1F00
+#define BGCNT_TILEMAP_LOC_SHIFT   8
+#define BGCNT_TILEMAP_LOC(n)      ((n << BGCNT_TILEMAP_LOC_SHIFT) & BGCNT_TILEMAP_LOC_MASK)
 /*
 13      BG0/BG1: Not Used (except in  NDS mode; Ect palette slot for BG0/1)
 13      BG2/BG3: Display Area Overflow (0=Transparent, 1=Wraparound)
 */
-#define BGCNT_AFFINE_WRAP_MASK     0x1F00
-#define BGCNT_AFFINE_WRAP_SHIFT    13
-#define BGCNT_AFFINE_WRAP(n)       ((n << BGCNT_AFFINE_WRAP_SHIFT) & BGCNT_AFFINE_WRAP_MASK)
+#define BGCNT_AFFINE_WRAP_MASK    0x2000
+#define BGCNT_AFFINE_WRAP_SHIFT   13
+#define BGCNT_AFFINE_WRAP(n)      ((n << BGCNT_AFFINE_WRAP_SHIFT) & BGCNT_AFFINE_WRAP_MASK)
 /*
 14 - 15 Screen Size (0-3)
         Internal Screen Size
@@ -120,53 +122,38 @@ BIT     DESCRIPTION
         2       256x512         512x512     (4kb)
         3       512x512         1024x1024   (16kb)
 */
-#define BGCNT_SIZE_MASK             0xC000
-#define BGCNT_SIZE_SHIFT            14
-#define BGCNT_SIZE(n)               ((n << BGCNT_SIZE_SHIFT) & BGCNT_SIZE_MASK)
-//Background Sizes
+ #define BGCNT_SIZE_MASK        0xC000
+ #define BGCNT_SIZE_SHIFT       14
+ #define BGCNT_SIZE(n)          ((n << BGCNT_SIZE_SHIFT) & BGCNT_SIZE_MASK)
  //Regular Background sizes
- #define BG_REG_SIZE_32x32          0x0
- #define BG_REG_SIZE_64x32          0x1
- #define BG_REG_SIZE_32x64          0x2
- #define BG_REG_SIZE_64x64          0x3
+ #define BG_REG_SIZE_32x32      0x0
+ #define BG_REG_SIZE_64x32      0x1
+ #define BG_REG_SIZE_32x64      0x2
+ #define BG_REG_SIZE_64x64      0x3
  //Affine Background sizes
- #define BG_AFF_SIZE_16x16          0x0
- #define BG_AFF_SIZE_32x32          0x1
- #define BG_AFF_SIZE_64x64          0x2
- #define BG_AFF_SIZE_128x128        0x3
+ #define BG_AFF_SIZE_16x16      0x0
+ #define BG_AFF_SIZE_32x32      0x1
+ #define BG_AFF_SIZE_64x64      0x2
+ #define BG_AFF_SIZE_128x128    0x3
 
 //Struct to allow us to control the pos of the render window
-typedef struct BackgroundOffset{
-    s16 x;
-    s16 y;
-}PACKED(4) BGOffset;
-//Define for background offsets - register can only be writen to
-#define REG_BG_OFFSET ((BGOffset*) (REG_BASE+0x0010));
-
-#define BG_TILEBLOCK_MASK   0x3 //There are only 4 tileblocks for BG Tiles
-#define BG_MAPBLOCK_MASK    0x1F //There are only 32 mapblocks
-
-//Gets the address of a tile block memory by providing a number (0-3)
-u16* GetBGTileBlockAddress(u8 a_tileBlockIndex)
+typedef struct BackgroundOffset
 {
-    return (u16*)(TILE_MEM + (a_tileBlockIndex & BGCNT_COLOUR_MODE_MASK) * TILEBLOCK_SIZE);
-}
+  s16 x;
+  s16 y;
+}PACKED(4) BGOffset;
 
-//Get the address to the tile map in memory by providing a number (0-32)
-u16* GetBGMapBlock(u8 a_mapBlockIndex){
-    return (u16*)(TILE_MEM + (a_mapBlockIndex & BG_MAPBLOCK_MASK) * TILEMAP_BLOCK_SIZE);
-}
+//Define for background offsets - register can only be writen to
+#define REG_BG_OFFSET ((BGOffset*)(REG_BASE+0x0010))
 
-//Function to setup/configure BG Control Register
-u16 setBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
-  u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize ){
-    u16 controlReg = BGCNT_PRIORITY(a_priority) | BGCNT_TILEBLOCK(a_tileblock) | BGCNT_MOSAIC(a_mosaic) |
-    BGCNT_COLOUR_MODE(a_colourMode) | BGCNT_TILEMAP_LOC(a_mapblock) | BGCNT_AFFINE_WRAP(a_affineWrap) |
-    BG_CNT(a_bgSize);
-    return controlReg;
-}
+#define BG_TILEBLOCK_MASK     0x3 //There are only 4 tileblocks for BG Tiles
+#define BG_MAPBLOCK_MASK      0x1F //There are only 32 mapblocks
 
-#pragma endregion
+extern u16* GetBGTileBlock(u8 a_tileblock);
+extern u16* GetBGMapBlock(u8 a_mapBlock);
+extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
+  u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize );
+
 
 //To enable sprites we need to set a bit in our REG_DISPC
 #define ENABLE_OBJECTS 0x1000
