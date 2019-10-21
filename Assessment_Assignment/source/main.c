@@ -8,6 +8,7 @@
 #include "ball.h"
 #include "paddle.h"
 #include "gba_input.h"
+#include "gba_tiles.h"
 
 #include <string.h>
 
