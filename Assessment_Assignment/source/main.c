@@ -9,6 +9,8 @@
 #include "paddle.h"
 #include "gba_input.h"
 #include "gba_tiles.h"
+#include "gba_sprites.h"
+#include "gba_backgrounds.h"
 
 #include <string.h>
 
