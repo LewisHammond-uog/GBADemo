@@ -48,19 +48,19 @@ int main()
 			tileID = tileID & 0x1FF;
 		}
 
-		if(KeyReleased(LEFT)){
+		if(KeyDown(LEFT)){
 			x -= 1;
 		}
 
-		if(KeyReleased(RIGHT)){
+		if(KeyDown(RIGHT)){
 			x += 1;
 		}
 
-		if(KeyReleased(UP)){
+		if(KeyDown(UP)){
 			y -= 1;
 		}
 
-		if(KeyReleased(DOWN)){
+		if(KeyDown(DOWN)){
 			y += 1;
 		}
 
