@@ -6,14 +6,14 @@ SpriteObject obj_buffer[128] = { 0 };
 
 //Sets attribute 0 up with the correct values
 u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape){
-    u16 attrib0 = (a_y & A0_YPOS_MASK) | A0_MODE(a_objectMode) | A0_GFX_MODE(a_gfxMode) | A0_MOSAIC(a_mosaic)
+    u16 attrib0 = A0_YPOS(a_y) | A0_MODE(a_objectMode) | A0_GFX_MODE(a_gfxMode) | A0_MOSAIC(a_mosaic)
     |  A0_COLOUR_MODE(a_colourMode) | A0_SHAPE(a_shape);
     return attrib0;
 }
 
 //Sets attribute 1 up with the correct values
 u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size){
-    u16 attrib1 = (a_x & A1_XPOS_MASK) | A1_FLIP(a_flip) | A1_SIZE(a_size);
+    u16 attrib1 = A1_XPOS(a_x) | A1_FLIP(a_flip) | A1_SIZE(a_size);
     return attrib1;
 }
 

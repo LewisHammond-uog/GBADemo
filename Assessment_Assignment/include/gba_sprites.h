@@ -33,6 +33,8 @@ BIT     DESCRIPTION
 0-7     Y-Coordiate (0-255)
 */
 #define A0_YPOS_MASK            0xFF
+#define A0_YPOS_SHIFT           0
+#define A0_YPOS(n)              ((n << A0_YPOS_SHIFT) & A0_YPOS_MASK)
 /*
 8       Rotation/Scaling Flag (0=off, 1=on)
 9       ROTATION & SCALING ENABLED - Double-Size Flag
@@ -49,7 +51,7 @@ BIT     DESCRIPTION
 10-11   Object Mode (0=normal, 1=semi-transparent, 2=obj window, 3=forbidden)
 */
 #define A0_GFX_MODE_MASK        0x0C00 //Mask to not overflow/underflow
-#define A0_GFX_MODE_REG         0x0 //Regular Mode
+#define A0_GFX_MODE_REG         0 //Regular Mode
 #define A0_GFX_MODE_BLEND       1 //Semi Transparent
 #define A0_GFX_MODE_WINDOW      2 //Window
 #define A0_GFX_MODE_SHIFT       10 //Number of bits to shift to set mode, in set mode macro
@@ -59,7 +61,7 @@ BIT     DESCRIPTION
 */
 #define A0_MOSAIC_MASK          0x1000
 #define A0_MOSAIC_SHIFT         12
-#define A0_MOSAIC(n)          ((n << A0_MOSAIC_SHIFT) & A0_MOSAIC_MASK)
+#define A0_MOSAIC(n)            ((n << A0_MOSAIC_SHIFT) & A0_MOSAIC_MASK)
 /*
 13      Colours/Pallets (0=16/16, 1=256/1)
 */
@@ -72,7 +74,7 @@ BIT     DESCRIPTION
 14-15   Object Shape (0=Square, 1=Horizontal, 2=Vertical, 3=Prohibited)
 */
 #define A0_SHAPE_MASK           0xC000
-#define A0_SHAPE_SQUARE         0x0       
+#define A0_SHAPE_SQUARE         0    
 #define A0_SHAPE_WIDE           1
 #define A0_SHAPE_TALL           2
 #define A0_SHAPE_SHIFT          14
@@ -86,6 +88,8 @@ BIT     DESCRIPTION
 0-8     X-Coordinate (0 - 511)
 */
 #define A1_XPOS_MASK            0x1FF
+#define A1_XPOS_SHIFT           0
+#define A1_XPOS(n)              ((n << A1_XPOS_SHIFT) & A1_XPOS_MASK)
 /*
 9-13    ROTATION & SCALING ENABLED - Rotation and Scaling Parameter Selection (0-31)
 9-11    ROTATION & SCALING DISABLED - Not Used
@@ -107,7 +111,7 @@ BIT     DESCRIPTION
         3       64x64   64x32       32x64
 */
 #define A1_SIZE_MASK            0xC000
-#define A1_SIZE_0               0x0
+#define A1_SIZE_0               0
 #define A1_SIZE_1               1
 #define A1_SIZE_2               2
 #define A1_SIZE_3               3
@@ -127,7 +131,7 @@ BIT     DESCRIPTION
 10-11   Priority Relative to Background (0-3; 0 = highest)
 */
 #define A2_PRIORITY_MASK        0xC00
-#define A2_PRIORITY_0           0x0
+#define A2_PRIORITY_0           0
 #define A2_PRIORITY_1           1
 #define A2_PRIORITY_2           2
 #define A2_PRIORITY_3           3
