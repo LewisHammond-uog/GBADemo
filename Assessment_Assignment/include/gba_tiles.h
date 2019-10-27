@@ -5,6 +5,13 @@
 #include "gba_types.h"
 #include "gba_reg.h"
 
+
+//Position struct
+typedef struct Position{
+    s32 x;
+    s32 y;
+} PACKED(4) Position;
+
 //Palette Mem
 #define MEM_PALETTE	0x05000000
 //The GBA has 2 areas of pallet memeory - background and forground (Sprite)

@@ -15,7 +15,10 @@
 #include <string.h>
 
 #include "BG_Externs.h"
+#include "sp_food_8b.h"
 #include "sp_testcharacter.h"
+
+
 
 //The map we have is in the wrong format for the gba
 
@@ -64,7 +67,6 @@ int main()
 	//copy maps
 	copy64x32MapIntoMemory( bgMapLayer0, 16);
 	copy64x32MapIntoMemory( bgMapLayer1, 18);
-
 	//set up Background controllers for each layer
 	REG_BGCNT[0] = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
 	REG_BGCNT[1] = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
@@ -83,9 +85,10 @@ int main()
 	s16 tileID = 0;
 
 	SpriteObject* sprite = &obj_buffer[0];
-	sprite->attr0 = SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE);
-	sprite->attr1 = SetSpriteObjectAttribute1(sx, 0, 1);
-	sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
+	SetupSprite(sprite,  
+		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(sx, 0, 1), 
+		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
 
 	s32 x = 0;
 	s32 y = 0;
@@ -104,8 +107,10 @@ int main()
 		if(getAxis(HORIZONTAL) != 0 || getAxis(VERTICAL)){
 			tileID += 4 << 1;
 			tileID = tileID & 0x38;
-			sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
+		}else{
+			tileID = 0;
 		}
+		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
 
 		oam_copy(MEM_OAM, obj_buffer, 1);
 	}
