@@ -6,7 +6,7 @@
 //To enable sprites we need to set a bit in our REG_DISPC
 #define ENABLE_OBJECTS 0x1000
 //There are two modes of mapping for Sprites 1D & 2D
-//I prefer to use 1D as this makes more logical sense as a programmer
+//1d mode makes more programmatical sense
 #define MAPPING_MODE_1D 0x0040
 
 //Define Sprite Structure
@@ -18,9 +18,10 @@ typedef struct SpriteObject {
 	u16 attr2;
 	s16 padding;
 } PACKED(4) SpriteObject;
-//there are 128 sprites available in OAM we may want to create a buffer for these
+//there are 128 sprites available in OAM we may want to create a buffer for these,
+//as we cannot mobify sprites when they are being draw to the screen
 extern SpriteObject obj_buffer[128];
-//Sprite memory in GBA terms is called OBject Attribute Memory (OAM)
+//Sprite memory in GBA terms is called Object Attribute Memory (OAM)
 #define MEM_OAM ((SpriteObject*)0x07000000)
 
 //We now need to define each attribute of the sprite (0-2) and what the bits in each attribute do

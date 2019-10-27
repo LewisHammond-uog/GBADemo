@@ -15,7 +15,7 @@
 #include <string.h>
 
 #include "BG_Externs.h"
-#include "sp_food_8b.h"
+#include "sp_testcharacter.h"
 
 //The map we have is in the wrong format for the gba
 
@@ -69,11 +69,11 @@ int main()
 	REG_BGCNT[0] = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
 	REG_BGCNT[1] = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
 
-		//Copy Pallet in to memory
-	memcpy(PAL_SP_MEM, sp_food_8bPal, sp_food_8bPalLen);
+	//Copy Pallet in to memory
+	memcpy(PAL_SP_MEM, sp_testcharacterPal, sp_testcharacterPalLen);
 
 	//There is enough memory to load our sprite in to sprite tile mem
-	memcpy(&TILE_MEM[4][0], sp_food_8bTiles, sp_food_8bTilesLen);
+	memcpy(&TILE_MEM[4][0], sp_testcharacterTiles, sp_testcharacterTilesLen);
 
 	//Set up the first sprite in tiles
 	s16 sx = (SCREEN_W >> 1) - 8;
@@ -100,6 +100,12 @@ int main()
 		REG_BG_OFFSET[0].y = y;
 		REG_BG_OFFSET[1].x = x;
 		REG_BG_OFFSET[1].y = y;
+
+		if(getAxis(HORIZONTAL) != 0 || getAxis(VERTICAL)){
+			tileID += 4 << 1;
+			tileID = tileID & 0x38;
+			sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
+		}
 
 		oam_copy(MEM_OAM, obj_buffer, 1);
 	}
