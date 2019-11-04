@@ -16,9 +16,7 @@
 
 #include "BG_Externs.h"
 #include "sp_food_8b.h"
-#include "sp_testcharacter.h"
-
-
+//#include "sp_testcharacter.h"
 
 //The map we have is in the wrong format for the gba
 
@@ -36,10 +34,10 @@ void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress )
 	//get a pointer to the map ed data we want
 	HALF_ROW* src = (HALF_ROW*)a_mapData;
 
-	//a 32x32 map occupies one address space (32x16 bits no$gba demo's this well)
+	//a 32x32 map occupies one address space
 	//a 64x32 map occupies two address spaces, 64x64 occupies four address spaces
 	HALF_ROW* dst0 = (HALF_ROW*)GetBGMapBlock(a_mapBlockAddress);
-	HALF_ROW* dst1 = (HALF_ROW*)GetBGMapBlock(a_mapBlockAddress+1);
+	HALF_ROW* dst1 = (HALF_ROW*)GetBGMapBlock(a_mapBlockAddress + 1);
 
 	//as there are 32 tiles per page row the following loop can be used.
 	//Using post increment - so assignment happens before the increment
@@ -60,10 +58,12 @@ int main()
 	REG_DISPCNT = VIDEOMODE_0 | ENABLE_OBJECTS | MAPPING_MODE_1D | BGMODE_0 | BGMODE_1;
 	//copy sprite palette into sprite palette memory
 	memcpy( PAL_BG_MEM, bgPalette, bgPaletteSize);
+
 	//There is enough memory to copy all tiles into memory
 	u16* tileblock = GetBGTileBlock(0);
 	//copy the BG tiles into tile memory
 	memcpy( tileblock, bgTiles, bgTilesSize);
+
 	//copy maps
 	copy64x32MapIntoMemory( bgMapLayer0, 16);
 	copy64x32MapIntoMemory( bgMapLayer1, 18);
@@ -72,10 +72,10 @@ int main()
 	REG_BGCNT[1] = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
 
 	//Copy Pallet in to memory
-	memcpy(PAL_SP_MEM, sp_testcharacterPal, sp_testcharacterPalLen);
+	memcpy(PAL_SP_MEM, sp_food_8bPal, sp_food_8bPalLen);
 
 	//There is enough memory to load our sprite in to sprite tile mem
-	memcpy(&TILE_MEM[4][0], sp_testcharacterTiles, sp_testcharacterTilesLen);
+	memcpy(&TILE_MEM[4][0], sp_food_8bTiles, sp_food_8bTilesLen);
 
 	//Set up the first sprite in tiles
 	s16 sx = (SCREEN_W >> 1) - 8;
@@ -89,7 +89,11 @@ int main()
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
-
+	SpriteObject* sprite2 = &obj_buffer[1];
+	SetupSprite(sprite2,  
+		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(sx-5, 0, 1), 
+		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
 	s32 x = 0;
 	s32 y = 0;
 
@@ -104,6 +108,8 @@ int main()
 		REG_BG_OFFSET[1].x = x;
 		REG_BG_OFFSET[1].y = y;
 
+
+		/*
 		if(getAxis(HORIZONTAL) != 0 || getAxis(VERTICAL)){
 			tileID += 4 << 1;
 			tileID = tileID & 0x38;
@@ -111,8 +117,9 @@ int main()
 			tileID = 0;
 		}
 		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
+		*/
 
-		oam_copy(MEM_OAM, obj_buffer, 1);
+		oam_copy(MEM_OAM, obj_buffer, 2);
 	}
 	return 0;
 }

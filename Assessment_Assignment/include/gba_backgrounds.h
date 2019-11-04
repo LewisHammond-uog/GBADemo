@@ -91,6 +91,6 @@ typedef struct BackgroundOffset
 extern u16* GetBGTileBlock(u8 a_tileblock);
 extern u16* GetBGMapBlock(u8 a_mapBlock);
 extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
-  u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize );
+  u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize);
 
 #endif //__GBA_BACKGROUNDS_H__
