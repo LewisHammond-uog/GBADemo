@@ -1,9 +1,10 @@
 #ifndef __GBA_GFX_H__
 #define __GBA_GFX_H__
 
-#include "gba_macros.h"
 #include "gba_types.h"
+#include "gba_macros.h"
 #include "gba_reg.h"
+#include "gba_math.h"
 
 //Display controller address
 #define REG_DISPCNT *((v_u32*)(REG_BASE))
@@ -170,8 +171,24 @@ typedef struct SpriteObject {
 	u16 attr2;
 	s16 padding;
 } PACKED(4) SpriteObject;
+
+typedef struct SpriteAffine{
+  u16 fill0[3];
+  s16 pa;
+  u16 fill1[3];
+  s16 pb;
+  u16 fill2[3];
+  s16 pc;
+  u16 fill3[3];
+  s16 pd;
+
+}PACKED(4) SpriteAffine;
+
+
 //there are 128 sprites available in OAM we may want to create a buffer for these
 extern SpriteObject obj_buffer[128];
+extern SpriteAffine *const obj_affine_buffer;
+
 //Sprite memory in GBA terms is called OBject Attribute Memory (OAM)
 #define MEM_OAM ((SpriteObject*)0x07000000)
 
@@ -185,6 +202,8 @@ BIT     DESCRIPTION
 0-7     Y-Coordiate (0-255)
 */
 #define A0_YPOS_MASK            0xFF
+#define A0_YPOS_SHIFT           0
+#define A0_YPOS(n)              ((n << A0_YPOS_SHIFT) & A0_YPOS_MASK)
 /*
 8       Rotation/Scaling Flag (0=off, 1=on)
 9       ROTATION & SCALING ENABLED - Double-Size Flag
@@ -192,9 +211,9 @@ BIT     DESCRIPTION
 */
 #define A0_MODE_MASK            0x0300 //Mask to not overflow/underflow
 #define A0_MODE_REG             0x0 //Regular Mode
-#define A0_MODE_AFFINE          0x100 //Affine Mode
-#define A0_MODE_DISABLE         0x200 //Disabled
-#define A0_MODE_AFF_DBL         0x300 //Affine Double
+#define A0_MODE_AFFINE          1 //Affine Mode
+#define A0_MODE_DISABLE         2 //Disabled
+#define A0_MODE_AFF_DBL         3 //Affine Double
 #define A0_MODE_SHIFT           8//Number of bits to shift to set mode, in set mode macro
 #define A0_MODE(n)              ((n << A0_MODE_SHIFT) & A0_MODE_MASK)
 /*
@@ -238,6 +257,8 @@ BIT     DESCRIPTION
 0-8     X-Coordinate (0 - 511)
 */
 #define A1_XPOS_MASK            0x1FF
+#define A1_XPOS_SHIFT           0
+#define A1_XPOS(n)              ((n << A1_XPOS_SHIFT) & A1_XPOS_MASK)
 /*
 9-13    ROTATION & SCALING ENABLED - Rotation and Scaling Parameter Selection (0-31)
 9-11    ROTATION & SCALING DISABLED - Not Used
@@ -245,9 +266,12 @@ BIT     DESCRIPTION
 13      ROTATION & SCALING DISABLED - Vertical Flip (0=Normal, 1=Flipped)
 */
 #define A1_AFFINE_INDEX_MASK    0x3E00
+#define A1_AFFINE_INDEX_SHIFT   0x9
+#define A1_AFFINE_INDEX(n)      ((n << A1_FLIP_SHIFT) & A1_FLIP_MASK)
+
 #define A1_FLIP_MASK            0x3000
-#define A1_H_FLIP               0x1000
-#define A1_V_FLIP               0x2000
+#define A1_H_FLIP               1
+#define A1_V_FLIP               2
 #define A1_FLIP_SHIFT           12
 #define A1_FLIP(n)              ((n << A1_FLIP_SHIFT) & A1_FLIP_MASK)
 /*
@@ -260,9 +284,9 @@ BIT     DESCRIPTION
 */
 #define A1_SIZE_MASK            0xC000
 #define A1_SIZE_0               0x0
-#define A1_SIZE_1               0x4000
-#define A1_SIZE_2               0x8000
-#define A1_SIZE_3                0xC000
+#define A1_SIZE_1               1
+#define A1_SIZE_2               2
+#define A1_SIZE_3               3
 #define A1_SIZE_SHIFT           14
 #define A1_SIZE(n)              ((n << A1_SIZE_SHIFT) & A1_SIZE_MASK)
 /*-------End of Attribute 1--------*/
@@ -280,9 +304,9 @@ BIT     DESCRIPTION
 */
 #define A2_PRIORITY_MASK        0xC00
 #define A2_PRIORITY_0           0x0
-#define A2_PRIORITY_1           0x400
-#define A2_PRIORITY_2           0x800
-#define A2_PRIORITY_3           0xC00
+#define A2_PRIORITY_1           1
+#define A2_PRIORITY_2           2
+#define A2_PRIORITY_3           3
 #define A2_PRIORITY_SHIFT       10
 #define A2_PRIORITY(n)          ((n << A2_PRIORITY_SHIFT) & A2_PRIORITY_MASK)
 /*
@@ -299,5 +323,12 @@ BIT     DESCRIPTION
 extern u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape);
 extern u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size);
 extern u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank);
+extern void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index);
+extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count);
+
+extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
+
+void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
+void ObjAffineIdentity(SpriteAffine* a_object);
 
 #endif //__GBA_GFX_H__

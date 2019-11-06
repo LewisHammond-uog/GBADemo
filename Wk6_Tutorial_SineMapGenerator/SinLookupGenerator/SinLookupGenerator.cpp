@@ -16,9 +16,9 @@ int main()
     //Write out Header
 	std::fstream header;
 	header.open("sinlut.h", std::ios_base::out);
-	header << "/*\nSine Lookup Table with" << SIN_SIZE << "entiries, \n" << SIN_FP << "fixeds \n*/\n\n";
-	header << "#define sin_lut_len" << SIN_SIZE*2 << "\n";
-	header << "#define sin_lut_size" << SIN_SIZE << "\n\n";
+	header << "/*\nSine Lookup Table with " << SIN_SIZE << " entiries, \n" << SIN_FP << " fixeds \n*/\n\n";
+	header << "#define sin_lut_len " << SIN_SIZE*2 << "\n";
+	header << "#define sin_lut_size " << SIN_SIZE << " \n\n";
 	header << "extern const short sin_lut[" << SIN_SIZE << "]\n" << std::endl;
 	header.close();
 

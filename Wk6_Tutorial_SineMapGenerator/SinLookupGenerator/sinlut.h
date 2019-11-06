@@ -1,10 +1,10 @@
 /*
-Sine Lookup Table with512entiries, 
-12fixeds 
+Sine Lookup Table with 512 entiries, 
+12 fixeds 
 */
 
-#define sin_lut_len1024
-#define sin_lut_size512
+#define sin_lut_len 1024
+#define sin_lut_size 512 
 
 extern const short sin_lut[512]
 

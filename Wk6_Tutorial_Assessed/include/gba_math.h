@@ -34,6 +34,10 @@ extern fixed FixSub(fixed a_fa, fixed a_fb);
 extern fixed FixMul(fixed a_fa, fixed a_fb);
 extern fixed FixDiv(fixed a_fa, fixed a_fb);
 
+//Look up Tables
+extern s32 LU_Sin(u32 a_theta);
+extern s32 LU_Cos(u32 a_theta);
+
 //Random Number Generation Seed
 extern s32 __gba_rand_seed;
 

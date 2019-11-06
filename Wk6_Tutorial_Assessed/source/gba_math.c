@@ -1,4 +1,5 @@
 #include "gba_math.h"
+#include "sinlut.h"
 
 /*----Fixed Point Functions----*/
 
@@ -48,6 +49,16 @@ fixed fixMul(fixed a_fa, fixed a_fb){
 fixed fixDiv(fixed a_fa, fixed a_fb){
     return ((a_fa) * FIX_SCALE) / a_fb;
 }
+
+/*----Look Up Tables----*/
+s32 LU_Sin(u32 a_theta){
+    return sin_lut[(a_theta >> 7) & sin_lut_size];
+}
+
+s32 LU_Cos(u32 a_theta){
+    return sin_lut[((a_theta >> 7) + 128) & sin_lut_size]; 
+}
+
 
 /*----General Math Utility Functions----*/
 

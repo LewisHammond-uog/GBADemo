@@ -4,6 +4,9 @@
 //This is because we cannot access OAM while the screen is drawing
 SpriteObject obj_buffer[128] = { 0 };
 
+//Use a cast to get the affine buffer to use the same memory as the regular object buffer
+SpriteAffine *const obj_affine_buffer = (SpriteAffine*)obj_buffer;
+
 //Sets attribute 0 up with the correct values
 u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape){
     u16 attrib0 = (a_y & A0_YPOS_MASK) | A0_MODE(a_objectMode) | A0_GFX_MODE(a_gfxMode) | A0_MOSAIC(a_mosaic)
@@ -21,6 +24,45 @@ u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size){
 u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank){
     u16 attrib2 = A2_TILE(a_tileIndex) | A2_PRIORITY(a_priority) | A2_PALETTE(a_paletteBank);
     return attrib2;
+}
+
+//Set affube sprite attribute index
+void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index){
+    a_object->attr1 = (a_object->attr1 & ~A1_AFFINE_INDEX_MASK) | A1_AFFINE_INDEX(a_index);
+}
+
+//Set Sprite Position
+void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y){
+
+    //Clear XPos then set a new one
+    a_sprite->attr1 &= 0xfe00;
+    a_sprite->attr1 |= A1_XPOS(a_x);
+
+    //Clear Y Pos then set a new one
+    a_sprite->attr0 &= 0xff00;
+    a_sprite->attr0 |= A0_YPOS(a_y);
+
+}
+
+//Sets an Affine Sprite to an Identity Matrix
+void ObjAffineIdentity(SpriteAffine* a_object){
+    a_object->pa = 0x01001;
+    a_object->pb = 0;
+    a_object->pc = 0;
+    a_object->pd = 0x0100;
+}
+
+//Sets the rotation and scale of an affine sprite
+void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha){
+
+    int sin = LU_Sin(a_alpha);
+    int cos = LU_Cos(a_alpha);
+
+    //Shift down by 2 to account for fixed point mutiply for .8 fixed
+    a_object->pa = cos*a_sx >> 12; 
+    a_object->pb = -sin*a_sx >> 12; 
+    a_object->pc = sin*a_sy >> 12; 
+    a_object->pd = cos*a_sy >> 12;
 }
 
 //Copies sprites from obj_buffer to OAM Memory
