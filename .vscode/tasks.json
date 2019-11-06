@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "options": {
         "env": {
-          "proj_working_dir": "PWD=Assessment_Assignment",
-          "proj_name":"Assessment_Assignment"
+          "proj_working_dir": "PWD=Wk6_Tutorial_Assessed",
+          "proj_name":"Wk6_Tutorial_Assessed"
         }
      },
     "tasks": [
