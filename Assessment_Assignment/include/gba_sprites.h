@@ -59,22 +59,22 @@ BIT     DESCRIPTION
 9       ROTATION & SCALING ENABLED - Double-Size Flag
 9       ROTATION & SCALING ENABLED - Object Disable Flag
 */
-#define A0_MODE_MASK            0x0300 //Mask to not overflow/underflow
-#define A0_MODE_REG             0x0 //Regular Mode
-#define A0_MODE_AFFINE          0x1 //Affine Mode
-#define A0_MODE_DISABLE         0x2 //Disabled
-#define A0_MODE_AFF_DBL         0x3 //Affine Double
-#define A0_MODE_SHIFT           8//Number of bits to shift to set mode, in set mode macro
-#define A0_MODE(n)              ((n << A0_MODE_SHIFT) & A0_MODE_MASK)
+#define A0_MODE_MASK          0x0300
+#define A0_MODE_REG           0x0
+#define A0_MODE_AFFINE        0x1
+#define A0_MODE_DISABLE       0x2
+#define A0_MODE_AFF_DBL       0x3
+#define A0_MODE_SHIFT         8
+#define A0_MODE(n)            ((n << A0_MODE_SHIFT) & A0_MODE_MASK)
 /*
 10-11   Object Mode (0=normal, 1=semi-transparent, 2=obj window, 3=forbidden)
 */
-#define A0_GFX_MODE_MASK        0x0C00 //Mask to not overflow/underflow
-#define A0_GFX_MODE_REG         0 //Regular Mode
-#define A0_GFX_MODE_BLEND       1 //Semi Transparent
-#define A0_GFX_MODE_WINDOW      2 //Window
-#define A0_GFX_MODE_SHIFT       10 //Number of bits to shift to set mode, in set mode macro
-#define A0_GFX_MODE(n)          ((n << A0_GFX_MODE_SHIFT) & A0_GFX_MODE_MASK)
+#define A0_GFX_MODE_MASK      0x0C00
+#define A0_GFX_MODE_REG       0x0
+#define A0_GFX_MODE_BLEND     0x1
+#define A0_GFX_MODE_WINDOW    0x2
+#define A0_GFX_MODE_SHIFT     10
+#define A0_GFX_MODE(n)        ((n << A0_GFX_MODE_SHIFT) & A0_GFX_MODE_MASK)
 /*
 12      Object Mosaic (0=off, 1=on)
 */
@@ -178,8 +178,11 @@ extern u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size);
 extern void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index);
 extern u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank);
 extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count);
+extern void oam_init(SpriteObject* obj, u8 count);
 extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
 extern void ObjAffineIdentity(SpriteAffine* a_object);
+extern void HideSpriteObject(SpriteObject* a_obj);
+extern void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode);
 
 
 #endif //__GBA_SPRITES_H__

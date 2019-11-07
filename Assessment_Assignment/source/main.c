@@ -81,6 +81,9 @@ int main()
 	s16 sx = (SCREEN_W >> 1) - 8;
 	s16 sy = (SCREEN_H >> 1) - 8;
 
+	
+	oam_init(obj_buffer, 128);
+
 	//Set the tile ID
 	s16 tileID = 0;
 

@@ -34,6 +34,16 @@ Position* GetSpriteScreenPos(SpriteObject* a_sprite){
 
 }
 
+//Hide a Sprite Object
+void HideSpriteObject(SpriteObject* a_obj){
+    a_obj->attr0 = (a_obj->attr0 & A0_MODE_MASK) | A0_MODE(A0_MODE_DISABLE);
+}
+
+//Unhide a Sprite Object
+void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode){
+    a_obj->attr0 = (a_obj->attr0 & ~A0_MODE_MASK) | A0_MODE(a_mode);
+}
+
 //Sets attribute 0 up with the correct values
 u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape){
     u16 attrib0 = A0_YPOS(a_y) | A0_MODE(a_objectMode) | A0_GFX_MODE(a_gfxMode) | A0_MOSAIC(a_mosaic)
@@ -90,4 +100,26 @@ void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count){
         *dstw++ = *srcw++; //Copy memory to these locations then move both of them along 1 * 32 bits
         *dstw++ = *srcw++; //Do the second 32 bits of our sprite
     }
+}
+
+//Initalise Object Attribute Memory
+void oam_init(SpriteObject* a_obj, u8 a_count){
+
+    u32 currentSpriteID = a_count;
+    SpriteObject* currentSprite = a_obj;
+
+    //Hide Each Object
+    while (currentSpriteID--)
+    {
+        currentSprite->attr0 = 0;
+        currentSprite->attr1 = 0;
+        currentSprite->attr2 = 0;
+        currentSprite->padding = 0;
+        HideSpriteObject(currentSprite);
+        ++currentSprite;
+    }
+
+    //Initalise OAM
+    oam_copy(MEM_OAM, a_obj, a_count);
+    
 }
