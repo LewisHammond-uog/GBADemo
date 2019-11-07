@@ -1,7 +1,7 @@
 #include "gba_macros.h"
 #include "gba_types.h"
 #include "gba_bios.h"
-#include "gba_mathUtil.h"
+#include "gba_math.h"
 #include "gba_gfx.h"
 #include "gba_drawing.h"
 

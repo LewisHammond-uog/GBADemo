@@ -53,6 +53,27 @@ u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank){
     return attrib2;
 }
 
+//Sets an Affine Sprite to an Identity Matrix
+void ObjAffineIdentity(SpriteAffine* a_object){
+    a_object->pa = 0x01001;
+    a_object->pb = 0;
+    a_object->pc = 0;
+    a_object->pd = 0x0100;
+}
+
+//Sets the rotation and scale of an affine sprite
+void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha){
+
+    int sin = LU_Sin(a_alpha);
+    int cos = LU_Cos(a_alpha);
+
+    //Shift down by 2 to account for fixed point mutiply for .8 fixed
+    a_object->pa = cos*a_sx >> 12; 
+    a_object->pb = -sin*a_sx >> 12; 
+    a_object->pc = sin*a_sy >> 12; 
+    a_object->pd = cos*a_sy >> 12;
+}
+
 
 //Copies sprites from obj_buffer to OAM Memory
 void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count){

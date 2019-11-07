@@ -19,6 +19,23 @@ typedef struct SpriteObject {
 	u16 attr2;
 	s16 padding;
 } PACKED(4) SpriteObject;
+
+typedef struct SpriteAffine{
+  u16 fill0[3];
+  s16 pa;
+  u16 fill1[3];
+  s16 pb;
+  u16 fill2[3];
+  s16 pc;
+  u16 fill3[3];
+  s16 pd;
+
+}PACKED(4) SpriteAffine;
+
+//there are 128 sprites available in OAM we may want to create a buffer for these
+extern SpriteObject obj_buffer[128];
+extern SpriteAffine *const obj_affine_buffer;
+
 //there are 128 sprites available in OAM we may want to create a buffer for these,
 //as we cannot mobify sprites when they are being draw to the screen
 extern SpriteObject obj_buffer[128];
@@ -99,6 +116,9 @@ BIT     DESCRIPTION
 13      ROTATION & SCALING DISABLED - Vertical Flip (0=Normal, 1=Flipped)
 */
 #define A1_AFFINE_INDEX_MASK    0x3E00
+#define A1_AFFINE_INDEX_SHIFT   0x9
+#define A1_AFFINE_INDEX(n)      ((n << A1_FLIP_SHIFT) & A1_FLIP_MASK)
+
 #define A1_FLIP_MASK            0x3000
 #define A1_H_FLIP               1
 #define A1_V_FLIP               2
@@ -155,8 +175,11 @@ extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
 extern Position* GetSpriteScreenPos(SpriteObject* a_sprite);
 extern u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape);
 extern u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size);
+extern void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index);
 extern u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank);
 extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count);
+extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
+extern void ObjAffineIdentity(SpriteAffine* a_object);
 
 
 #endif //__GBA_SPRITES_H__

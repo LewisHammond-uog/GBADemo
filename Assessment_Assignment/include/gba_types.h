@@ -23,4 +23,8 @@ typedef volatile int8_t v_s8;
 typedef volatile int16_t v_s16;
 typedef volatile int32_t v_s32;
 
+//Use a 32 bit value for fixed point maths using 24.8, even though GBA
+//uses 8.8 so allow for better overflow
+typedef s32 fixed;
+
 #endif //__GBA_TYPES_H__

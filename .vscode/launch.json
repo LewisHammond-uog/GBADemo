@@ -4,7 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "2.0.0",
     "env": {
-        "proj_name":"Wk6_Tutorial_Assessed"
+        "proj_name":"Assessment_Assignment"
     },
     "configurations": [
         {
@@ -17,7 +17,7 @@
             "postDebugTask": "stop emulation",
             "serverLaunchTimeout": 10000,
             "stopAtEntry": false,
-            "program": "${workspaceFolder}/Wk6_Tutorial_Assessed/Wk6_Tutorial_Assessed.elf",
+            "program": "${workspaceFolder}/Assessment_Assignment/Assessment_Assignment.elf",
             "MIMode": "gdb",
             "externalConsole": true,
             "targetArchitecture": "arm",
