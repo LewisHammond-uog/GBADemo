@@ -1,6 +1,4 @@
 # Assessed Tutorials and assesments
-The following tutorials are marked as asseseed tutorials:
-- Assessment_Tutorial_001
-- Assessment_Tutorial_002
+Assessed Tutorials are marked with '_Assessed_' and their week as show on moodle
 
-Other tutorials are not marked as assessed tutorials on moodle
+Please see readme Files of the assignement and tutorial folders for more infomation about specific tutorials
