@@ -39,7 +39,7 @@ void EmitParticle(Particle* a_p, Emitter* a_e){
 
 void UpdateParticle(Particle* a_p, Emitter* a_e){
 	a_p->x = fixAdd(a_p->x, fixMul(fixMul(a_p->vx, g_frameTime), g_pixels2Meter));
-	a_p->x = fixAdd(a_p->y, fixMul(fixMul(a_p->vy, g_frameTime), g_pixels2Meter));
+	a_p->y = fixAdd(a_p->y, fixMul(fixMul(a_p->vy, g_frameTime), g_pixels2Meter));
 	a_p->vy -= fixMul(g_gravity, g_frameTime); //Gravity
 	a_p->life += 16;
 
@@ -74,14 +74,14 @@ int main()
 
 	//Config Emitter
 	Emitter emitter;
-	emitter.x = int2fix(x + 8);
+	emitter.x = int2fix(x + 12);
 	emitter.y = int2fix(y + 32);
 
 	//Set up particles to use
 	Particle particles[64];
 	SpriteObject particle;
 	particle.attr0 = SetSpriteObjectAttrib0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, A0_COLOUR_MODE_4BPP, A0_SHAPE_SQUARE);
-	particle.attr1 = SetSpriteObjectAttrib1(0, 0, A1_SIZE_1);
+	particle.attr1 = SetSpriteObjectAttrib1(0, 0, A1_SIZE_0);
 	particle.attr2 = SetSpriteObjectAttrib2(32, 0, 1);
 	//Copy in to OAM
 	SpriteObject* particleOAM = &obj_buffer[1];
