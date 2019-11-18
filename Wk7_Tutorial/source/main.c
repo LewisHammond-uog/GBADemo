@@ -83,6 +83,7 @@ int main()
 	particle.attr0 = SetSpriteObjectAttrib0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, A0_COLOUR_MODE_4BPP, A0_SHAPE_SQUARE);
 	particle.attr1 = SetSpriteObjectAttrib1(0, 0, A1_SIZE_0);
 	particle.attr2 = SetSpriteObjectAttrib2(32, 0, 1);
+	
 	//Copy in to OAM
 	SpriteObject* particleOAM = &obj_buffer[1];
 	for(s32 i =0; i < 64; ++i){

@@ -5,12 +5,12 @@
 #include "gba_gfx.h"
 #include "gba_drawing.h"
 
-#include "ball.h"
-#include "paddle.h"
 #include "gba_input.h"
 #include "gba_tiles.h"
 #include "gba_sprites.h"
 #include "gba_backgrounds.h"
+
+#include "player.h"
 
 #include <string.h>
 
@@ -92,13 +92,24 @@ int main()
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
+	
+	Position pos;
+	pos.x = 0;
+	pos.y = 0;
+
+	Player p = InitPlayer(sprite, &pos, 16, 16);
+
+	/*
 	SpriteObject* sprite2 = &obj_buffer[1];
 	SetupSprite(sprite2,  
 		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
 		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
+	*/
+
 	s32 x = 0;
 	s32 y = 0;
+	
 
 	while (1) { //loop forever
 		vblank_int_wait();
