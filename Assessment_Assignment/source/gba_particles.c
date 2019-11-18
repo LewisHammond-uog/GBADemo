@@ -28,7 +28,7 @@ void UpdateParticle(Particle* a_p, Emitter* a_e){
 	a_p->life += 16;
 
 	//Once particle is over 40 px away re emmit it
-	if((a_p->y - a_e->y) > int2fix(40)){
+	if((a_p->y - a_e->y) > int2fix(maxPartDist)){
 		EmitParticle(a_p, a_e);
 	}
 }

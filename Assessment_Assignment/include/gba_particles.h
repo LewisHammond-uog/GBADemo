@@ -8,13 +8,17 @@ fixed g_gravity = -0x9CC; //Gravity as -9.8 m/s
 fixed g_frameTime = 0x04; 
 fixed g_pixels2Meter = 0x500;
 
-//Emitter - Location for where particles will be emitter
+//Maximum distance particle travel from emitter
+//before being re-emitted
+const int maxPartDist = 40;
+
+//Emitter Struct - Location for where particles will be emitted
 typedef struct  Emitter
 {
 	fixed x , y;
 }Emitter;
 
-//Particle
+//Particle Struct
 typedef struct Particle{
 	fixed x,y; //pos
 	fixed vx,vy; //velocity
