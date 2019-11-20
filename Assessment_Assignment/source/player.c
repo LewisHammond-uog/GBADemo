@@ -23,3 +23,11 @@ Player InitPlayer(SpriteObject* a_sprite, Position* a_worldPos, u8 a_width, u8 a
 void UpdatePlayer(SpriteObject* a_sprite){
 
 }
+
+//Collision Test Functions
+/*
+u8 testCollision(int x, int y, int addx, int addy){
+	int gridx = (x/8) + addx;
+    int gridy = (y/8) + addy;
+    return bgCollision[((64*gridy) + gridx)];
+}*/

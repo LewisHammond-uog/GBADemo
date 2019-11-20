@@ -20,6 +20,7 @@ typedef struct Player{
 //Player Update Functions
 extern Player InitPlayer(SpriteObject* a_sprite, Position* a_worldPos, u8 a_width, u8 a_height);
 extern void UpdatePlayer(SpriteObject* a_sprite);
+extern void CheckCollision(Player* a_player);
 
 
 #endif //__PLAYER_H__

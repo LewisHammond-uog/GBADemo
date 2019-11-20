@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "bg_externs.h": "c",
+        "gba_types.h": "c"
+    }
+}

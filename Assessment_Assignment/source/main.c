@@ -50,6 +50,12 @@ void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress )
 	}
 }
 
+u8 testCollision(int x, int y, int addx, int addy){
+	int gridx = (x/8) + addx;
+    int gridy = (y/8) + addy;
+    return bgCollision[((64*gridy) + gridx)];
+}
+
 int main()
 {
 
@@ -115,12 +121,30 @@ int main()
 		vblank_int_wait();
 		PollKeys();
 
-		x += getAxis(HORIZONTAL);
-		y -= getAxis(VERTICAL);
+		if(KeyHeld(UP) && testCollision(x+8, y+8, 0, 0) != 1){
+			y--;
+		}
+
+		if(KeyHeld(DOWN) && testCollision(x+8, y+8, 0, 1) != 1){
+			y++;
+		}
+
+		if(KeyHeld(RIGHT) && testCollision(x+8, y+8, 1, 0) != 1){
+			x++;
+		}
+
+		if(KeyHeld(LEFT) && testCollision(x+8, y+8, 0, 0) != 1){
+			x--;
+		}
+
+		SetSpriteScreenPos(sprite, x, y);
+
+/*
 		REG_BG_OFFSET[0].x = x;
 		REG_BG_OFFSET[0].y = y;
 		REG_BG_OFFSET[1].x = x;
 		REG_BG_OFFSET[1].y = y;
+*/
 
 
 		/*
