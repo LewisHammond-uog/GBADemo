@@ -94,10 +94,10 @@ int main()
 		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
 	
 	Position pos;
-	pos.x = 0;
-	pos.y = 0;
+	pos.x = SCREEN_W >> 1;
+	pos.y = SCREEN_H >> 1;
 
-	Player p = InitPlayer(sprite, &pos, 16, 16);
+	Player p = InitPlayer(sprite, pos, 16, 16);
 
 	/*
 	SpriteObject* sprite2 = &obj_buffer[1];

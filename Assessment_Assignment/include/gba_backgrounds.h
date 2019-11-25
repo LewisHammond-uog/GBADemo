@@ -93,4 +93,6 @@ extern u16* GetBGMapBlock(u8 a_mapBlock);
 extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
   u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize);
 
+u16 yyy;
+
 #endif //__GBA_BACKGROUNDS_H__

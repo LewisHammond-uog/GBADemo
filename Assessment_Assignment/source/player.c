@@ -1,7 +1,7 @@
 #include "player.h"
 
 //Initalises a player object struct and returns it for further use
-Player InitPlayer(SpriteObject* a_sprite, Position* a_worldPos, u8 a_width, u8 a_height){
+Player InitPlayer(SpriteObject* a_sprite, Position a_worldPos, u8 a_width, u8 a_height){
 
     //Create player and assign sprite
     Player newPlayer;
@@ -9,12 +9,11 @@ Player InitPlayer(SpriteObject* a_sprite, Position* a_worldPos, u8 a_width, u8 a
 
     //Set positions - player always starts in the center of the screen
     newPlayer.worldPos = a_worldPos;
-    newPlayer.screenPos->x = (SCREEN_W >> 1) - (a_width >> 1);
-    newPlayer.screenPos->y = (SCREEN_H >> 1) - (a_height >> 1);
+    newPlayer.screenPos = a_worldPos;
 
     //Make sure that the player is at the position that we say it is
-    s32 x = newPlayer.worldPos->x + newPlayer.screenPos->x;
-    s32 y = newPlayer.worldPos->y + newPlayer.screenPos->y;
+    s32 x = newPlayer.worldPos.x + newPlayer.screenPos.x;
+    s32 y = newPlayer.worldPos.y + newPlayer.screenPos.y;
 
     //Set sprite width and height values
     newPlayer.spriteWidth = a_width;
@@ -32,24 +31,54 @@ void UpdatePlayer(Player* a_player){
 
     //Calculate Position to check collision at
     Position collsionCheckPos;
-    collsionCheckPos.x = a_player->worldPos->x + (a_player->spriteWidth >> 1);
-    collsionCheckPos.y = a_player->worldPos->y + (a_player->spriteHeight >> 1);
+    collsionCheckPos.x = a_player->worldPos.x + (a_player->spriteWidth >> 1);
+    collsionCheckPos.y = a_player->worldPos.y + (a_player->spriteHeight >> 1);
     
-    //Check Collision
-    if(CheckCollision(collsionCheckPos.x, collsionCheckPos.y,0,vsp) != 1){
-        a_player->worldPos->y += vsp;
-    }
-    if(CheckCollision(collsionCheckPos.x, collsionCheckPos.y,hsp,0) != 1){
-        a_player->worldPos->x += hsp;
+    if(vsp != 0){
+        //Check Collision
+        //if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
+            a_player->worldPos.y += vsp;
+
+        //}
+        //Check if we are on the edge of the screen
+        if(SCREEN_H - (a_player->screenPos.y + vsp) < ScreenScrollLimit){
+            //Scroll the background
+            yyy += vsp;
+            REG_BG_OFFSET[0].y = yyy;
+            REG_BG_OFFSET[1].y = yyy;
+
+        }else{
+            //Move the player on the screen
+            a_player->screenPos.y += vsp;
+        }
+
     }
 
+
+    if(hsp != 0){
+        if(CheckCollision(&collsionCheckPos,hsp,0) != 1){
+            a_player->worldPos.x += hsp;
+
+            //Check if we are on the edge of the screen
+            if(a_player->worldPos.x - SCREEN_W > ScreenScrollLimit || a_player->worldPos.x < ScreenScrollLimit){
+                //Scroll the background
+
+                
+            }else{
+                //Move the player on the screen
+                a_player->screenPos.x += hsp;
+            }
+        }
+    }
+    
+
     //Set Sprite Screen Position
-    SetSpriteScreenPos(a_player->sprite, a_player->worldPos->x, a_player->worldPos->y);
+    SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
 }
 
 //Check a collision at a point infront of the player (addx,)
-u8 CheckCollision(int x, int y, int addx, int addy){
-	int gridx = (x/8) + addx;
-    int gridy = (y/8) + addy;
+u8 CheckCollision(Position* pos, int addx, int addy){
+	int gridx = (pos->x/8) + addx;
+    int gridy = (pos->y/8) + addy;
     return bgCollision[((64*gridy) + gridx)];
 }

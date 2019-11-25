@@ -7,6 +7,8 @@ u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colour
     BGCNT_COLOUR_MODE(a_colourMode) | BGCNT_TILEMAP_LOC(a_mapblock) | BGCNT_AFFINE_WRAP(a_affineWrap) |
     BGCNT_SIZE(a_bgSize);
     return controlReg;
+
+    yyy = 0;
 }
 
 //Get the address to the tile map in memory by providing a number (0-32)
