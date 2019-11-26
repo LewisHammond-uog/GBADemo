@@ -28,9 +28,9 @@ typedef volatile int32_t v_s32;
 typedef s32 fixed;
 
 //Position struct
-typedef struct Position{
+typedef struct Vector2{
     s32 x;
     s32 y;
-}Position;
+}Vector2;
 
 #endif //__GBA_TYPES_H__

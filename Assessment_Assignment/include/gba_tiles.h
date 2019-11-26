@@ -35,4 +35,11 @@ typedef TILE8 TILEBLOCK8[256];
 #define TILE_MEM ((TILEBLOCK*)VRAM)
 #define TILE8_MEM ((TILEBLOCK8*)VRAM)
 
+//Struct for Tile Info, stores tiles and tile size info
+//Can also be used for pallet info
+typedef struct TilesInfo{
+    u16* data;
+    u16 size; //Size of data not tiles themselves
+} TilesInfo, PalletInfo;
+
 #endif //__GBA_TILES_H__

@@ -8,7 +8,6 @@
 //EG REG_BGCNT[0] = 1st Background page
 #define REG_BGCNT ((u16*)(REG_BASE+0x0008))
 
-
 /*------DEFINES----*/
 /*
 BIT     DESCRIPTION
@@ -82,17 +81,34 @@ typedef struct BackgroundOffset
   s16 y;
 }PACKED(4) BGOffset;
 
+//Struct for backgrounds
+typedef struct Background{
+  Vector2 offset;
+  Vector2 size;
+}Background;
+
 //Define for background offsets - register can only be writen to
 #define REG_BG_OFFSET ((BGOffset*)(REG_BASE+0x0010))
 
 #define BG_TILEBLOCK_MASK     0x3 //There are only 4 tileblocks for BG Tiles
 #define BG_MAPBLOCK_MASK      0x1F //There are only 32 mapblocks
 
+//Array for all of the BGs we have created
+Background createdBackgrounds[4];
+
 extern u16* GetBGTileBlock(u8 a_tileblock);
 extern u16* GetBGMapBlock(u8 a_mapBlock);
 extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
   u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize);
 
-u16 yyy;
+extern void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles);
+extern Background* InitBackground(u8 a_id, u16 a_width, u16 a_height, const u16* a_mapData, u16 a_regData);
+extern void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y);
+
+//We are creating a struct to hold the data for a row of screen tiles
+//it holds 16 tiles (or half a screen row)
+//Map blocks are 16 bits per tile - 10 bits for index, 1 for hflip, 1 for vflip and 4 for the pallete index
+typedef struct {u32 data[8]; } HALF_ROW;
+void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress);
 
 #endif //__GBA_BACKGROUNDS_H__

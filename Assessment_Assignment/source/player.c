@@ -1,7 +1,7 @@
 #include "player.h"
 
 //Initalises a player object struct and returns it for further use
-Player InitPlayer(SpriteObject* a_sprite, Position a_worldPos, u8 a_width, u8 a_height){
+Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
 
     //Create player and assign sprite
     Player newPlayer;
@@ -30,22 +30,21 @@ void UpdatePlayer(Player* a_player){
     s8 hsp = getAxis(HORIZONTAL); //Horizontal Speed
 
     //Calculate Position to check collision at
-    Position collsionCheckPos;
+    Vector2 collsionCheckPos;
     collsionCheckPos.x = a_player->worldPos.x + (a_player->spriteWidth >> 1);
     collsionCheckPos.y = a_player->worldPos.y + (a_player->spriteHeight >> 1);
     
     if(vsp != 0){
         //Check Collision
-        //if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
+        if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
             a_player->worldPos.y += vsp;
 
-        //}
+        }
         //Check if we are on the edge of the screen
-        if(SCREEN_H - (a_player->screenPos.y + vsp) < ScreenScrollLimit){
+        if(SCREEN_H - (a_player->screenPos.y + vsp) < ScreenScrollLimit || a_player->screenPos.y + vsp < ScreenScrollLimit){
             //Scroll the background
-            yyy += vsp;
-            REG_BG_OFFSET[0].y = yyy;
-            REG_BG_OFFSET[1].y = yyy;
+            MoveBackground(0, 0, vsp);
+            MoveBackground(1, 0, vsp);
 
         }else{
             //Move the player on the screen
@@ -60,10 +59,11 @@ void UpdatePlayer(Player* a_player){
             a_player->worldPos.x += hsp;
 
             //Check if we are on the edge of the screen
-            if(a_player->worldPos.x - SCREEN_W > ScreenScrollLimit || a_player->worldPos.x < ScreenScrollLimit){
+            if(SCREEN_W - (a_player->screenPos.x + hsp) < ScreenScrollLimit || (a_player->screenPos.x + hsp) < ScreenScrollLimit){
                 //Scroll the background
+                MoveBackground(0, hsp, 0);
+                MoveBackground(1, hsp, 0);
 
-                
             }else{
                 //Move the player on the screen
                 a_player->screenPos.x += hsp;
@@ -77,7 +77,7 @@ void UpdatePlayer(Player* a_player){
 }
 
 //Check a collision at a point infront of the player (addx,)
-u8 CheckCollision(Position* pos, int addx, int addy){
+u8 CheckCollision(Vector2* pos, int addx, int addy){
 	int gridx = (pos->x/8) + addx;
     int gridy = (pos->y/8) + addy;
     return bgCollision[((64*gridy) + gridx)];

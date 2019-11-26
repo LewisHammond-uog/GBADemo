@@ -11,8 +11,8 @@
 //Struct for player object
 typedef struct Player{
 	SpriteObject* sprite;
-	Position screenPos; //Position on the screen
-	Position worldPos; //Position in the world
+	Vector2 screenPos; //Position on the screen
+	Vector2 worldPos; //Position in the world
 	u8 frame; //Current Animation Frame
 	fixed frameCounter; //Counter for current frame time
 
@@ -25,9 +25,9 @@ typedef struct Player{
 #define ScreenScrollLimit 40
 
 //Player Update Functions
-extern Player InitPlayer(SpriteObject* a_sprite, Position a_worldPos, u8 a_width, u8 a_height);
+extern Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
 extern void UpdatePlayer(Player* a_sprite);
-extern u8 CheckCollision(Position* pos, int addx, int addy);
+extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 
 
 #endif //__PLAYER_H__
