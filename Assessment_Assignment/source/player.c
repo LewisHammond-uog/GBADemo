@@ -41,7 +41,7 @@ void UpdatePlayer(Player* a_player){
 
         }
         //Check if we are on the edge of the screen
-        if(SCREEN_H - (a_player->screenPos.y + vsp) < ScreenScrollLimit || a_player->screenPos.y + vsp < ScreenScrollLimit){
+        if(SCREEN_H - (a_player->screenPos.y + vsp) < vScrollLimit || a_player->screenPos.y + vsp < vScrollLimit){
             //Scroll the background
             MoveBackground(0, 0, vsp);
             MoveBackground(1, 0, vsp);
@@ -59,7 +59,7 @@ void UpdatePlayer(Player* a_player){
             a_player->worldPos.x += hsp;
 
             //Check if we are on the edge of the screen
-            if(SCREEN_W - (a_player->screenPos.x + hsp) < ScreenScrollLimit || (a_player->screenPos.x + hsp) < ScreenScrollLimit){
+            if(SCREEN_W - (a_player->screenPos.x + hsp) < hScrollLimit || (a_player->screenPos.x + hsp) < hScrollLimit){
                 //Scroll the background
                 MoveBackground(0, hsp, 0);
                 MoveBackground(1, hsp, 0);
