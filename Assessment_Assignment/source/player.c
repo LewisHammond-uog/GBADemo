@@ -78,15 +78,32 @@ void UpdatePlayer(Player* a_player){
 bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp){
 
     //Check Vertical
-    if(!((SCREEN_H - (a_player->screenPos.y + a_vsp) > vScrollLimit)  && 
-        a_player->screenPos.y + a_vsp > vScrollLimit)){
+    /*if(!((SCREEN_H - (a_player->screenPos.y + a_vsp) > vScrollLimit)  && 
+        !((SCREEN_H - (a_player->screenPos.y + a_vsp) > vScrollLimit))){
+        return true;
+    }*/
+
+    if(a_vsp > 0 && a_player->screenPos.y > SCREEN_H - vScrollLimit){
         return true;
     }
     
+    if(a_vsp < 0 && a_player->screenPos.y < vScrollLimit){
+        return true;
+    }
+
+    if(a_hsp > 0 && a_player->screenPos.x > SCREEN_W - hScrollLimit){
+        return true;
+    }
+    
+    if(a_hsp < 0 && a_player->screenPos.x < hScrollLimit){
+        return true;
+    }
+    
+    /*
     if(!(SCREEN_W - (a_player->screenPos.x + a_hsp) > hScrollLimit && a_player->screenPos.x + a_hsp > hScrollLimit)){
         return true;
     }
-    
+    */
     return false;
 }
 
