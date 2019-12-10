@@ -34,46 +34,60 @@ void UpdatePlayer(Player* a_player){
     collsionCheckPos.x = a_player->worldPos.x + (a_player->spriteWidth >> 1);
     collsionCheckPos.y = a_player->worldPos.y + (a_player->spriteHeight >> 1);
     
+    
     if(vsp != 0){
         //Check Collision
         if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
-            a_player->worldPos.y += vsp;
-
+            //Check if we are on the edge of the screen
+            if(CheckMapScroll(a_player, 0, vsp) && MapScrollInBounds(0, 0, vsp)){
+                //Scroll the background
+                MoveBackground(0, 0, vsp);
+                MoveBackground(1, 0, vsp);
+                a_player->worldPos.y += vsp;
+            }else{
+                //Move the player on the screen
+                a_player->worldPos.y += vsp;
+                a_player->screenPos.y += vsp;
+            }
         }
-        //Check if we are on the edge of the screen
-        if(SCREEN_H - (a_player->screenPos.y + vsp) < vScrollLimit || a_player->screenPos.y + vsp < vScrollLimit){
-            //Scroll the background
-            MoveBackground(0, 0, vsp);
-            MoveBackground(1, 0, vsp);
-
-        }else{
-            //Move the player on the screen
-            a_player->screenPos.y += vsp;
-        }
-
     }
 
-
     if(hsp != 0){
+        //Check Collision
         if(CheckCollision(&collsionCheckPos,hsp,0) != 1){
-            a_player->worldPos.x += hsp;
-
             //Check if we are on the edge of the screen
-            if(SCREEN_W - (a_player->screenPos.x + hsp) < hScrollLimit || (a_player->screenPos.x + hsp) < hScrollLimit){
+            if(CheckMapScroll(a_player, hsp, 0) && MapScrollInBounds(0, hsp, 0)){
                 //Scroll the background
                 MoveBackground(0, hsp, 0);
                 MoveBackground(1, hsp, 0);
-
+                a_player->worldPos.x += hsp;
             }else{
                 //Move the player on the screen
+                a_player->worldPos.x += hsp;
                 a_player->screenPos.x += hsp;
             }
         }
     }
-    
 
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
+}
+
+
+//Checks if we should scroll the map
+bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp){
+
+    //Check Vertical
+    if(!((SCREEN_H - (a_player->screenPos.y + a_vsp) > vScrollLimit)  && 
+        a_player->screenPos.y + a_vsp > vScrollLimit)){
+        return true;
+    }
+    
+    if(!(SCREEN_W - (a_player->screenPos.x + a_hsp) > hScrollLimit && a_player->screenPos.x + a_hsp > hScrollLimit)){
+        return true;
+    }
+    
+    return false;
 }
 
 //Check a collision at a point infront of the player (addx,)

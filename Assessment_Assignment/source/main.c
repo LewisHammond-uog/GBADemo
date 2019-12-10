@@ -38,8 +38,8 @@ int main()
 
 	//Initalise BG Memory and load backgrounds into memory
 	InitBGMem(0, &pallet, &tiles);
-	InitBackground(0, 64, 32, bgMapLayer0, bg0RegData);
-	InitBackground(1, 64, 32, bgMapLayer1, bg1RegData);
+	InitBackground(0, 8, 64, 32, bgMapLayer0, bg0RegData);
+	InitBackground(1, 8, 64, 32, bgMapLayer1, bg1RegData);
 
 	/*-------END OF BACKGROUNDS-------*/
 

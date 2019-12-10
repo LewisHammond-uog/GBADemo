@@ -2,6 +2,7 @@
 #define __GBA_BACKGROUNDS_H__
 
 #include "gba_tiles.h"
+#include "gba_drawing.h"
 
 //Define a base registry for the background controller
 //Accessing this as an array will provide us with the 4 BG Controllers
@@ -84,7 +85,9 @@ typedef struct BackgroundOffset
 //Struct for backgrounds
 typedef struct Background{
   Vector2 offset;
+  Vector2 maxOffset; //Max Offset allowed on this BG before it loops around
   Vector2 size;
+  u8 tileSize;
 }Background;
 
 //Define for background offsets - register can only be writen to
@@ -102,8 +105,9 @@ extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a
   u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize);
 
 extern void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles);
-extern Background* InitBackground(u8 a_id, u16 a_width, u16 a_height, const u16* a_mapData, u16 a_regData);
+extern Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiledHeight, const u16* a_mapData, u16 a_regData);
 extern void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y);
+extern bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y);
 
 //We are creating a struct to hold the data for a row of screen tiles
 //it holds 16 tiles (or half a screen row)

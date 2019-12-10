@@ -32,7 +32,14 @@ void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles){
 
 }
 
-Background* InitBackground(u8 a_id, u16 a_width, u16 a_height, const u16* a_mapData, u16 a_regData){
+//Initalise Background
+//a_id - ID of this background
+//a_tileSize - Size of tiles in this background
+//a_tiledWidth - Width in Tiles
+//a_tiledHeight - Height in Tiles
+//a_mapData - Map Tile Data
+//a_regData Map Registry data
+Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiledHeight, const u16* a_mapData, u16 a_regData){
     
     //Copy map in to memory
     copy64x32MapIntoMemory(a_mapData, 16 + (a_id*2));
@@ -42,10 +49,14 @@ Background* InitBackground(u8 a_id, u16 a_width, u16 a_height, const u16* a_mapD
 
     //Create Struct and init data
     Vector2 offset = {0, 0};
-    Vector2 size = {a_width, a_height};
+    Vector2 maxOffset = {a_tiledWidth * 8 - SCREEN_W, a_tiledHeight * 8 - SCREEN_H}; //Max Offset allowed before the map repeats
+    Vector2 size = {a_tiledWidth * 8, a_tiledHeight * 8};
+    u8 tileSize = a_tileSize;
     Background bg = {
         offset,
-        size
+        maxOffset,
+        size,
+        tileSize
     };
 
     //Add BG to array
@@ -63,6 +74,24 @@ void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y){
 
     REG_BG_OFFSET[a_bgID].x = createdBackgrounds[a_bgID].offset.x;
     REG_BG_OFFSET[a_bgID].y = createdBackgrounds[a_bgID].offset.y;
+}
+
+//Check if scrolling the map by a given x and y value would exceed the maximum offsett of the map
+bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y){
+    
+    //Check Horizontal Bounds
+    if(!(createdBackgrounds[a_bgID].offset.x + a_x < (createdBackgrounds[a_bgID].maxOffset.x) && 
+        createdBackgrounds[a_bgID].offset.x + a_x >= 0)){
+        return false;
+    }
+
+    //Check Vertical Bounds
+    if(!(createdBackgrounds[a_bgID].offset.y + a_y < (createdBackgrounds[a_bgID].maxOffset.y) && 
+        createdBackgrounds[a_bgID].offset.y + a_y >= 0)){
+        return false;
+    }
+
+    return true;
 }
 
 //Function to convert 64x32 MapED Maps to GBA format
