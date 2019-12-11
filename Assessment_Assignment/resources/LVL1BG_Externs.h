@@ -3,7 +3,7 @@
 #include "gba_types.h"
 
 #define bgPaletteSize 512
-#define bgTilesSize 2176
+#define bgTilesSize 2144
 
 extern const u16 bgPalette[256];
 extern const u16 bgTiles[1072];
