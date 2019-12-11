@@ -14,7 +14,8 @@
 
 #include <string.h>
 
-#include "BG_Externs.h"
+//#include "BG_Externs.h"
+#include "LVL1BG_Externs.h"
 #include "sp_food_8b.h"
 //#include "sp_testcharacter.h"
 
@@ -30,7 +31,7 @@ int main()
 
 	//Generate Background Register Controller Info
 	u16 bg0RegData = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
-	u16 bg1RegData = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
+	//u16 bg1RegData = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
 
 	//Background Pallet and Tile info
 	PalletInfo pallet = {bgPalette, bgPaletteSize};
@@ -38,8 +39,8 @@ int main()
 
 	//Initalise BG Memory and load backgrounds into memory
 	InitBGMem(0, &pallet, &tiles);
-	InitBackground(0, 8, 64, 32, bgMapLayer0, bg0RegData);
-	InitBackground(1, 8, 64, 32, bgMapLayer1, bg1RegData);
+	InitBackground(0, 8, 64, 32, bgMap, bg0RegData);
+	//InitBackground(1, 8, 64, 32, bgMapLayer1, bg1RegData);
 
 	/*-------END OF BACKGROUNDS-------*/
 

@@ -2,6 +2,7 @@
     "files.associations": {
         "bg_externs.h": "c",
         "gba_types.h": "c",
-        "streambuf": "c"
+        "streambuf": "c",
+        "gba_gfx.h": "c"
     }
 }

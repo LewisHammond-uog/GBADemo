@@ -4,7 +4,7 @@
 #include "gba_sprites.h"
 #include "gba_drawing.h"
 #include "gba_input.h"
-#include "BG_Externs.h"
+#include "LVL1BG_Externs.h"
 #include "gba_math.h"
 #include "gba_backgrounds.h"
 
