@@ -71,29 +71,28 @@ int main()
 
 	Player p = InitPlayer(sprite, pos, 16, 16);
 
-	/*
 	SpriteObject* sprite2 = &obj_buffer[1];
 	SetupSprite(sprite2,  
 		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
 		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
-	*/
 
-	s32 x = 0;
-	s32 y = 0;
 	
-
 	while (1) { //loop forever
 		vblank_int_wait();
 		PollKeys();
 
 		UpdatePlayer(&p);
-/*
-		REG_BG_OFFSET[0].x = x;
-		REG_BG_OFFSET[0].y = y;
-		REG_BG_OFFSET[1].x = x;
-		REG_BG_OFFSET[1].y = y;
-*/
+		
+		if(KeyHit(A)){
+			InitBGMem(0, &pallet, &tiles);
+			InitBackground(0, 8, 64, 32, bgMap, NULL);
+		}
+
+		if(KeyHit(B)){
+			InitBGMem(0, &pallet, &tiles);
+			InitBackground(0, 8, 64, 32, bgMap, bg0RegData);
+		}
 
 
 		/*
@@ -106,7 +105,7 @@ int main()
 		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
 		*/
 
-		oam_copy(MEM_OAM, obj_buffer, 1);
+		oam_copy(MEM_OAM, obj_buffer, 2);
 	}
 	return 0;
 }

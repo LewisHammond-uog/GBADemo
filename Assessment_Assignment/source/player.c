@@ -1,6 +1,10 @@
 #include "player.h"
 
 //Initalises a player object struct and returns it for further use
+//a_sprite - player sprite
+//a_worldPos - world position
+//a_width - sprite width
+//a_height - sprite height
 Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
 
     //Create player and assign sprite
@@ -11,10 +15,6 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     newPlayer.worldPos = a_worldPos;
     newPlayer.screenPos = a_worldPos;
 
-    //Make sure that the player is at the position that we say it is
-    s32 x = newPlayer.worldPos.x + newPlayer.screenPos.x;
-    s32 y = newPlayer.worldPos.y + newPlayer.screenPos.y;
-
     //Set sprite width and height values
     newPlayer.spriteWidth = a_width;
     newPlayer.spriteHeight = a_height;
@@ -23,6 +23,7 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
 }
 
 //Updates the Player Character with movement, collisions
+//a_player - Player to Update
 void UpdatePlayer(Player* a_player){
 
     //Check Player input
@@ -75,6 +76,9 @@ void UpdatePlayer(Player* a_player){
 
 
 //Checks if we should scroll the map
+//a_player - player to check
+//a_hsp - Intended Horizontal Speed
+//a_vsp - Intended Vertical Speed
 bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp){
 
     //Check each direction and if we are heading in that direction and
@@ -97,11 +101,4 @@ bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp){
         return true;
     }
     return false;
-}
-
-//Check a collision at a point infront of the player (addx,)
-u8 CheckCollision(Vector2* pos, int addx, int addy){
-	int gridx = (pos->x/8) + addx;
-    int gridy = (pos->y/8) + addy;
-    return bgCollision[((64*gridy) + gridx)];
 }

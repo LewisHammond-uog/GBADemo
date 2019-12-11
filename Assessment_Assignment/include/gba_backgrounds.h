@@ -4,6 +4,9 @@
 #include "gba_tiles.h"
 #include "gba_drawing.h"
 
+//Backgrounds
+#include "LVL1BG_Externs.h"
+
 //Define a base registry for the background controller
 //Accessing this as an array will provide us with the 4 BG Controllers
 //EG REG_BGCNT[0] = 1st Background page

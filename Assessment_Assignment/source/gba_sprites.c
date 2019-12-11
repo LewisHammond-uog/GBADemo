@@ -36,7 +36,7 @@ Vector2* GetSpriteScreenPos(SpriteObject* a_sprite){
 
 //Hide a Sprite Object
 void HideSpriteObject(SpriteObject* a_obj){
-    a_obj->attr0 = (a_obj->attr0 & A0_MODE_MASK) | A0_MODE(A0_MODE_DISABLE);
+    a_obj->attr0 = (a_obj->attr0 & ~A0_MODE_MASK) | A0_MODE(A0_MODE_DISABLE);
 }
 
 //Unhide a Sprite Object
