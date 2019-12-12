@@ -19,6 +19,10 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     newPlayer.spriteWidth = a_width;
     newPlayer.spriteHeight = a_height;
 
+    //Set visible
+    UnHideSpriteObject(a_sprite, A0_MODE_REG);
+    newPlayer.visible = true;
+
     return newPlayer;
 }
 

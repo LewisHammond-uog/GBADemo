@@ -77,12 +77,18 @@ int main()
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
 		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
 
+	pos.x = SCREEN_W;
+	pos.y = SCREEN_H >> 1;
+	
+	Entity e = InitEntity(sprite2, pos, 16,16);
+
 	
 	while (1) { //loop forever
 		vblank_int_wait();
 		PollKeys();
 
 		UpdatePlayer(&p);
+		UpdateEntity(&e);
 		
 		if(KeyHit(A)){
 			InitBGMem(0, &pallet, &tiles);
@@ -105,7 +111,7 @@ int main()
 		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
 		*/
 
-		oam_copy(MEM_OAM, obj_buffer, 2);
+		oam_copy(MEM_OAM, obj_buffer, 128);
 	}
 	return 0;
 }

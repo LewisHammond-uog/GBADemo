@@ -109,8 +109,10 @@ extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a
 
 extern void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles);
 extern Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiledHeight, const u16* a_mapData, u16 a_regData);
+
 extern void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y);
 extern bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y);
+extern Vector2 GetBackgroundOffset(u8 a_bgID);
 
 //We are creating a struct to hold the data for a row of screen tiles
 //it holds 16 tiles (or half a screen row)

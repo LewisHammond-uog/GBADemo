@@ -30,6 +30,9 @@ extern fixed FixSub(fixed a_fa, fixed a_fb);
 extern fixed FixMul(fixed a_fa, fixed a_fb);
 extern fixed FixDiv(fixed a_fa, fixed a_fb);
 
+//Vector 2 Distance
+extern s32 Vector2Distance(Vector2 a, Vector2 b);
+
 //Look up Tables
 extern s32 LU_Sin(u32 a_theta);
 extern s32 LU_Cos(u32 a_theta);

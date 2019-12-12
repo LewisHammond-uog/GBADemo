@@ -15,12 +15,16 @@ typedef struct Entity{
 	u8 frame; //Current Animation Frame
 	fixed frameCounter; //Counter for current frame time
 
+	//Currently visible
+	bool visible;
+
     //Width and height
     u8 spriteWidth;
     u8 spriteHeight;
 }PACKED(4) Entity, Player, Enemy;
 
 extern Entity InitEntity(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
+extern void UpdateEntity(Entity* a_entity);
 extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 
 #endif //__GBA_ENTITIY_H__

@@ -94,6 +94,13 @@ bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y){
     return true;
 }
 
+//Get offset for background with givenid
+//a_bgID - Background ID
+Vector2 GetBackgroundOffset(u8 a_bgID){
+    //Return background offset as a vector 2
+    return createdBackgrounds[a_bgID].offset;
+}
+
 //Function to convert 64x32 MapED Maps to GBA format
 void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress )
 {

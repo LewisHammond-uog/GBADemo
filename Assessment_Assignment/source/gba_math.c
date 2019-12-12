@@ -59,7 +59,6 @@ s32 LU_Cos(u32 a_theta){
     return sin_lut[((a_theta >> 7) + 128) & sin_lut_size]; 
 }
 
-
 /*----General Math Utility Functions----*/
 
 //Random Number Generation Seed
