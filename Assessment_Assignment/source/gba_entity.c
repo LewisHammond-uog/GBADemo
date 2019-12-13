@@ -6,8 +6,8 @@ extern void InitPickupMem(){
     //Set memory to zero - removing existing pickups
     for(u16 i = 0; i < MAX_PICKUPS - 1; i++){
         Pickup newPickup;
-        createdPickups[i] = &newPickup;
-        createdPickups[i]->enabled = false;
+        createdPickups[i] = newPickup;
+        createdPickups[i].enabled = false;
     }
     
 }
@@ -19,18 +19,23 @@ void UpdateAllPickups(){
 
     //Loop though all pickups, null check them update them
     for(u16 i = 0; i < MAX_PICKUPS; i++){
-        Pickup* currentPickup = createdPickups[i];
+        Pickup* currentPickup = &createdPickups[i];
 
-        //if(currentPickup->enabled){
+        if(currentPickup->enabled){
             UpdatePickup(currentPickup);
-        //}
+        }
     }
 
 }
 
 //Intialises an pickup within the world
-Pickup InitPickup(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange){
+Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange){
     
+    //Check that ID is less than max pickups
+    if(a_id > MAX_PICKUPS){
+        return;
+    }
+
     //Assign Sprite
     Pickup newPickup;
     newPickup.sprite = a_sprite;
@@ -41,16 +46,17 @@ Pickup InitPickup(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
 
     //Set world pos
     newPickup.worldPos = a_worldPos;
-
     //Set screen pos to 0 as we need to work out if we are visible on screen or not
     Vector2 zero = {0,0};
 
     //Set pickup range
     newPickup.pickupRange = a_pickupRange;
-
+    //Enable Pickup
     newPickup.enabled = true;
 
-    return newPickup;
+    //Add Pickup to array
+    createdPickups[a_id] = newPickup;
+    return &createdPickups[a_id];
 }
 
 
@@ -91,7 +97,7 @@ void UpdatePickup(Pickup* a_entity){
     }
 }
 
-void DestoryPickup(Pickup* a_pickup){
+void DisablePickup(Pickup* a_pickup){
     HideSpriteObject(a_pickup->sprite);
     a_pickup->visible = false;
     a_pickup->enabled = false;

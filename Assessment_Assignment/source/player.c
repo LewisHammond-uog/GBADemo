@@ -23,6 +23,8 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     UnHideSpriteObject(a_sprite, A0_MODE_REG);
     newPlayer.visible = true;
 
+    newPlayer.health = 0;
+
     return newPlayer;
 }
 
@@ -80,13 +82,34 @@ void UpdatePlayer(Player* a_player){
     //Do Pickup Check
     if(KeyHit(A)){
         for(u8 i = 0; i < MAX_PICKUPS; i++){
-            Pickup* currentPickup = createdPickups[i];
+            Pickup* currentPickup = &createdPickups[i];
             if(Vector2DistSqrd(currentPickup->worldPos, a_player->worldPos) < (currentPickup->pickupRange * currentPickup->pickupRange) && currentPickup->enabled){
                 //Pick up item
-                DestoryPickup(currentPickup);
+                PickupItem(a_player,currentPickup);
             }
         }
     }
+}
+
+
+//Pick up an item
+void PickupItem(Player* a_player, Pickup* a_pickup){
+
+    //Determine Pickup Type and apply action based on that
+    switch (a_pickup->pickupType)
+    {
+    case Health:
+        a_player->health += a_pickup->pickupSub;
+        break;
+    case Coin:
+        a_player->coins += a_pickup->pickupSub;
+    default:
+        break;
+    }
+
+    //Disable Pickup
+    DisablePickup(a_pickup);
+
 }
 
 

@@ -81,9 +81,8 @@ int main()
 	pos.y = SCREEN_H >> 1;
 
 	InitPickupMem();
-	Pickup t = InitPickup(sprite2, pos, 16,16, 100);
-	createdPickups[0] = &t;
-	
+	Pickup* t = InitPickup(0,sprite2, pos, 16,16, 100);
+	//createdPickups[0] = &t;
 	
 	//Entity e = InitEntity(sprite2, pos, 16,16);
 
@@ -92,7 +91,7 @@ int main()
 		PollKeys();
 
 		UpdatePlayer(&p);
-		UpdatePickup(&t);
+		UpdatePickup(t);
 		
 		/*
 		if(KeyHit(A)){

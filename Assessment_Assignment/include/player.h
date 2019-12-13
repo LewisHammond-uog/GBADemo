@@ -10,9 +10,13 @@
 #define hScrollLimit 116
 #define vScrollLimit 76
 
+//Max Health
+#define MaxHealth 3
+
 //Player Update Functions
 extern Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
 extern void UpdatePlayer(Player* a_sprite);
+extern void PickupItem(Player* a_player, Pickup* a_pickup);
 extern bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp);
 
 
