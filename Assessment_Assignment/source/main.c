@@ -79,15 +79,20 @@ int main()
 
 	pos.x = SCREEN_W;
 	pos.y = SCREEN_H >> 1;
+
+	InitPickupMem();
+	Pickup t = InitPickup(sprite2, pos, 16,16, 100);
+	createdPickups[0] = &t;
 	
-	Entity e = InitEntity(sprite2, pos, 16,16);
+	
+	//Entity e = InitEntity(sprite2, pos, 16,16);
 
 	while (1) { //loop forever
 		vblank_int_wait();
 		PollKeys();
 
 		UpdatePlayer(&p);
-		UpdateEntity(&e);
+		UpdatePickup(&t);
 		
 		/*
 		if(KeyHit(A)){
