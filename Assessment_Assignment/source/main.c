@@ -82,7 +82,6 @@ int main()
 
 	InitPickupMem();
 	Pickup* t = InitPickup(0,sprite2, pos, 16,16, 100);
-	//createdPickups[0] = &t;
 	
 	//Entity e = InitEntity(sprite2, pos, 16,16);
 
@@ -91,7 +90,7 @@ int main()
 		PollKeys();
 
 		UpdatePlayer(&p);
-		UpdatePickup(t);
+		UpdateAllPickups();
 		
 		/*
 		if(KeyHit(A)){
