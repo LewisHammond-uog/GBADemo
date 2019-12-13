@@ -1,5 +1,4 @@
 #include "gba_math.h"
-#include "sinlut.h"
 
 /*----Fixed Point Functions----*/
 
@@ -63,6 +62,11 @@ s32 LU_Cos(u32 a_theta){
 
 //Random Number Generation Seed
 s32 __gba_rand_seed = 22;
+
+//Get the distance between 2 vectors squrared
+s32 Vector2DistSqrd(Vector2 a, Vector2 b){
+    return ((a.x - b.x)*(a.x - b.x)) + ((a.y - b.y)*(a.y - b.y));
+}
 
 /*
 Seed the random number generator

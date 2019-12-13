@@ -2,7 +2,10 @@
 #ifndef __GBA_MATH_H__
 #define __GBA_MATH_H__
 
+#include <math.h>
+
 #include "gba_types.h"
+#include "sinlut.h"
 
 //Number of bits that are reserved for decimal values, GBA uses 8.8
 //fixed values for affine sprites and transforms in OAM
@@ -31,7 +34,7 @@ extern fixed FixMul(fixed a_fa, fixed a_fb);
 extern fixed FixDiv(fixed a_fa, fixed a_fb);
 
 //Vector 2 Distance
-extern s32 Vector2Distance(Vector2 a, Vector2 b);
+extern s32 Vector2DistSqrd(Vector2 a, Vector2 b);
 
 //Look up Tables
 extern s32 LU_Sin(u32 a_theta);

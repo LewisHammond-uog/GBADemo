@@ -1,5 +1,13 @@
 #include "gba_entity.h"
 
+//Init Entity Mem
+
+//Init Pickup Mem
+
+//Functions for removing all current pickups and entites
+
+//Functions to Update all Pickups and Entites
+
 //Intialises an entity within the world
 Entity InitEntity(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
     
@@ -16,9 +24,21 @@ Entity InitEntity(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
 
     //Set screen pos to 0 as we need to work out if we are visible on screen or not
     Vector2 zero = {0,0};
-    newEntity.screenPos = zero;
 
     return newEntity;
+}
+
+Pickup InitPickup(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange){
+
+    //Create new Pickup and base entity
+    Pickup newPickup;
+    newPickup.baseEntity = InitEntity(a_sprite, a_worldPos, a_width, a_height);
+
+    //Set pickup range
+    newPickup.pickupRange = a_pickupRange;
+
+    //Return new pickup
+    return newPickup;
 
 }
 
@@ -54,6 +74,16 @@ void UpdateEntity(Entity* a_entity){
             a_entity->visible = false;
         }
     }
+}
+
+//Updates pickup, seeing if it can be picked up (in range)
+void UpdatePickup(Pickup* a_pickup){
+
+    //Update entity
+    Entity* entity = &(a_pickup->baseEntity);
+
+    //Update base entity
+    UpdateEntity(entity);
 
 }
 

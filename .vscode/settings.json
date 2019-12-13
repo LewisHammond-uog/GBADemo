@@ -3,6 +3,7 @@
         "bg_externs.h": "c",
         "gba_types.h": "c",
         "streambuf": "c",
-        "gba_gfx.h": "c"
+        "gba_gfx.h": "c",
+        "cmath": "c"
     }
 }

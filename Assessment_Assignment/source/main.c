@@ -82,7 +82,6 @@ int main()
 	
 	Entity e = InitEntity(sprite2, pos, 16,16);
 
-	
 	while (1) { //loop forever
 		vblank_int_wait();
 		PollKeys();
@@ -90,6 +89,7 @@ int main()
 		UpdatePlayer(&p);
 		UpdateEntity(&e);
 		
+		/*
 		if(KeyHit(A)){
 			InitBGMem(0, &pallet, &tiles);
 			InitBackground(0, 8, 64, 32, bgMap, NULL);
@@ -99,6 +99,7 @@ int main()
 			InitBGMem(0, &pallet, &tiles);
 			InitBackground(0, 8, 64, 32, bgMap, bg0RegData);
 		}
+		*/
 
 
 		/*
