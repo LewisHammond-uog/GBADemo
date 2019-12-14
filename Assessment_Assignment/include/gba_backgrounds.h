@@ -102,6 +102,9 @@ typedef struct Background{
 //Array for all of the BGs we have created
 Background createdBackgrounds[4];
 
+//Get a pallet block for background
+#define PAL_BG_BLOCK(n) (PAL_BG_MEM + (n & 0xF) * 16)
+
 extern u16* GetBGTileBlock(u8 a_tileblock);
 extern u16* GetBGMapBlock(u8 a_mapBlock);
 extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,

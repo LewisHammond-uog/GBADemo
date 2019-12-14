@@ -44,9 +44,10 @@ int main()
 
 	/*-------END OF BACKGROUNDS-------*/
 
+	/*-------SPRITES-------*/
 	//Copy Pallet in to memory
 	memcpy(PAL_SP_MEM, sp_food_8bPal, sp_food_8bPalLen);
-
+	
 	//There is enough memory to load our sprite in to sprite tile mem
 	memcpy(&TILE_MEM[4][0], sp_food_8bTiles, sp_food_8bTilesLen);
 
@@ -64,6 +65,24 @@ int main()
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
+
+		
+	SpriteObject* sprite2 = &obj_buffer[1];
+	SetupSprite(sprite2,  
+		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(sx-5, 0, 1), 
+		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
+
+	/*--------END OF SPRITES-------*/
+	/*-------TESTING PARTICLES------*/
+	
+	Emitter emitter;
+	emitter.x = Int2Fix(100);
+	emitter.y = Int2Fix(100);
+	ParticleSystem testSys = InitParticleSystem(&emitter, *sprite2, &obj_buffer[1]);
+	
+
+	/*-------END OF TESTING PARTICLES------*/
 	
 	Vector2 pos;
 	pos.x = SCREEN_W >> 1;
@@ -71,17 +90,11 @@ int main()
 
 	Player p = InitPlayer(sprite, pos, 16, 16);
 
-	SpriteObject* sprite2 = &obj_buffer[1];
-	SetupSprite(sprite2,  
-		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(sx-5, 0, 1), 
-		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
-
 	pos.x = SCREEN_W;
 	pos.y = SCREEN_H >> 1;
 
 	InitPickupMem();
-	Pickup* t = InitPickup(0,sprite2, pos, 16,16, 100);
+	Pickup* t = InitPickup(0,sprite2, pos, 16, 16, 100);
 	
 	//Entity e = InitEntity(sprite2, pos, 16,16);
 
@@ -91,6 +104,11 @@ int main()
 
 		UpdatePlayer(&p);
 		UpdateAllPickups();
+
+		//Update player particles 
+		UpdateParticleSystem(&testSys, &emitter);
+		emitter.x = Int2Fix(p.screenPos.x);
+		emitter.y = Int2Fix(p.screenPos.y);
 		
 		/*
 		if(KeyHit(A)){

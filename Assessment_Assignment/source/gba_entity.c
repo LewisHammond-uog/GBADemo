@@ -97,6 +97,8 @@ void UpdatePickup(Pickup* a_entity){
     }
 }
 
+//Disables a given pickup
+//a_pickup - Pickup to disable
 void DisablePickup(Pickup* a_pickup){
     HideSpriteObject(a_pickup->sprite);
     a_pickup->visible = false;

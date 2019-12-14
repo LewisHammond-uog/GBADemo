@@ -10,6 +10,7 @@
 #include "gba_drawing.h"
 #include "gba_sprites.h"
 #include "gba_input.h"
+#include "gba_particles.h"
 
 typedef enum PickupType{
 	Health,
@@ -68,7 +69,7 @@ typedef struct Player{
 }PACKED(4) Player, Enemy;
 
 //Array to store all of the created Pickups
-#define MAX_PICKUPS 32
+#define MAX_PICKUPS 16
 Pickup createdPickups[MAX_PICKUPS];
 
 extern void InitPickupMem();

@@ -34,6 +34,7 @@ typedef struct SpriteAffine{
 
 //there are 128 sprites available in OAM we may want to create a buffer for these
 extern SpriteObject obj_buffer[128];
+extern SpriteObject* particleOAM;
 extern SpriteAffine *const obj_affine_buffer;
 
 //there are 128 sprites available in OAM we may want to create a buffer for these,
@@ -169,6 +170,9 @@ BIT     DESCRIPTION
 
 #pragma endregion
 
+//Get block of memory for sprite pallet
+#define PAL_SP_BLOCK(n) (PAL_SP_MEM + (n & 0xF) * 16)
+
 //Functions to actaully do things to sprites
 extern void SetupSprite(SpriteObject* a_sprite, u16 a_attribute0, u16 a_attribute1, u16 a_attribute2);
 extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
@@ -183,6 +187,7 @@ extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u1
 extern void ObjAffineIdentity(SpriteAffine* a_object);
 extern void HideSpriteObject(SpriteObject* a_obj);
 extern void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode);
+extern u16* sprite_tile_address(u16 a_tile_id);
 
 
 #endif //__GBA_SPRITES_H__

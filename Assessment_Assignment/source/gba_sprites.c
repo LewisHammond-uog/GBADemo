@@ -3,6 +3,7 @@
 //Initalise The Buffer of sprites that we will keep in Working RAM
 //This is because we cannot access OAM while the screen is drawing
 SpriteObject obj_buffer[128] = { 0 };
+SpriteObject* particleOAM = &obj_buffer[4];
 
 //Setup sprite with attribute
 void SetupSprite(SpriteObject* a_sprite, u16 a_attribute0, u16 a_attribute1, u16 a_attribute2){
@@ -43,6 +44,13 @@ void HideSpriteObject(SpriteObject* a_obj){
 void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode){
     a_obj->attr0 = (a_obj->attr0 & ~A0_MODE_MASK) | A0_MODE(a_mode);
 }
+
+//Get the memory address of a tile block for sprites
+u16* sprite_tile_address(u16 a_tile_id){
+	//Go to VRam and move up 4 pages to get tile that we want
+	return (u16*)(VRAM + (4 * TILEBLOCK_SIZE) + (a_tile_id & 0x3FF) * sizeof(TILE));
+}
+
 
 //Sets attribute 0 up with the correct values
 u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape){
