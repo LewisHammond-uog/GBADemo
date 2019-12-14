@@ -16,8 +16,9 @@
 
 //#include "BG_Externs.h"
 #include "LVL1BG_Externs.h"
-#include "sp_food_8b.h"
+//#include "sp_food_8b.h"
 //#include "sp_testcharacter.h"
+#include "GameSprites.h"
 
 int main()
 {
@@ -46,10 +47,10 @@ int main()
 
 	/*-------SPRITES-------*/
 	//Copy Pallet in to memory
-	memcpy(PAL_SP_MEM, sp_food_8bPal, sp_food_8bPalLen);
+	memcpy(PAL_SP_BLOCK(0), GameSpritesPal, GameSpritesPalLen);
 	
 	//There is enough memory to load our sprite in to sprite tile mem
-	memcpy(&TILE_MEM[4][0], sp_food_8bTiles, sp_food_8bTilesLen);
+	memcpy(sprite_tile_address(0), GameSpritesTiles, GameSpritesTilesLen);
 
 	//Set up the first sprite in tiles
 	s16 sx = (SCREEN_W >> 1) - 8;
@@ -71,15 +72,21 @@ int main()
 	SetupSprite(sprite2,  
 		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
-		SetSpriteObjectAttribute2(16, A2_PRIORITY_0, 0));
+		SetSpriteObjectAttribute2(40, A2_PRIORITY_0, 0));
+
+	//SpriteObject* partSprite = &obj_buffer[2];
+	//SetupSprite(partSprite,  
+	//	SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+	//	SetSpriteObjectAttribute1(0, 0, 1), 
+	//	SetSpriteObjectAttribute2(32 + 32 + 32, A2_PRIORITY_0, 0));
 
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
 	
-	Emitter emitter;
-	emitter.x = Int2Fix(100);
-	emitter.y = Int2Fix(100);
-	ParticleSystem testSys = InitParticleSystem(&emitter, *sprite2, &obj_buffer[1]);
+	//Emitter emitter;
+	//emitter.x = Int2Fix(100);
+	//emitter.y = Int2Fix(100);
+	//ParticleSystem testSys = InitParticleSystem(&emitter, *partSprite, &obj_buffer[1]);
 	
 
 	/*-------END OF TESTING PARTICLES------*/
@@ -105,10 +112,11 @@ int main()
 		UpdatePlayer(&p);
 		UpdateAllPickups();
 
+
 		//Update player particles 
-		UpdateParticleSystem(&testSys, &emitter);
-		emitter.x = Int2Fix(p.screenPos.x);
-		emitter.y = Int2Fix(p.screenPos.y);
+		//UpdateParticleSystem(&testSys, &emitter);
+		//emitter.x = Int2Fix(p.screenPos.x);
+		//emitter.y = Int2Fix(p.screenPos.y);
 		
 		/*
 		if(KeyHit(A)){

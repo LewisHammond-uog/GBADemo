@@ -22,6 +22,8 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     //Set visible
     UnHideSpriteObject(a_sprite, A0_MODE_REG);
     newPlayer.visible = true;
+    newPlayer.frame = 0;
+    newPlayer.frameCounter = Int2Fix(0);
 
     newPlayer.health = 0;
 
@@ -75,6 +77,29 @@ void UpdatePlayer(Player* a_player){
             }
         }
     }
+
+    if(vsp!=0 || hsp!=0){
+        //Advance frame counter
+        a_player->frameCounter += FrameProgression;
+        
+        //Check if frame counter is > 1
+        if(Fix2Int(a_player->frameCounter) > 1){
+            //Advance Frame by 8
+            a_player->frame += 4 << 1;
+
+            //Check if frame is over our frame count and reset
+            if(a_player->frame > PlayerFrames){
+                a_player->frame = 0;
+            }
+
+            //Reset Frame Counter
+            a_player->frameCounter = Int2Fix(0);
+        }
+    }
+
+    //Set Sprite Frame in Mem
+    a_player->sprite->attr2 = SetSpriteObjectAttribute2(a_player->frame, A2_PRIORITY_0, 0);
+
 
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);

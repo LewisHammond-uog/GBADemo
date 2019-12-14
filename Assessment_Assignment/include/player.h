@@ -13,6 +13,11 @@
 //Max Health
 #define MaxHealth 3
 
+//Amount that the animation progresses per frame
+#define FrameProgression 0x80
+//Frames in player Animation
+#define PlayerFrames 32
+
 //Player Update Functions
 extern Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
 extern void UpdatePlayer(Player* a_sprite);
