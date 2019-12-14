@@ -15,7 +15,7 @@ typedef struct  Emitter
 typedef struct Particle{
 	fixed x,y; //pos
 	fixed vx,vy; //velocity
-	u32 life; //lifespan
+	u32 frame; //lifespan
 }Particle;
 
 #define PARTICLE_COUNT 32

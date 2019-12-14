@@ -4,7 +4,6 @@
 #include "gba_math.h"
 #include "gba_gfx.h"
 #include "gba_drawing.h"
-
 #include "gba_input.h"
 #include "gba_tiles.h"
 #include "gba_sprites.h"
@@ -14,11 +13,15 @@
 
 #include <string.h>
 
-//#include "BG_Externs.h"
 #include "LVL1BG_Externs.h"
-//#include "sp_food_8b.h"
-//#include "sp_testcharacter.h"
 #include "GameSprites.h"
+
+//Defines for sprite locations
+#define PlayerSpriteLocation 0
+#define ParticleSpriteLocation 40
+#define SwordPickupLocation 80
+#define HeartPickupLocation 88
+#define CoinPickupLocation 96
 
 int main()
 {
@@ -58,35 +61,32 @@ int main()
 
 	oam_init(obj_buffer, 128);
 
-	//Set the tile ID
-	s16 tileID = 0;
-
 	SpriteObject* sprite = &obj_buffer[0];
 	SetupSprite(sprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
-		SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0));
+		SetSpriteObjectAttribute2(PlayerSpriteLocation, A2_PRIORITY_0, 0));
 
 		
 	SpriteObject* sprite2 = &obj_buffer[1];
 	SetupSprite(sprite2,  
+		SetSpriteObjectAttribute0(-1, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(-1, 0, 1), 
+		SetSpriteObjectAttribute2(ParticleSpriteLocation, A2_PRIORITY_0, 0));
+
+	SpriteObject* sprite3 = &obj_buffer[2];
+	SetupSprite(sprite3,  
 		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
-		SetSpriteObjectAttribute2(40, A2_PRIORITY_0, 0));
-
-	//SpriteObject* partSprite = &obj_buffer[2];
-	//SetupSprite(partSprite,  
-	//	SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-	//	SetSpriteObjectAttribute1(0, 0, 1), 
-	//	SetSpriteObjectAttribute2(32 + 32 + 32, A2_PRIORITY_0, 0));
+		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
 
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
 	
-	//Emitter emitter;
-	//emitter.x = Int2Fix(100);
-	//emitter.y = Int2Fix(100);
-	//ParticleSystem testSys = InitParticleSystem(&emitter, *partSprite, &obj_buffer[1]);
+	Emitter emitter;
+	emitter.x = Int2Fix(100);
+	emitter.y = Int2Fix(100);
+	ParticleSystem testSys = InitParticleSystem(&emitter, *sprite2, &obj_buffer[1]);
 	
 
 	/*-------END OF TESTING PARTICLES------*/
@@ -101,7 +101,7 @@ int main()
 	pos.y = SCREEN_H >> 1;
 
 	InitPickupMem();
-	Pickup* t = InitPickup(0,sprite2, pos, 16, 16, 100);
+	Pickup* t = InitPickup(0,sprite3, pos, 16, 16, 100);
 	
 	//Entity e = InitEntity(sprite2, pos, 16,16);
 
@@ -114,9 +114,9 @@ int main()
 
 
 		//Update player particles 
-		//UpdateParticleSystem(&testSys, &emitter);
-		//emitter.x = Int2Fix(p.screenPos.x);
-		//emitter.y = Int2Fix(p.screenPos.y);
+		UpdateParticleSystem(&testSys, &emitter);
+		emitter.x = Int2Fix(p.screenPos.x);
+		emitter.y = Int2Fix(p.screenPos.y);
 		
 		/*
 		if(KeyHit(A)){
@@ -130,16 +130,6 @@ int main()
 		}
 		*/
 
-
-		/*
-		if(getAxis(HORIZONTAL) != 0 || getAxis(VERTICAL)){
-			tileID += 4 << 1;
-			tileID = tileID & 0x38;
-		}else{
-			tileID = 0;
-		}
-		sprite->attr2 = SetSpriteObjectAttribute2(tileID, A2_PRIORITY_0, 0);
-		*/
 
 		oam_copy(MEM_OAM, obj_buffer, 128);
 	}

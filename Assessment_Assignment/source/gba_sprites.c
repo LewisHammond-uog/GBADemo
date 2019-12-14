@@ -3,7 +3,7 @@
 //Initalise The Buffer of sprites that we will keep in Working RAM
 //This is because we cannot access OAM while the screen is drawing
 SpriteObject obj_buffer[128] = { 0 };
-SpriteObject* particleOAM = &obj_buffer[4];
+SpriteObject* particleOAM = &obj_buffer[10];
 
 //Setup sprite with attribute
 void SetupSprite(SpriteObject* a_sprite, u16 a_attribute0, u16 a_attribute1, u16 a_attribute2){
