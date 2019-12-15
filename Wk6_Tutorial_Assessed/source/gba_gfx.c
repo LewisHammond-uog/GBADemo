@@ -101,3 +101,31 @@ u16* GetBGTileBlock(u8 a_tileBlockIndex)
 {
     return  (u16*)(TILE_MEM[(a_tileBlockIndex & BG_TILEBLOCK_MASK)]);
 }
+
+
+//Hide a Sprite Object
+void HideSpriteObject(SpriteObject* a_obj){
+    a_obj->attr0 = (a_obj->attr0 & ~A0_MODE_MASK) | A0_MODE(A0_MODE_DISABLE);
+}
+
+
+void oam_init(SpriteObject* a_obj, u8 a_count){
+
+    u32 currentSpriteID = a_count;
+    SpriteObject* currentSprite = a_obj;
+
+    //Hide Each Object
+    while (currentSpriteID--)
+    {
+        currentSprite->attr0 = 0;
+        currentSprite->attr1 = 0;
+        currentSprite->attr2 = 0;
+        currentSprite->padding = 0;
+        HideSpriteObject(currentSprite);
+        ++currentSprite;
+    }
+
+    //Initalise OAM
+    oam_copy(MEM_OAM, a_obj, a_count);
+
+}

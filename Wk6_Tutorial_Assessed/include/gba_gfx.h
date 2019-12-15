@@ -328,6 +328,9 @@ extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_c
 
 extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
 
+extern void HideSpriteObject(SpriteObject* a_obj);
+extern void oam_init(SpriteObject* obj, u8 count);
+
 void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
 void ObjAffineIdentity(SpriteAffine* a_object);
 
