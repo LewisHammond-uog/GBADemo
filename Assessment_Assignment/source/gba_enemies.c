@@ -1,7 +1,7 @@
 #include "gba_enemies.h"
 
 
-extern Enemy* InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
+extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
     
     //Check that ID is less than max pickups
     if(a_id > MAX_PICKUPS){
@@ -25,8 +25,7 @@ extern Enemy* InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 
     newEnemy.enabled = true;
 
     //Add Enemy to array
-    createdEnemies[a_id] = newEnemy;
-    return &createdEnemies[a_id];
+    return newEnemy;
 
 }
 

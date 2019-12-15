@@ -112,6 +112,7 @@ int main()
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = SCREEN_H >> 1;
+	Enemy test = InitEnemy(0, sprite4, epos, 16, 16);
 
 	while (1) { //loop forever
 		vblank_int_wait();
@@ -119,6 +120,7 @@ int main()
 
 		UpdatePlayer(&p);
 		UpdateAllPickups();
+		UpdateEnemy(&test);
 
 		//Update player particles 
 		UpdateParticleSystem(&testSys, &emitter);
