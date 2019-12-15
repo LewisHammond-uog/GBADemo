@@ -18,7 +18,7 @@ typedef struct Particle{
 	u32 frame; //lifespan
 }Particle;
 
-#define PARTICLE_COUNT 32
+#define PARTICLE_COUNT 16
 
 //Particle System
 typedef struct ParticleSystem{
@@ -29,6 +29,7 @@ typedef struct ParticleSystem{
 extern void InitParticle(Particle* a_p);
 extern ParticleSystem InitParticleSystem(Emitter* a_partEmitter, SpriteObject a_sprite, SpriteObject* a_memLocation);
 extern void EmitParticle(Particle* a_p, Emitter* a_e);
+extern void EmitPlayerParticle(Particle* a_p, Emitter* a_e);
 extern void UpdateParticle(Particle* a_p, Emitter* a_e);
 extern void UpdateParticleSystem(ParticleSystem* a_ps, Emitter* a_e);
 

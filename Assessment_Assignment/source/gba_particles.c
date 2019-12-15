@@ -1,7 +1,7 @@
 #include "gba_particles.h"
 
 //Defines for gravity of particles and frame time
-fixed g_gravity = -0x9CC; //Gravity as -9.8 m/s
+fixed g_gravity = -0x2CC; //Gravity as -9.8 m/s
 fixed g_frameTime = 0x04; 
 fixed g_pixels2Meter = 0x200;
 
@@ -47,8 +47,7 @@ extern void UpdateParticleSystem(ParticleSystem* a_ps, Emitter* a_e){
 		//update oam Buffer wioth new particle pos
 		SetSpriteScreenPos(&(particleOAM[i]), Fix2Int(a_ps->particles[i].x), Fix2Int(a_ps->particles[i].y));
 
-		
-		particleOAM[i].attr2 = SetSpriteObjectAttribute2(40 + 16, 0, 1);
+		particleOAM[i].attr2 = SetSpriteObjectAttribute2(40, 0, 1);
 	}
 
 }
@@ -58,6 +57,6 @@ void EmitParticle(Particle* a_p, Emitter* a_e){
 	a_p->x = a_e->x;
 	a_p->y = a_e->y;
 
-	a_p->vx = Int2Fix(20 + GBARandRange(-5, 5)); //xvel
-	a_p->vy = Int2Fix(0 + GBARandRange(0, 5)); //yvel
+	a_p->vx = Int2Fix(GBARandRange(-5, 5)); //xvel
+	a_p->vy = Int2Fix(5); //yvel
 }
