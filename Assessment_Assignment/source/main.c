@@ -101,7 +101,8 @@ int main()
 	pos.y = SCREEN_H >> 1;
 
 	InitPickupMem();
-	Pickup* t = InitPickup(0,sprite3, pos, 16, 16, 100);
+	Pickup* t = InitPickup(0, sprite3, pos, 16, 16, 100);
+	SetPickupType(t, Weapon, SwordSmall);
 	
 	//Entity e = InitEntity(sprite2, pos, 16,16);
 

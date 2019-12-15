@@ -59,6 +59,12 @@ Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_wid
     return &createdPickups[a_id];
 }
 
+//Set the type and sub type of the pickup
+void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType){
+    a_pickup->pickupType = a_type;
+    a_pickup->pickupSub = a_subType;
+}
+
 
 void UpdatePickup(Pickup* a_entity){
 

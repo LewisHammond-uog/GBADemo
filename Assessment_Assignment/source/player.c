@@ -26,6 +26,8 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     newPlayer.frameCounter = Int2Fix(0);
 
     newPlayer.health = 0;
+    newPlayer.coins = 0;
+    newPlayer.heldweapons = 0;
 
     return newPlayer;
 }
@@ -95,6 +97,8 @@ void UpdatePlayer(Player* a_player){
             //Reset Frame Counter
             a_player->frameCounter = Int2Fix(0);
         }
+    }else{
+        a_player->frame = 0;
     }
 
     //Set Sprite Frame in Mem
@@ -106,17 +110,34 @@ void UpdatePlayer(Player* a_player){
 
 
     //Do Pickup Check
-    if(KeyHit(A)){
-        for(u8 i = 0; i < MAX_PICKUPS; i++){
-            Pickup* currentPickup = &createdPickups[i];
-            if(Vector2DistSqrd(currentPickup->worldPos, a_player->worldPos) < (currentPickup->pickupRange * currentPickup->pickupRange) && currentPickup->enabled){
-                //Pick up item
-                PickupItem(a_player,currentPickup);
-            }
-        }
+    if(KeyHit(Key_Pickup)){
+        CheckForPickup(a_player);
+    }
+
+    //Do Attack Check
+    if(KeyHit(Key_Attack)){
+
     }
 }
 
+//Checks if there are any items that can be picked up and picks them up
+void CheckForPickup(Player* a_player){
+
+    //Loop through all pickups and check if we are close enough to that pickup, pick it up
+    for(u8 i = 0; i < MAX_PICKUPS; i++){
+        Pickup* currentPickup = &createdPickups[i];
+        if(Vector2DistSqrd(currentPickup->worldPos, a_player->worldPos) < (currentPickup->pickupRange * currentPickup->pickupRange) && currentPickup->enabled){
+            //Pick up item
+            PickupItem(a_player,currentPickup);
+        }
+    }
+
+}
+
+//Checks if there is any enimies in range and applies damange to them
+void CheckForAttack(Player* a_player){
+
+}
 
 //Pick up an item
 void PickupItem(Player* a_player, Pickup* a_pickup){
@@ -129,6 +150,10 @@ void PickupItem(Player* a_player, Pickup* a_pickup){
         break;
     case Coin:
         a_player->coins += a_pickup->pickupSub;
+    case Weapon:
+        //Activate Weapon for player
+        a_player->heldweapons =  GiveWeapon(a_player->heldweapons, a_pickup->pickupSub);
+        break;
     default:
         break;
     }
@@ -136,6 +161,16 @@ void PickupItem(Player* a_player, Pickup* a_pickup){
     //Disable Pickup
     DisablePickup(a_pickup);
 
+}
+
+//Give the player a given weapon
+u8 GiveWeapon(u8 a_weapons, WeaponType a_toActivate){
+    return a_weapons | a_toActivate;
+}
+
+//Check if the player has a given weapon
+bool CheckWeapon(u8 a_weapons, WeaponType a_toCheck){
+    return (a_weapons & a_toCheck);
 }
 
 

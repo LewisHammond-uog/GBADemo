@@ -12,18 +12,18 @@
 #include "gba_input.h"
 #include "gba_particles.h"
 
-typedef enum PickupType{
+typedef enum Pickups{
 	Health,
 	Weapon,
 	Coin
-};
+} PickupType;
 
 //Enum for weapons
 typedef enum Weapons{
-	SwordSmall 	= 0x00,
-	SwordLarge 	= 0x01,
-	Bow 		= 0x02
-};
+	SwordSmall = 0x01,
+	SwordLarge = 0x02,
+	Bow = 0x04
+} WeaponType;
 
 //Struct for a pickup-able object. Has base entity that 
 //has drawing animation frame and position
@@ -41,7 +41,7 @@ typedef struct Pickup{
     u8 spriteHeight;
 
 	u16 pickupRange; //Range we can pickup from
-	enum PickupType pickupType; //Type of pickup - bow, sword, health etc.
+	enum Pickups pickupType; //Type of pickup - bow, sword, health etc.
 	u8 pickupSub; //Sub Type of pickup - for health and coins this is the
 				  //number of coin/health. For weapons this is the weapon type
 
@@ -62,6 +62,8 @@ typedef struct Player{
 
 	u8 health;
 	u8 coins;
+	u8 heldweapons;
+	WeaponType selectedWeapon;
 
     //Width and height
     u8 spriteWidth;
@@ -77,6 +79,7 @@ extern void UpdateAllPickups();
 extern void UpdatePickup(Pickup* a_entity);
 
 extern Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange);
+extern void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType);
 extern void DisablePickup(Pickup* a_pickup);
 extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 
