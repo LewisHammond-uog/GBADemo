@@ -19,7 +19,6 @@ void InitParticle(Particle* a_p){
 ParticleSystem InitParticleSystem(Emitter* a_partEmitter, SpriteObject a_sprite, SpriteObject* a_memLocation){
 	
 	ParticleSystem ps;
-
 	for(s32 i =0; i < 32; ++i){
 		EmitParticle(&ps.particles, a_partEmitter);
 		particleOAM[i] = a_sprite;
@@ -42,6 +41,7 @@ void UpdateParticle(Particle* a_p, Emitter* a_e){
 extern void UpdateParticleSystem(ParticleSystem* a_ps, Emitter* a_e){
 
 	for(s32 i = 0; i < 32; ++i){
+
 		//update each particle
 		UpdateParticle(&a_ps->particles[i], a_e);
 		//update oam Buffer wioth new particle pos

@@ -80,6 +80,12 @@ int main()
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
 		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
 
+	SpriteObject* sprite4 = &obj_buffer[3];
+	SetupSprite(sprite4,  
+		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(sx, 0, 1), 
+		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
+
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
 	
@@ -88,7 +94,6 @@ int main()
 	emitter.y = Int2Fix(100);
 	ParticleSystem testSys = InitParticleSystem(&emitter, *sprite2, &obj_buffer[1]);
 	
-
 	/*-------END OF TESTING PARTICLES------*/
 	
 	Vector2 pos;
@@ -103,8 +108,10 @@ int main()
 	InitPickupMem();
 	Pickup* t = InitPickup(0, sprite3, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
-	
-	//Entity e = InitEntity(sprite2, pos, 16,16);
+
+	Vector2 epos;
+	epos.x = SCREEN_W >> 1;
+	epos.y = SCREEN_H >> 1;
 
 	while (1) { //loop forever
 		vblank_int_wait();
@@ -112,7 +119,6 @@ int main()
 
 		UpdatePlayer(&p);
 		UpdateAllPickups();
-
 
 		//Update player particles 
 		UpdateParticleSystem(&testSys, &emitter);

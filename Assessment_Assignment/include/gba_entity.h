@@ -68,7 +68,7 @@ typedef struct Player{
     //Width and height
     u8 spriteWidth;
     u8 spriteHeight;
-}PACKED(4) Player, Enemy;
+}PACKED(4) Player;
 
 //Array to store all of the created Pickups
 #define MAX_PICKUPS 16
@@ -81,6 +81,7 @@ extern void UpdatePickup(Pickup* a_entity);
 extern Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange);
 extern void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType);
 extern void DisablePickup(Pickup* a_pickup);
+
 extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 
 #endif //__GBA_ENTITIY_H__
