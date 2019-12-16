@@ -116,7 +116,7 @@ void UpdatePlayer(Player* a_player){
 
     //Do Attack Check
     if(KeyHit(Key_Attack)){
-
+        CheckForAttack(a_player);
     }
 }
 
@@ -134,9 +134,16 @@ void CheckForPickup(Player* a_player){
 
 }
 
-//Checks if there is any enimies in range and applies damange to them
 void CheckForAttack(Player* a_player){
 
+    //Loop through all pickups and check if we are close enough to that pickup, pick it up
+    for(u8 i = 0; i < MAX_ENEMIES; i++){
+        Enemy* currentEnemy = createdEnemies[i];
+        if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (0)){
+            //Pick up item
+            int j = 0;
+        }
+    }
 }
 
 //Pick up an item

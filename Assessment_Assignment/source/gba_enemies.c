@@ -20,6 +20,9 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
     newEnemy.worldPos = a_worldPos;
     //Set screen pos to 0 as we need to work out if we are visible on screen or not
     Vector2 zero = {0,0};
+    newEnemy.spd.x = GBARandRange(-1 , 2);
+    newEnemy.spd.y = GBARandRange(-1 , 2);
+    newEnemy.screenPos = zero;
 
     //Enable Enemy
     newEnemy.enabled = true;
@@ -32,16 +35,12 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
 
 void UpdateEnemy(Enemy* a_enemy){
 
-    //Random Walk
-    s8 vsp = GBARandRange(-1 , 1);
-    s8 hsp = GBARandRange(-1 , 1);
-
-    if(CheckCollision(&(a_enemy->worldPos), hsp, 0) != 1){
-        a_enemy->worldPos.x += hsp;
-    }
-
-    if(CheckCollision(&(a_enemy->worldPos), 0, vsp) != 1){
-        a_enemy->worldPos.y += vsp;
+    if(CheckCollision(&(a_enemy->worldPos), a_enemy->spd.x, a_enemy->spd.y) != 1){
+        a_enemy->worldPos.x += a_enemy->spd.x;
+        a_enemy->worldPos.y += a_enemy->spd.y;
+    }else{
+        a_enemy->spd.x = GBARandRange(-1 , 2);
+        a_enemy->spd.y = GBARandRange(-1 , 2);
     }
 
     //Check if Enemy should be visible
@@ -78,5 +77,4 @@ void UpdateEnemy(Enemy* a_enemy){
             }
         }
     }
-
 }

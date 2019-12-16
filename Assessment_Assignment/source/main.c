@@ -61,27 +61,27 @@ int main()
 
 	oam_init(obj_buffer, 128);
 
-	SpriteObject* sprite = &obj_buffer[0];
-	SetupSprite(sprite,  
+	SpriteObject* playerSprite = &obj_buffer[0];
+	SetupSprite(playerSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(PlayerSpriteLocation, A2_PRIORITY_0, 0));
 
 		
-	SpriteObject* sprite2 = &obj_buffer[1];
-	SetupSprite(sprite2,  
+	SpriteObject* particleSprite = &obj_buffer[1];
+	SetupSprite(particleSprite,  
 		SetSpriteObjectAttribute0(-1, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(-1, 0, 1), 
 		SetSpriteObjectAttribute2(ParticleSpriteLocation, A2_PRIORITY_0, 0));
 
-	SpriteObject* sprite3 = &obj_buffer[2];
-	SetupSprite(sprite3,  
+	SpriteObject* coinSprite = &obj_buffer[2];
+	SetupSprite(coinSprite,  
 		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx-5, 0, 1), 
 		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
 
-	SpriteObject* sprite4 = &obj_buffer[3];
-	SetupSprite(sprite4,  
+	SpriteObject* heartSprite = &obj_buffer[3];
+	SetupSprite(heartSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
@@ -92,7 +92,7 @@ int main()
 	Emitter emitter;
 	emitter.x = Int2Fix(100);
 	emitter.y = Int2Fix(100);
-	ParticleSystem testSys = InitParticleSystem(&emitter, *sprite2, &obj_buffer[1]);
+	ParticleSystem testSys = InitParticleSystem(&emitter, *particleSprite, &obj_buffer[1]);
 	
 	/*-------END OF TESTING PARTICLES------*/
 	
@@ -100,19 +100,20 @@ int main()
 	pos.x = SCREEN_W >> 1;
 	pos.y = SCREEN_H >> 1;
 
-	Player p = InitPlayer(sprite, pos, 16, 16);
+	Player p = InitPlayer(playerSprite, pos, 16, 16);
 
 	pos.x = SCREEN_W;
 	pos.y = SCREEN_H >> 1;
 
 	InitPickupMem();
-	Pickup* t = InitPickup(0, sprite3, pos, 16, 16, 100);
+	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
 
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = SCREEN_H >> 1;
-	Enemy test = InitEnemy(0, sprite4, epos, 16, 16);
+	Enemy test = InitEnemy(0, heartSprite, epos, 16, 16);
+	createdEnemies[0] = &test;
 
 	while (1) { //loop forever
 		vblank_int_wait();
