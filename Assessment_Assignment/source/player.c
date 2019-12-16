@@ -108,7 +108,9 @@ void UpdatePlayer(Player* a_player){
 
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
-    SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
+
+    //Set Weapon Position
+    SetSpriteScreenPos(a_player->weaponSprite, a_player->screenPos.x + 10, a_player->screenPos.y);
 
     //Do Pickup Check
     if(KeyHit(Key_Pickup)){

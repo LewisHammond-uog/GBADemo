@@ -130,6 +130,8 @@ int main()
 		vblank_int_wait();
 		PollKeys();
 
+		p.weaponSprite = swordSprite;
+
 		UpdatePlayer(&p);
 		UpdateAllPickups();
 		UpdateEnemy(&testEnemy);
@@ -138,8 +140,6 @@ int main()
 		UpdateParticleSystem(&testSys, &emitter);
 		emitter.x = Int2Fix(p.screenPos.x);
 		emitter.y = Int2Fix(p.screenPos.y);
-
-		SetSpriteScreenPos(swordSprite, p.screenPos.x + 10, p.screenPos.y);
 
 		oam_copy(MEM_OAM, obj_buffer, 128);
 	}

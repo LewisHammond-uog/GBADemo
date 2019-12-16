@@ -176,7 +176,7 @@ BIT     DESCRIPTION
 //Functions to actaully do things to sprites
 extern void SetupSprite(SpriteObject* a_sprite, u16 a_attribute0, u16 a_attribute1, u16 a_attribute2);
 extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
-extern Vector2* GetSpriteScreenPos(SpriteObject* a_sprite);
+extern Vector2 GetSpriteScreenPos(SpriteObject* a_sprite);
 extern u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape);
 extern u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size);
 extern void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index);

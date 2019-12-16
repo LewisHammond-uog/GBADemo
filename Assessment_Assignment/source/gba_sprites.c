@@ -26,12 +26,12 @@ void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y){
 }
 
 //Get Sprite Position
-Vector2* GetSpriteScreenPos(SpriteObject* a_sprite){
+Vector2 GetSpriteScreenPos(SpriteObject* a_sprite){
 
     Vector2 newPos;
     newPos.x = a_sprite->attr1 & A1_XPOS_MASK;
     newPos.y = a_sprite->attr0 & A0_YPOS_MASK;
-    return &newPos;  
+    return newPos;  
 
 }
 
