@@ -16,7 +16,7 @@ typedef struct Enemy{
 	bool visible;
     bool enabled;
 
-	u8 health;
+	s8 health;
 
     //Width and height
     u8 spriteWidth;
@@ -27,6 +27,7 @@ typedef struct Enemy{
 #define MAX_ENEMIES 16
 Enemy* createdEnemies[MAX_ENEMIES];
 
+extern void InitEnemyMem();
 extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
 extern void UpdateEnemy(Enemy* a_enemy);
 

@@ -1,10 +1,21 @@
 #include "gba_enemies.h"
 
 
+void InitEnemyMem(){
+
+    //Set memory to zero - removing existing pickups
+    for(u16 i = 0; i < MAX_ENEMIES; i++){
+        Enemy newEnemy;
+        createdEnemies[i] = &newEnemy;
+        createdEnemies[i]->enabled = false;
+    }
+
+}
+
 extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
     
     //Check that ID is less than max pickups
-    if(a_id > MAX_PICKUPS){
+    if(a_id > MAX_ENEMIES){
         return;
     }
 
@@ -23,6 +34,8 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
     newEnemy.spd.x = GBARandRange(-1 , 2);
     newEnemy.spd.y = GBARandRange(-1 , 2);
     newEnemy.screenPos = zero;
+
+    newEnemy.health = 3;
 
     //Enable Enemy
     newEnemy.enabled = true;
@@ -76,5 +89,9 @@ void UpdateEnemy(Enemy* a_enemy){
                 a_enemy->visible = false;
             }
         }
+    }
+
+    if(a_enemy->health <= 0){
+        int  i = 0;
     }
 }

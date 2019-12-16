@@ -25,6 +25,15 @@ typedef enum Weapons{
 	Bow = 0x04
 } WeaponType;
 
+//Weapon Damages
+#define WeaponDamange_SwordSmall 1
+#define WeaponDamange_SwordLarge 3
+#define WeaponDamange_SwordBow 0
+
+#define WeaponRange_SwordSmall 40
+#define WeaponRange_SwordLarge 100
+#define WeaponRange_Bow 0
+
 //Struct for a pickup-able object. Has base entity that 
 //has drawing animation frame and position
 typedef struct Pickup{

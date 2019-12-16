@@ -134,14 +134,34 @@ void CheckForPickup(Player* a_player){
 
 }
 
+//Checks if there are any enimies that can be attacked and attacks them
 void CheckForAttack(Player* a_player){
 
-    //Loop through all pickups and check if we are close enough to that pickup, pick it up
-    for(u8 i = 0; i < MAX_ENEMIES; i++){
-        Enemy* currentEnemy = createdEnemies[i];
-        if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (0)){
-            //Pick up item
-            int j = 0;
+    //Check that the player has a weapon
+    if(a_player->heldweapons != 0){
+
+        //Setup Damage, set by whichever weapon we have
+        s8 damage = 0;
+        s16 range = 0;
+
+        if(CheckWeapon(a_player->heldweapons, SwordSmall)){
+            damage = WeaponDamange_SwordSmall;
+            range = WeaponRange_SwordSmall;
+        }
+
+        if(CheckWeapon(a_player->heldweapons, SwordSmall)){
+            damage = WeaponDamange_SwordLarge;
+            range = WeaponRange_SwordLarge;
+        }
+
+        //Apply Attack on Nearby Enimies
+        //Loop through all enemy and check if we are close enough to that enemy, attack it
+        for(u8 i = 0; i < MAX_ENEMIES; i++){
+            Enemy* currentEnemy = createdEnemies[i];
+            if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range)){
+                //Reduce Enemy Health
+                currentEnemy->health -= damage;
+            }
         }
     }
 }

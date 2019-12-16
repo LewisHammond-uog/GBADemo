@@ -109,6 +109,7 @@ int main()
 	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
 
+	InitEnemyMem();
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = SCREEN_H >> 1;
