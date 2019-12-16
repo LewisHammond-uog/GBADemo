@@ -8,6 +8,7 @@
 #include "gba_tiles.h"
 #include "gba_sprites.h"
 #include "gba_backgrounds.h"
+#include "spritelocations.h"
 
 #include "player.h"
 
@@ -16,51 +17,43 @@
 #include "LVL1BG_Externs.h"
 #include "GameSprites.h"
 
-//Defines for sprite locations
-#define PlayerSpriteLocation 0
-#define ParticleSpriteLocation 40
-#define SwordPickupLocation 80
-#define HeartPickupLocation 88
-#define CoinPickupLocation 96
 
 int main()
 {
-
+	//Register that we want to catch a v-blank
 	register_vblank_isr();
 
 	//set GBA rendering context to MODE 0 Tile Rendering and enable 1D sprites enable backgrounds 0 & 1
 	REG_DISPCNT = VIDEOMODE_0 | ENABLE_OBJECTS | MAPPING_MODE_1D | BGMODE_0 | BGMODE_1;
 
 	/*-------BACKGROUNDS-------*/
-
 	//Generate Background Register Controller Info
 	u16 bg0RegData = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
-	//u16 bg1RegData = SetBGControlRegister( 0, 0, 0, 0, 18, 0, BG_REG_SIZE_64x32);
 
 	//Background Pallet and Tile info
-	PalletInfo pallet = {bgPalette, bgPaletteSize};
+	PalletInfo bgPallet = {bgPalette, bgPaletteSize};
 	TilesInfo tiles = {bgTiles, bgTilesSize};
 
 	//Initalise BG Memory and load backgrounds into memory
-	InitBGMem(0, &pallet, &tiles);
+	InitBGMem(0, &bgPallet, &tiles);
 	InitBackground(0, 8, 64, 32, bgMap, bg0RegData);
-	//InitBackground(1, 8, 64, 32, bgMapLayer1, bg1RegData);
 
 	/*-------END OF BACKGROUNDS-------*/
 
 	/*-------SPRITES-------*/
-	//Copy Pallet in to memory
+	//Copy sprite pallet in to memory
 	memcpy(PAL_SP_BLOCK(0), GameSpritesPal, GameSpritesPalLen);
-	
-	//There is enough memory to load our sprite in to sprite tile mem
+	//Copy all of the sprites in to memory
 	memcpy(sprite_tile_address(0), GameSpritesTiles, GameSpritesTilesLen);
 
-	//Set up the first sprite in tiles
+	//Get a position in the direct center of the screen
 	s16 sx = (SCREEN_W >> 1) - 8;
 	s16 sy = (SCREEN_H >> 1) - 8;
 
+	//Initalise the Object Buffer
 	oam_init(obj_buffer, 128);
 
+	//Create Sprites for different items on the screen
 	SpriteObject* playerSprite = &obj_buffer[0];
 	SetupSprite(playerSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
@@ -91,6 +84,7 @@ int main()
 		SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, 1), 
 		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
+	obj_buffer[6] = obj_buffer[4];
 
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
@@ -102,20 +96,20 @@ int main()
 	
 	/*-------END OF TESTING PARTICLES------*/
 	
+	//Initalise Player to the center of the screen
 	Vector2 pos;
 	pos.x = SCREEN_W >> 1;
 	pos.y = SCREEN_H >> 1;
-
 	Player p = InitPlayer(playerSprite, pos, 16, 16);
 
+	//Initalise Pickup Memory and create a test pickup
+	InitPickupMem();
 	pos.x = SCREEN_W;
 	pos.y = SCREEN_H >> 1;
-
-	InitPickupMem();
 	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
 
-
+	//Initalise Enemy Memory and create a test enemy
 	InitEnemyMem();
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
@@ -123,24 +117,26 @@ int main()
 	Enemy testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
 	createdEnemies[0] = &testEnemy;
 
-	s32 x = 0;
-	
-
 	while (1) { //loop forever
 		vblank_int_wait();
+
+		//Get the keys that have been pressed
 		PollKeys();
 
 		p.weaponSprite = swordSprite;
 
+		//Update Player, Pickups and Enimies
 		UpdatePlayer(&p);
 		UpdateAllPickups();
 		UpdateEnemy(&testEnemy);
 
-		//Update player particles 
+		//Update player particles and set emitter to player's
+		//position
 		UpdateParticleSystem(&testSys, &emitter);
 		emitter.x = Int2Fix(p.screenPos.x);
 		emitter.y = Int2Fix(p.screenPos.y);
 
+		//Copy sprites from the buffer in to OAM
 		oam_copy(MEM_OAM, obj_buffer, 128);
 	}
 	return 0;
