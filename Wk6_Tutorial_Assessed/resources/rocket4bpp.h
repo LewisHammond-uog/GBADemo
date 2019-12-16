@@ -20,7 +20,7 @@
 #define rocket4bppTilesLen 1024
 extern const unsigned short rocket4bppTiles[512];
 
-#define rocket4bppPalLen 30
+#define rocket4bppPalLen 32
 extern const unsigned short rocket4bppPal[16];
 
 #endif // GRIT_ROCKET4BPP_H

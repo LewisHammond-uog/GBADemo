@@ -37,8 +37,8 @@ int main()
 	int scale_ofs = 4;
 
 	SpriteObject* sprite = &obj_buffer[0];
-	sprite->attr0 = SetSpriteObjectAttribute0(x, A0_MODE_AFF_DBL, A0_GFX_MODE_REG, 0, A0_COLOUR_MODE_4BPP, A0_SHAPE_TALL);
-	sprite->attr1 = SetSpriteObjectAttribute1(y, 0, A1_SIZE_3);
+	sprite->attr0 = SetSpriteObjectAttribute0(y, A0_MODE_AFF_DBL, A0_GFX_MODE_REG, 0, A0_COLOUR_MODE_4BPP, A0_SHAPE_TALL);
+	sprite->attr1 = SetSpriteObjectAttribute1(x, 0, A1_SIZE_3);
 	sprite->attr2 = SetSpriteObjectAttribute2(0, 0, 0);
 	SetAttribute1AffineIndex(sprite,0);
 	sprite->attr2 = 0;

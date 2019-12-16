@@ -221,8 +221,8 @@ BIT     DESCRIPTION
 */
 #define A0_GFX_MODE_MASK        0x0C00 //Mask to not overflow/underflow
 #define A0_GFX_MODE_REG         0x0 //Regular Mode
-#define A0_GFX_MODE_BLEND       0x400 //Semi Transparent
-#define A0_GFX_MODE_WINDOW      0x800 //Window
+#define A0_GFX_MODE_BLEND       0x1//Semi Transparent
+#define A0_GFX_MODE_WINDOW      0x2 //Window
 #define A0_GFX_MODE_SHIFT       10 //Number of bits to shift to set mode, in set mode macro
 #define A0_GFX_MODE(n)          ((n << A0_GFX_MODE_SHIFT) & A0_GFX_MODE_MASK)
 /*
@@ -236,7 +236,7 @@ BIT     DESCRIPTION
 */
 #define A0_COLOUR_MODE_MASK     0x2000
 #define A0_COLOUR_MODE_4BPP     0x0
-#define A0_COLOUR_MODE_8BPP     0x2000
+#define A0_COLOUR_MODE_8BPP     0x1
 #define A0_COLOUR_MODE_SHIFT    13
 #define A0_COLOUR_MODE(n)      ((n << A0_COLOUR_MODE_SHIFT) & A0_COLOUR_MODE_MASK)
 /*
@@ -244,8 +244,8 @@ BIT     DESCRIPTION
 */
 #define A0_SHAPE_MASK           0xC000
 #define A0_SHAPE_SQUARE         0x0       
-#define A0_SHAPE_WIDE           0x4000
-#define A0_SHAPE_TALL           0x8000
+#define A0_SHAPE_WIDE           0x1
+#define A0_SHAPE_TALL           0x2
 #define A0_SHAPE_SHIFT          14
 #define A0_SHAPE(n)             ((n << A0_SHAPE_SHIFT) & A0_SHAPE_MASK)
 /*-------End of Attribute 0--------*/
@@ -267,7 +267,7 @@ BIT     DESCRIPTION
 */
 #define A1_AFFINE_INDEX_MASK    0x3E00
 #define A1_AFFINE_INDEX_SHIFT   0x9
-#define A1_AFFINE_INDEX(n)      ((n << A1_FLIP_SHIFT) & A1_FLIP_MASK)
+#define A1_AFFINE_INDEX(n)      ((n << A1_AFFINE_INDEX_SHIFT) & A1_AFFINE_INDEX_MASK)
 
 #define A1_FLIP_MASK            0x3000
 #define A1_H_FLIP               1

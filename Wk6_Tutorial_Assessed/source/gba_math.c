@@ -52,11 +52,11 @@ fixed fixDiv(fixed a_fa, fixed a_fb){
 
 /*----Look Up Tables----*/
 s32 LU_Sin(u32 a_theta){
-    return sin_lut[(a_theta >> 7) & sin_lut_size];
+    return sin_lut[(a_theta >> 7) & 0x1FF];
 }
 
 s32 LU_Cos(u32 a_theta){
-    return sin_lut[((a_theta >> 7) + 128) & sin_lut_size]; 
+    return sin_lut[((a_theta >> 7) + 128) & 0x1FF]; 
 }
 
 
