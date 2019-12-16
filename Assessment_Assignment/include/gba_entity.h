@@ -61,6 +61,7 @@ typedef struct Pickup{
 //of operational differences
 typedef struct Player{
 	SpriteObject* sprite;
+	SpriteObject* weaponSprite;
 	Vector2 screenPos; //Position on the screen
 	Vector2 worldPos; //Position in the world
 	u16 frame; //Current Animation Frame

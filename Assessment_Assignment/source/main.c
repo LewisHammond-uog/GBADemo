@@ -86,6 +86,12 @@ int main()
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
 
+	SpriteObject* swordSprite = &obj_buffer[4];
+	SetupSprite(swordSprite,  
+		SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, 1), 
+		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
+
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
 	
@@ -109,12 +115,16 @@ int main()
 	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
 
+
 	InitEnemyMem();
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = SCREEN_H >> 1;
-	Enemy test = InitEnemy(0, heartSprite, epos, 16, 16);
-	createdEnemies[0] = &test;
+	Enemy testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
+	createdEnemies[0] = &testEnemy;
+
+	s32 x = 0;
+	
 
 	while (1) { //loop forever
 		vblank_int_wait();
@@ -122,25 +132,14 @@ int main()
 
 		UpdatePlayer(&p);
 		UpdateAllPickups();
-		UpdateEnemy(&test);
+		UpdateEnemy(&testEnemy);
 
 		//Update player particles 
 		UpdateParticleSystem(&testSys, &emitter);
 		emitter.x = Int2Fix(p.screenPos.x);
 		emitter.y = Int2Fix(p.screenPos.y);
-		
-		/*
-		if(KeyHit(A)){
-			InitBGMem(0, &pallet, &tiles);
-			InitBackground(0, 8, 64, 32, bgMap, NULL);
-		}
 
-		if(KeyHit(B)){
-			InitBGMem(0, &pallet, &tiles);
-			InitBackground(0, 8, 64, 32, bgMap, bg0RegData);
-		}
-		*/
-
+		SetSpriteScreenPos(swordSprite, p.screenPos.x + 10, p.screenPos.y);
 
 		oam_copy(MEM_OAM, obj_buffer, 128);
 	}

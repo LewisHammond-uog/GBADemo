@@ -45,7 +45,7 @@ void UpdatePlayer(Player* a_player){
     collsionCheckPos.x = a_player->worldPos.x + (a_player->spriteWidth >> 1);
     collsionCheckPos.y = a_player->worldPos.y + (a_player->spriteHeight >> 1);
     
-    
+    //----Movement----//
     if(vsp != 0){
         //Check Collision
         if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
@@ -80,7 +80,9 @@ void UpdatePlayer(Player* a_player){
         }
     }
 
-    if(vsp!=0 || hsp!=0){
+    //Set Weapon Sprite Position
+    //----Animation----//
+    if(vsp !=0 || hsp!=0){
         //Advance frame counter
         a_player->frameCounter += FrameProgression;
         
@@ -104,10 +106,9 @@ void UpdatePlayer(Player* a_player){
     //Set Sprite Frame in Mem
     a_player->sprite->attr2 = SetSpriteObjectAttribute2(a_player->frame, A2_PRIORITY_0, 0);
 
-
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
-
+    SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
 
     //Do Pickup Check
     if(KeyHit(Key_Pickup)){
@@ -126,6 +127,7 @@ void CheckForPickup(Player* a_player){
     //Loop through all pickups and check if we are close enough to that pickup, pick it up
     for(u8 i = 0; i < MAX_PICKUPS; i++){
         Pickup* currentPickup = &createdPickups[i];
+        //Check that we are both in range and the pickup is enabled
         if(Vector2DistSqrd(currentPickup->worldPos, a_player->worldPos) < (currentPickup->pickupRange * currentPickup->pickupRange) && currentPickup->enabled){
             //Pick up item
             PickupItem(a_player,currentPickup);
@@ -149,7 +151,7 @@ void CheckForAttack(Player* a_player){
             range = WeaponRange_SwordSmall;
         }
 
-        if(CheckWeapon(a_player->heldweapons, SwordSmall)){
+        if(CheckWeapon(a_player->heldweapons, SwordLarge)){
             damage = WeaponDamange_SwordLarge;
             range = WeaponRange_SwordLarge;
         }
@@ -158,7 +160,7 @@ void CheckForAttack(Player* a_player){
         //Loop through all enemy and check if we are close enough to that enemy, attack it
         for(u8 i = 0; i < MAX_ENEMIES; i++){
             Enemy* currentEnemy = createdEnemies[i];
-            if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range)){
+            if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range) && currentEnemy->enabled){
                 //Reduce Enemy Health
                 currentEnemy->health -= damage;
             }

@@ -48,16 +48,17 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
 
 void UpdateEnemy(Enemy* a_enemy){
 
-    if(CheckCollision(&(a_enemy->worldPos), a_enemy->spd.x, a_enemy->spd.y) != 1){
-        a_enemy->worldPos.x += a_enemy->spd.x;
-        a_enemy->worldPos.y += a_enemy->spd.y;
-    }else{
-        a_enemy->spd.x = GBARandRange(-1 , 2);
-        a_enemy->spd.y = GBARandRange(-1 , 2);
-    }
+    if(a_enemy->enabled){
+        if(CheckCollision(&(a_enemy->worldPos), a_enemy->spd.x, a_enemy->spd.y) != 1){
+            a_enemy->worldPos.x += a_enemy->spd.x;
+            a_enemy->worldPos.y += a_enemy->spd.y;
+        }else{
+            a_enemy->spd.x = GBARandRange(-1 , 2);
+            a_enemy->spd.y = GBARandRange(-1 , 2);
+        }
 
     //Check if Enemy should be visible
-    if(a_enemy->enabled){
+   
         //Get current screen offset
         Vector2 currentOffset = GetBackgroundOffset(0);
 
@@ -77,9 +78,8 @@ void UpdateEnemy(Enemy* a_enemy){
                 a_enemy->visible = true;
             }
 
-            a_enemy->screenPos = screenPos;
-
             //Update screen pos
+            a_enemy->screenPos = screenPos;
             SetSpriteScreenPos(a_enemy->sprite, screenPos.x, screenPos.y);
 
         }else{
@@ -91,7 +91,9 @@ void UpdateEnemy(Enemy* a_enemy){
         }
     }
 
+    //If we have no health then disable this object
     if(a_enemy->health <= 0){
-        int  i = 0;
+        a_enemy->enabled = false;
+        HideSpriteObject(a_enemy->sprite);
     }
 }
