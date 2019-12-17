@@ -20,17 +20,18 @@ typedef enum Pickups{
 
 //Enum for weapons
 typedef enum Weapons{
+	None = 0x00,
 	SwordSmall = 0x01,
-	SwordLarge = 0x02,
-	Bow = 0x04
 } WeaponType;
+
+#define WeaponCount 0x4
 
 //Weapon Damages
 #define WeaponDamange_SwordSmall 1
 #define WeaponDamange_SwordLarge 3
 #define WeaponDamange_SwordBow 0
 
-#define WeaponRange_SwordSmall 40
+#define WeaponRange_SwordSmall 20
 #define WeaponRange_SwordLarge 100
 #define WeaponRange_Bow 0
 
@@ -72,7 +73,7 @@ typedef struct Player{
 
 	u8 health;
 	u8 coins;
-	u8 heldweapons;
+	u8 heldWeapons;
 	WeaponType selectedWeapon;
 
     //Width and height

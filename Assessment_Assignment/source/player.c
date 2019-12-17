@@ -27,7 +27,8 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
 
     newPlayer.health = 0;
     newPlayer.coins = 0;
-    newPlayer.heldweapons = 0;
+    newPlayer.heldWeapons = 0;
+    newPlayer.selectedWeapon = None;
 
     return newPlayer;
 }
@@ -112,6 +113,17 @@ void UpdatePlayer(Player* a_player){
     //Set Weapon Position
     SetSpriteScreenPos(a_player->weaponSprite, a_player->screenPos.x + 10, a_player->screenPos.y);
 
+    //Check if we are want to change weapon
+    if(KeyHit(L) || KeyHit(R)){
+        if(a_player->selectedWeapon == SwordSmall){
+            a_player->selectedWeapon = None;
+            HideSpriteObject(a_player->weaponSprite);
+        }else if(a_player->selectedWeapon == None && CheckWeapon(a_player->heldWeapons, SwordSmall)){
+            a_player->selectedWeapon = SwordSmall;
+            UnHideSpriteObject(a_player->weaponSprite, A0_MODE_REG);
+        }
+    }
+
     //Do Pickup Check
     if(KeyHit(Key_Pickup)){
         CheckForPickup(a_player);
@@ -142,32 +154,29 @@ void CheckForPickup(Player* a_player){
 void CheckForAttack(Player* a_player){
 
     //Check that the player has a weapon
-    if(a_player->heldweapons != 0){
+    if(a_player->heldWeapons == 0){
+        return;
+    }
 
-        //Setup Damage, set by whichever weapon we have
-        s8 damage = 0;
-        s16 range = 0;
+    //Setup Damage, set by whichever weapon we have
+    s8 damage = 0;
+    s16 range = 0;
 
-        if(CheckWeapon(a_player->heldweapons, SwordSmall)){
-            damage = WeaponDamange_SwordSmall;
-            range = WeaponRange_SwordSmall;
-        }
+    if(a_player->selectedWeapon == SwordSmall){
+        damage = WeaponDamange_SwordSmall;
+        range = WeaponRange_SwordSmall;
+    }
 
-        if(CheckWeapon(a_player->heldweapons, SwordLarge)){
-            damage = WeaponDamange_SwordLarge;
-            range = WeaponRange_SwordLarge;
-        }
-
-        //Apply Attack on Nearby Enimies
-        //Loop through all enemy and check if we are close enough to that enemy, attack it
-        for(u8 i = 0; i < MAX_ENEMIES; i++){
-            Enemy* currentEnemy = createdEnemies[i];
-            if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range) && currentEnemy->enabled){
-                //Reduce Enemy Health
-                currentEnemy->health -= damage;
-            }
+    //Apply Attack on Nearby Enimies
+    //Loop through all enemy and check if we are close enough to that enemy, attack it
+    for(u8 i = 0; i < MAX_ENEMIES; i++){
+        Enemy* currentEnemy = createdEnemies[i];
+        if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range) && currentEnemy->enabled){
+            //Reduce Enemy Health
+            currentEnemy->health -= damage;
         }
     }
+    
 }
 
 //Pick up an item
@@ -183,7 +192,7 @@ void PickupItem(Player* a_player, Pickup* a_pickup){
         a_player->coins += a_pickup->pickupSub;
     case Weapon:
         //Activate Weapon for player
-        a_player->heldweapons =  GiveWeapon(a_player->heldweapons, a_pickup->pickupSub);
+        a_player->heldWeapons =  GiveWeapon(a_player->heldWeapons, a_pickup->pickupSub);
         break;
     default:
         break;
@@ -203,6 +212,7 @@ u8 GiveWeapon(u8 a_weapons, WeaponType a_toActivate){
 bool CheckWeapon(u8 a_weapons, WeaponType a_toCheck){
     return (a_weapons & a_toCheck);
 }
+
 
 
 //Checks if we should scroll the map

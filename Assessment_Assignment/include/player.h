@@ -20,6 +20,8 @@
 //Key Defines
 #define Key_Pickup A
 #define Key_Attack B
+#define Key_WeaponPrev L
+#define Key_WeaponNext R
 
 //Player Update Functions
 extern Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);

@@ -79,12 +79,13 @@ int main()
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
 
-	SpriteObject* swordSprite = &obj_buffer[4];
-	SetupSprite(swordSprite,  
-		SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+	//Sprite to store the currently held player weapon
+	//start is as hidden until we know the player has a weapon
+	SpriteObject* playerHeldSprite = &obj_buffer[4];
+	SetupSprite(playerHeldSprite,  
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, 1), 
 		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
-	obj_buffer[6] = obj_buffer[4];
 
 	/*--------END OF SPRITES-------*/
 	/*-------TESTING PARTICLES------*/
@@ -101,6 +102,7 @@ int main()
 	pos.x = SCREEN_W >> 1;
 	pos.y = SCREEN_H >> 1;
 	Player p = InitPlayer(playerSprite, pos, 16, 16);
+	p.weaponSprite = playerHeldSprite;
 
 	//Initalise Pickup Memory and create a test pickup
 	InitPickupMem();
@@ -122,8 +124,6 @@ int main()
 
 		//Get the keys that have been pressed
 		PollKeys();
-
-		p.weaponSprite = swordSprite;
 
 		//Update Player, Pickups and Enimies
 		UpdatePlayer(&p);
