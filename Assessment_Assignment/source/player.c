@@ -25,10 +25,12 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     newPlayer.frame = 0;
     newPlayer.frameCounter = Int2Fix(0);
 
+    //Setup Health, Coins and Weapons
     newPlayer.health = 0;
     newPlayer.coins = 0;
     newPlayer.heldWeapons = 0;
     newPlayer.selectedWeapon = None;
+    newPlayer.weaponHoldDirection = 1;
 
     return newPlayer;
 }
@@ -79,7 +81,12 @@ void UpdatePlayer(Player* a_player){
                 a_player->screenPos.x += hsp;
             }
         }
+
+        //Set Horizontal of the sprite
         SetSpriteHorizontalFlip(a_player->sprite, hsp);   
+        
+        //Update Direction of the held weapon
+        a_player->weaponHoldDirection = hsp;
     }
 
 
@@ -102,6 +109,7 @@ void UpdatePlayer(Player* a_player){
             //Reset Frame Counter
             a_player->frameCounter = Int2Fix(0);
         }
+
     }else{
         a_player->frame = 0;
     }
@@ -111,9 +119,9 @@ void UpdatePlayer(Player* a_player){
 
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
-
-    //Set Weapon Position
-    SetSpriteScreenPos(a_player->weaponSprite, a_player->screenPos.x + 10, a_player->screenPos.y);
+    
+    //Update Held Weapon Position
+    SetSpriteScreenPos(a_player->weaponSprite, a_player->screenPos.x + (PlayerWeaponHoldDist * a_player->weaponHoldDirection), a_player->screenPos.y);
 
     //Check if we are want to change weapon
     if(KeyHit(L) || KeyHit(R)){

@@ -174,22 +174,29 @@ BIT     DESCRIPTION
 #define PAL_SP_BLOCK(n) (PAL_SP_MEM + (n & 0xF) * 16)
 
 //Functions to actaully do things to sprites
+//OAM Setup
+extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count);
+extern void oam_init(SpriteObject* obj, u8 count);
+
+//Sprite Setup
 extern void SetupSprite(SpriteObject* a_sprite, u16 a_attribute0, u16 a_attribute1, u16 a_attribute2);
-extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
-extern Vector2 GetSpriteScreenPos(SpriteObject* a_sprite);
 extern u16 SetSpriteObjectAttribute0(u8 a_y, u8 a_objectMode, u8 a_gfxMode, u8 a_mosaic, u8 a_colourMode, u8 a_shape);
 extern u16 SetSpriteObjectAttribute1(u16 a_x, u8 a_flip, u8 a_size);
 extern void SetAttribute1AffineIndex(SpriteObject* a_object, u8 a_index);
 extern u16 SetSpriteObjectAttribute2(u16 a_tileIndex, u8 a_priority, u8 a_paletteBank);
-extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count);
-extern void oam_init(SpriteObject* obj, u8 count);
-extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
+extern u16* sprite_tile_address(u16 a_tile_id);
+
+//Sprite Position Manipulation
+extern void SetSpriteScreenPos(SpriteObject* a_sprite, s32 a_x, s32 a_y);
+extern Vector2 GetSpriteScreenPos(SpriteObject* a_sprite);
 extern void ObjAffineIdentity(SpriteAffine* a_object);
 extern void SetSpriteVerticalFlip(SpriteObject* a_sprite, s8 a_direction);
 extern void SetSpriteHorizontalFlip(SpriteObject* a_sprite, s8 horizontal_flip);
+extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
+
+//Hiding Sprites
 extern void HideSpriteObject(SpriteObject* a_obj);
 extern void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode);
-extern u16* sprite_tile_address(u16 a_tile_id);
 
 
 #endif //__GBA_SPRITES_H__

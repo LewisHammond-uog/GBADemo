@@ -17,6 +17,9 @@
 //Frames in player Animation
 #define PlayerFrames 32
 
+//Distance the player holds the weapon away from them
+#define PlayerWeaponHoldDist 12
+
 //Key Defines
 #define Key_Pickup A
 #define Key_Attack B

@@ -75,6 +75,7 @@ typedef struct Player{
 	u8 coins;
 	u8 heldWeapons;
 	WeaponType selectedWeapon;
+	u8 weaponHoldDirection; //Side of the player to hold the weapon on (-1,1) - updated by hsp
 
     //Width and height
     u8 spriteWidth;
