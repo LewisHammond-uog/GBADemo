@@ -8,7 +8,6 @@
 #include "gba_tiles.h"
 #include "gba_sprites.h"
 #include "gba_backgrounds.h"
-#include "spritelocations.h"
 
 #include "player.h"
 
@@ -77,7 +76,7 @@ int main()
 	SetupSprite(heartSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
-		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
+		SetSpriteObjectAttribute2(EnemySpriteLocation, A2_PRIORITY_0, 0));
 
 	//Sprite to store the currently held player weapon
 	//start is as hidden until we know the player has a weapon

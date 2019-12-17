@@ -5,7 +5,8 @@
 
 //Defines for sprite locations
 #define PlayerSpriteLocation 0
-#define ParticleSpriteLocation 40
+#define EnemySpriteLocation 40
+#define ParticleSpriteLocation 72
 #define SwordPickupLocation 80
 #define HeartPickupLocation 88
 #define CoinPickupLocation 96

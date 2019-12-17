@@ -1,6 +1,7 @@
 #ifndef __GBA_SPRITES_H__
 #define __GBA_SPRITES_H__
 
+#include "spritelocations.h"
 #include "gba_tiles.h"
 
 //To enable sprites we need to set a bit in our REG_DISPC

@@ -1,7 +1,6 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-
 #include "gba_input.h"
 #include "gba_enemies.h"
 
@@ -26,14 +25,16 @@
 #define Key_WeaponPrev L
 #define Key_WeaponNext R
 
-//Player Update Functions
+//Player Init/Update Functions
 extern Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
 extern void UpdatePlayer(Player* a_sprite);
 
+//Pickup Items and check for attacking
 extern void PickupItem(Player* a_player, Pickup* a_pickup);
 extern void CheckForPickup(Player* a_player);
 extern void CheckForAttack(Player* a_player);
 
+//Give and check if the player has a weapon
 extern u8 GiveWeapon(u8 a_weapons, WeaponType a_toActivate);
 extern bool CheckWeapon(u8 a_weapons, WeaponType a_toCheck);
 

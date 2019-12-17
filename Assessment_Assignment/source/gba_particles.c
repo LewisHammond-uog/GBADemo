@@ -47,7 +47,7 @@ extern void UpdateParticleSystem(ParticleSystem* a_ps, Emitter* a_e){
 		//update oam Buffer wioth new particle pos
 		SetSpriteScreenPos(&(particleOAM[i]), Fix2Int(a_ps->particles[i].x), Fix2Int(a_ps->particles[i].y));
 
-		particleOAM[i].attr2 = SetSpriteObjectAttribute2(40, 0, 1);
+		particleOAM[i].attr2 = SetSpriteObjectAttribute2(ParticleSpriteLocation, 0, 1);
 	}
 
 }
