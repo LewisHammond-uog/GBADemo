@@ -92,6 +92,34 @@ void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alp
     a_object->pd = cos*a_sy >> 12;
 }
 
+//Set the Horitonzal Flip of a sprite
+//a_sprite - sprite to change
+//a_direction - direction to set flip to (1 = standard, -1 = inverted)
+void SetSpriteHorizontalFlip(SpriteObject* a_sprite, s8 a_direction) {
+    if (a_direction == -1) {
+        /* set the bit */
+        a_sprite->attr1 |= 0x1000;
+    } else {
+        /* clear the bit */
+        a_sprite->attr1 &= 0xefff;
+    }
+}
+
+//Set the Vertical Flip of a sprite
+//a_sprite - sprite to change
+//a_direction - direction to set flip to (1 = standard, -1 = inverted)
+void SetSpriteVerticalFlip(SpriteObject* a_sprite, s8 a_direction) {
+    if (a_direction == -1) {
+        /* set the bit */
+        a_sprite->attr1 |= 0x2000;
+    } else {
+        /* clear the bit */
+        a_sprite->attr1 &= 0xdfff;
+    }
+}
+
+
+
 
 //Copies sprites from obj_buffer to OAM Memory
 void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_count){

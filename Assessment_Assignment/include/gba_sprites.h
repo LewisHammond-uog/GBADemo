@@ -185,6 +185,8 @@ extern void oam_copy(SpriteObject* a_destination, SpriteObject* a_source, u8 a_c
 extern void oam_init(SpriteObject* obj, u8 count);
 extern void ObjAffineRotScale(SpriteAffine* a_object, fixed a_sx, fixed a_sy, u16 a_alpha);
 extern void ObjAffineIdentity(SpriteAffine* a_object);
+extern void SetSpriteVerticalFlip(SpriteObject* a_sprite, s8 a_direction);
+extern void SetSpriteHorizontalFlip(SpriteObject* a_sprite, s8 horizontal_flip);
 extern void HideSpriteObject(SpriteObject* a_obj);
 extern void UnHideSpriteObject(SpriteObject* a_obj, u8 a_mode);
 extern u16* sprite_tile_address(u16 a_tile_id);

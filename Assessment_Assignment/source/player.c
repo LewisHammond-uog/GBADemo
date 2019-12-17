@@ -79,7 +79,9 @@ void UpdatePlayer(Player* a_player){
                 a_player->screenPos.x += hsp;
             }
         }
+        SetSpriteHorizontalFlip(a_player->sprite, hsp);   
     }
+
 
     //Set Weapon Sprite Position
     //----Animation----//
