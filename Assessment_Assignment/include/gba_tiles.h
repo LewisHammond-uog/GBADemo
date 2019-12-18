@@ -38,8 +38,8 @@ typedef TILE8 TILEBLOCK8[256];
 //Struct for Tile Info, stores tiles and tile size info
 //Can also be used for pallet info
 typedef struct TilesInfo{
-    u16* data;
-    u16 size; //Size of data not tiles themselves
+    const u16* data;
+    const u16 size; //Size of data not tiles themselves
 } TilesInfo, PalletInfo;
 
 #endif //__GBA_TILES_H__

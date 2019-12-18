@@ -25,6 +25,7 @@ int main()
 	//set GBA rendering context to MODE 0 Tile Rendering and enable 1D sprites enable backgrounds 0 & 1
 	REG_DISPCNT = VIDEOMODE_0 | ENABLE_OBJECTS | MAPPING_MODE_1D | BGMODE_0 | BGMODE_1;
 
+	#pragma region Backgronds
 	/*-------BACKGROUNDS-------*/
 	//Generate Background Register Controller Info
 	u16 bg0RegData = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
@@ -39,6 +40,9 @@ int main()
 
 	/*-------END OF BACKGROUNDS-------*/
 
+	#pragma endregion
+
+	#pragma region Sprites
 	/*-------SPRITES-------*/
 	//Copy sprite pallet in to memory
 	memcpy(PAL_SP_BLOCK(0), GameSpritesPal, GameSpritesPalLen);
@@ -87,15 +91,22 @@ int main()
 		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
 
 	/*--------END OF SPRITES-------*/
-	/*-------TESTING PARTICLES------*/
+
+	#pragma endregion
+	
+	#pragma region Particles
+	/*-------PARTICLES------*/
 	
 	Emitter emitter;
 	emitter.x = Int2Fix(100);
 	emitter.y = Int2Fix(100);
-	ParticleSystem testSys = InitParticleSystem(&emitter, *particleSprite, &obj_buffer[1]);
+	ParticleSystem playerParticles = InitParticleSystem(&emitter, *particleSprite, &obj_buffer[1]);
 	
-	/*-------END OF TESTING PARTICLES------*/
+	/*-------END OF PARTICLES------*/
+	#pragma endregion
 	
+	#pragma region Object Intitalisation
+
 	//Initalise Player to the center of the screen
 	Vector2 pos;
 	pos.x = SCREEN_W >> 1;
@@ -117,6 +128,8 @@ int main()
 	epos.y = (SCREEN_H >> 1) - 20;
 	Enemy* testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
 
+	#pragma endregion
+
 	while (1) { //loop forever
 		vblank_int_wait();
 
@@ -130,7 +143,7 @@ int main()
 		
 		//Update player particles and set emitter to player's
 		//position
-		UpdateParticleSystem(&testSys, &emitter);
+		UpdateParticleSystem(&playerParticles, &emitter);
 		emitter.x = Int2Fix(p.screenPos.x);
 		emitter.y = Int2Fix(p.screenPos.y);
 

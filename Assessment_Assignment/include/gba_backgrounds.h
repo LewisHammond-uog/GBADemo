@@ -1,6 +1,8 @@
 #ifndef __GBA_BACKGROUNDS_H__
 #define __GBA_BACKGROUNDS_H__
 
+#include <string.h>
+
 #include "gba_tiles.h"
 #include "gba_drawing.h"
 

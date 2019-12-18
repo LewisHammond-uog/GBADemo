@@ -6,8 +6,8 @@ extern void InitPickupMem(){
     //Set memory to zero - removing existing pickups
     for(u16 i = 0; i < MAX_PICKUPS - 1; i++){
         Pickup newPickup;
+        newPickup.enabled = false;
         createdPickups[i] = newPickup;
-        createdPickups[i].enabled = false;
     }
     
 }
@@ -33,7 +33,7 @@ Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_wid
     
     //Check that ID is less than max pickups
     if(a_id > MAX_PICKUPS){
-        return;
+        return NULL;
     }
 
     //Assign Sprite
@@ -48,6 +48,7 @@ Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_wid
     newPickup.worldPos = a_worldPos;
     //Set screen pos to 0 as we need to work out if we are visible on screen or not
     Vector2 zero = {0,0};
+    newPickup.screenPos = zero;
 
     //Set pickup range
     newPickup.pickupRange = a_pickupRange;
