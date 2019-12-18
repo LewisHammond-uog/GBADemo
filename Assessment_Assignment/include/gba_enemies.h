@@ -28,8 +28,8 @@ typedef struct Enemy{
 #define EnemyFrames 24
 
 //Array to store enimies 
-#define MAX_ENEMIES 16
-Enemy createdEnemies[MAX_ENEMIES];
+#define ENEMY_COUNT 6
+Enemy createdEnemies[ENEMY_COUNT];
 
 extern void InitEnemyMem();
 extern Enemy* InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);

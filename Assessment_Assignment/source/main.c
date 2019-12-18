@@ -16,7 +16,6 @@
 #include "LVL1BG_Externs.h"
 #include "GameSprites.h"
 
-
 int main()
 {
 	//Register that we want to catch a v-blank
@@ -67,9 +66,14 @@ int main()
 	19 - 35	= Pickups
 	36 - 52	= Enimies
 	------*/
+	const s8 playerSpriteOAM = 0;
+	const s8 playerHeldOAM = 1;
+	const s8 particleStartOAM = 2;
+	const s8 pickupStartOAM = 19;
+	const s8 enemyStartOAM = 36;
 
 	//Player Sprite
-	SpriteObject* playerSprite = &obj_buffer[0];
+	SpriteObject* playerSprite = &obj_buffer[playerSpriteOAM];
 	SetupSprite(playerSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, A1_SIZE_1), 
@@ -77,7 +81,7 @@ int main()
 
 	//Player Held Weapon Sprite
 	//Initalised to disabled as it won't be visible at the start
-	SpriteObject* playerHeldSprite = &obj_buffer[1];
+	SpriteObject* playerHeldSprite = &obj_buffer[playerHeldOAM];
 	SetupSprite(playerHeldSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
@@ -85,35 +89,39 @@ int main()
 
 	//Sprite for particles
 	//is duplicated by InitParticleSystem Function
-	SpriteObject* particleSprite = &obj_buffer[2];
+	SpriteObject* particleSprite = &obj_buffer[particleStartOAM];
 	SetupSprite(particleSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(ParticleSpriteLocation, A2_PRIORITY_0, 0));
 
 	//Coin, Heart and Weapon Pickups
-	SpriteObject* coinSprite = &obj_buffer[19];
+	SpriteObject* coinSprite = &obj_buffer[pickupStartOAM];
 	SetupSprite(coinSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
-	SpriteObject* heartSprite = &obj_buffer[20];
+	SpriteObject* heartSprite = &obj_buffer[pickupStartOAM + 1];
 	SetupSprite(heartSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
-	SpriteObject* weaponSprite = &obj_buffer[21];
+	SpriteObject* weaponSprite = &obj_buffer[pickupStartOAM + 2];
 	SetupSprite(weaponSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
 
 	//Enemy Sprite
-	SpriteObject* enemySprite = &obj_buffer[36];
+	SpriteObject* enemySprite = &obj_buffer[enemyStartOAM];
 	SetupSprite(enemySprite,  
-		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(sx, 0, 1), 
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, 1), 
 		SetSpriteObjectAttribute2(EnemySpriteLocation, A2_PRIORITY_0, 0));
+	//Duplicate 5 more times - total of 6 - in OAM
+	for(int i = 1; i < ENEMY_COUNT; ++i){
+		obj_buffer[enemyStartOAM + i] = obj_buffer[enemyStartOAM];
+	}
 
 	/*--------END OF SPRITES-------*/
 
@@ -146,12 +154,12 @@ int main()
 	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
 	SetPickupType(t, Weapon, SwordSmall);
 
-	//Initalise Enemy Memory and create a test enemy
+	//Loop and create enemies at correct positions
 	InitEnemyMem();
-	Vector2 epos;
-	epos.x = SCREEN_W >> 1;
-	epos.y = (SCREEN_H >> 1) - 20;
-	Enemy* testEnemy = InitEnemy(0, enemySprite, epos, 16, 16);
+	Vector2 enemyPositions[ENEMY_COUNT] = {{57,165}, {99, 165}, {355,151}, {442,151}, {355,200}, {442,200}};
+	for(int i = 1; i < ENEMY_COUNT; ++i){
+		InitEnemy(i, &(obj_buffer[enemyStartOAM + i]), enemyPositions[i], 16, 16);
+	}
 
 	#pragma endregion
 

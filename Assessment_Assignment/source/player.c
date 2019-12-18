@@ -113,7 +113,7 @@ void UpdatePlayer(Player* a_player){
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
     
-    //Update Held Weapon Position
+    //Update Held Weapon Position and frame of animation
     SetSpriteScreenPos(a_player->weaponSprite, a_player->screenPos.x + (PlayerWeaponHoldDist * a_player->weaponHoldDirection), a_player->screenPos.y);
 
     //Check if we are want to change weapon
@@ -172,14 +172,14 @@ void CheckForAttack(Player* a_player){
 
     //Apply Attack on Nearby Enimies
     //Loop through all enemy and check if we are close enough to that enemy, attack it
-    for(u8 i = 0; i < MAX_ENEMIES; i++){
+    for(u8 i = 0; i < ENEMY_COUNT; i++){
         Enemy* currentEnemy = &createdEnemies[i];
         if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range) && currentEnemy->enabled){
             //Reduce Enemy Health
             currentEnemy->health -= damage;
         }
     }
-    
+
 }
 
 //Pick up an item
