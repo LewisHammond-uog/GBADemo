@@ -26,6 +26,7 @@ int main()
 	REG_DISPCNT = VIDEOMODE_0 | ENABLE_OBJECTS | MAPPING_MODE_1D | BGMODE_0 | BGMODE_1;
 
 	#pragma region Backgronds
+
 	/*-------BACKGROUNDS-------*/
 	//Generate Background Register Controller Info
 	u16 bg0RegData = SetBGControlRegister( 1, 0, 0, 0, 16, 0, BG_REG_SIZE_64x32);
@@ -44,6 +45,7 @@ int main()
 
 	#pragma region Sprites
 	/*-------SPRITES-------*/
+
 	//Copy sprite pallet in to memory
 	memcpy(PAL_SP_BLOCK(0), GameSpritesPal, GameSpritesPalLen);
 	//Copy all of the sprites in to memory
@@ -56,39 +58,62 @@ int main()
 	//Initalise the Object Buffer
 	oam_init(obj_buffer, 128);
 
-	//Create Sprites for different items on the screen
+	/*------
+	OAM MEMORY LAYOUT
+	LOCATION  SPRITE
+	0 		= Player Sprite 
+	1 		= Player Held Weapon
+	2 - 18 	= Particles
+	19 - 35	= Pickups
+	36 - 52	= Enimies
+	------*/
+
+	//Player Sprite
 	SpriteObject* playerSprite = &obj_buffer[0];
 	SetupSprite(playerSprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(sx, 0, 1), 
+		SetSpriteObjectAttribute1(sx, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(PlayerSpriteLocation, A2_PRIORITY_0, 0));
 
-		
-	SpriteObject* particleSprite = &obj_buffer[1];
+	//Player Held Weapon Sprite
+	//Initalised to disabled as it won't be visible at the start
+	SpriteObject* playerHeldSprite = &obj_buffer[1];
+	SetupSprite(playerHeldSprite,  
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
+		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
+
+	//Sprite for particles
+	//is duplicated by InitParticleSystem Function
+	SpriteObject* particleSprite = &obj_buffer[2];
 	SetupSprite(particleSprite,  
-		SetSpriteObjectAttribute0(-1, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(-1, 0, 1), 
+		SetSpriteObjectAttribute0(0, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(ParticleSpriteLocation, A2_PRIORITY_0, 0));
 
-	SpriteObject* coinSprite = &obj_buffer[2];
+	//Coin, Heart and Weapon Pickups
+	SpriteObject* coinSprite = &obj_buffer[19];
 	SetupSprite(coinSprite,  
-		SetSpriteObjectAttribute0(sy+10, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(sx-5, 0, 1), 
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
-
-	SpriteObject* heartSprite = &obj_buffer[3];
+	SpriteObject* heartSprite = &obj_buffer[20];
 	SetupSprite(heartSprite,  
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
+		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
+	SpriteObject* weaponSprite = &obj_buffer[21];
+	SetupSprite(weaponSprite,  
+		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
+		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
+		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
+
+	//Enemy Sprite
+	SpriteObject* enemySprite = &obj_buffer[36];
+	SetupSprite(enemySprite,  
 		SetSpriteObjectAttribute0(sy, A0_MODE_REG, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(sx, 0, 1), 
 		SetSpriteObjectAttribute2(EnemySpriteLocation, A2_PRIORITY_0, 0));
-
-	//Sprite to store the currently held player weapon
-	//start is as hidden until we know the player has a weapon
-	SpriteObject* playerHeldSprite = &obj_buffer[4];
-	SetupSprite(playerHeldSprite,  
-		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
-		SetSpriteObjectAttribute1(0, 0, 1), 
-		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
 
 	/*--------END OF SPRITES-------*/
 
@@ -126,7 +151,7 @@ int main()
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = (SCREEN_H >> 1) - 20;
-	Enemy* testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
+	Enemy* testEnemy = InitEnemy(0, enemySprite, epos, 16, 16);
 
 	#pragma endregion
 

@@ -65,6 +65,7 @@ typedef struct Player{
 	SpriteObject* weaponSprite;
 	Vector2 screenPos; //Position on the screen
 	Vector2 worldPos; //Position in the world
+	
 	u16 frame; //Current Animation Frame
 	fixed frameCounter; //Counter for current frame time
 

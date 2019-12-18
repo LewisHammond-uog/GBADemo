@@ -12,6 +12,9 @@ typedef struct Enemy{
 
 	Vector2 spd;
 
+	u16 frame; //Current Animation Frame
+	fixed frameCounter; //Counter for current frame time
+
 	//Currently visible
 	bool visible;
     bool enabled;
@@ -21,6 +24,8 @@ typedef struct Enemy{
     //Width and height
     Vector2 size;
 }PACKED(4) Enemy;
+
+#define EnemyFrames 24
 
 //Array to store enimies 
 #define MAX_ENEMIES 16

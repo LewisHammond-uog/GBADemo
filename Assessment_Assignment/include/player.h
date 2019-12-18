@@ -11,8 +11,6 @@
 //Max Health
 #define MaxHealth 3
 
-//Amount that the animation progresses per frame
-#define FrameProgression 0x80
 //Frames in player Animation
 #define PlayerFrames 32
 

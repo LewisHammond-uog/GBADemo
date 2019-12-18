@@ -98,6 +98,27 @@ void UpdateEnemy(Enemy* a_enemy){
             a_enemy->screenPos = screenPos;
             SetSpriteScreenPos(a_enemy->sprite, screenPos.x, screenPos.y);
 
+            //Animate
+            //Advance frame counter
+            a_enemy->frameCounter += FrameProgression;
+            
+            //Check if frame counter is > 1
+            if(Fix2Int(a_enemy->frameCounter) > 1){
+                //Advance Frame by 8
+                a_enemy->frame += 4 << 1;
+
+                //Check if frame is over our frame count and reset
+                if(a_enemy->frame > EnemyFrames){
+                    a_enemy->frame = 0;
+                }
+
+                //Reset Frame Counter
+                a_enemy->frameCounter = Int2Fix(0);
+            }
+
+            //Set Sprite Frame in Mem
+            a_enemy->sprite->attr2 = SetSpriteObjectAttribute2(EnemySpriteLocation + a_enemy->frame, A2_PRIORITY_0, 0);
+
         }else{
             //Make sure sprite is hidden
             if(a_enemy->visible){

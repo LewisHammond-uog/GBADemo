@@ -172,6 +172,9 @@ BIT     DESCRIPTION
 
 #pragma endregion
 
+//Amount that the animation progresses per frame
+#define FrameProgression 0x80
+
 //Get block of memory for sprite pallet
 #define PAL_SP_BLOCK(n) (PAL_SP_MEM + (n & 0xF) * 16)
 

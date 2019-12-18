@@ -84,8 +84,6 @@ void UpdatePlayer(Player* a_player){
         a_player->weaponHoldDirection = hsp;
     }
 
-
-    //Set Weapon Sprite Position
     //----Animation----//
     if(vsp !=0 || hsp!=0){
         //Advance frame counter
@@ -110,7 +108,7 @@ void UpdatePlayer(Player* a_player){
     }
 
     //Set Sprite Frame in Mem
-    a_player->sprite->attr2 = SetSpriteObjectAttribute2(a_player->frame, A2_PRIORITY_0, 0);
+    a_player->sprite->attr2 = SetSpriteObjectAttribute2(PlayerSpriteLocation + a_player->frame, A2_PRIORITY_0, 0);
 
     //Set Sprite Screen Position
     SetSpriteScreenPos(a_player->sprite, a_player->screenPos.x, a_player->screenPos.y);
