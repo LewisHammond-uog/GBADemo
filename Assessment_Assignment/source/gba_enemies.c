@@ -6,13 +6,13 @@ void InitEnemyMem(){
     //Set memory to zero - removing existing pickups
     for(u16 i = 0; i < MAX_ENEMIES; i++){
         Enemy newEnemy;
-        createdEnemies[i] = &newEnemy;
-        createdEnemies[i]->enabled = false;
+        createdEnemies[i] = newEnemy;
+        createdEnemies[i].enabled = false;
     }
 
 }
 
-extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
+extern Enemy* InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height){
     
     //Check that ID is less than max pickups
     if(a_id > MAX_ENEMIES){
@@ -48,10 +48,19 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
     newEnemy.enabled = true;
 
     //Add Enemy to array
-    return newEnemy;
+    createdEnemies[a_id] = newEnemy;
+    return &createdEnemies[a_id];
 
 }
 
+void UpdateAllEnemies(){
+
+    //Set memory to zero - removing existing pickups
+    for(u16 i = 0; i < MAX_ENEMIES; i++){
+        UpdateEnemy(&createdEnemies[i]);
+    }
+
+}
 
 void UpdateEnemy(Enemy* a_enemy){
 

@@ -175,7 +175,7 @@ void CheckForAttack(Player* a_player){
     //Apply Attack on Nearby Enimies
     //Loop through all enemy and check if we are close enough to that enemy, attack it
     for(u8 i = 0; i < MAX_ENEMIES; i++){
-        Enemy* currentEnemy = createdEnemies[i];
+        Enemy* currentEnemy = &createdEnemies[i];
         if(Vector2DistSqrd(currentEnemy->worldPos, a_player->worldPos) < (range*range) && currentEnemy->enabled){
             //Reduce Enemy Health
             currentEnemy->health -= damage;

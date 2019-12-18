@@ -24,10 +24,11 @@ typedef struct Enemy{
 
 //Array to store enimies 
 #define MAX_ENEMIES 16
-Enemy* createdEnemies[MAX_ENEMIES];
+Enemy createdEnemies[MAX_ENEMIES];
 
 extern void InitEnemyMem();
-extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
+extern Enemy* InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height);
+extern void UpdateAllEnemies();
 extern void UpdateEnemy(Enemy* a_enemy);
 
 #endif //__GBA_ENEMIES_H__

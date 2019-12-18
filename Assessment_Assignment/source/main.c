@@ -115,8 +115,7 @@ int main()
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
 	epos.y = (SCREEN_H >> 1) - 20;
-	Enemy testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
-	createdEnemies[0] = &testEnemy;
+	Enemy* testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
 
 	while (1) { //loop forever
 		vblank_int_wait();
@@ -127,8 +126,8 @@ int main()
 		//Update Player, Pickups and Enimies
 		UpdatePlayer(&p);
 		UpdateAllPickups();
-		UpdateEnemy(&testEnemy);
-
+		UpdateAllEnemies();
+		
 		//Update player particles and set emitter to player's
 		//position
 		UpdateParticleSystem(&testSys, &emitter);
