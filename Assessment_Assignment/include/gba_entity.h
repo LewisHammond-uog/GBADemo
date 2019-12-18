@@ -78,8 +78,7 @@ typedef struct Player{
 	u8 weaponHoldDirection; //Side of the player to hold the weapon on (-1,1) - updated by hsp
 
     //Width and height
-    u8 spriteWidth;
-    u8 spriteHeight;
+    Vector2 size;
 }PACKED(4) Player;
 
 //Array to store all of the created Pickups
@@ -94,6 +93,7 @@ extern Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u
 extern void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType);
 extern void DisablePickup(Pickup* a_pickup);
 
+extern u8 AABBWallCollision(Vector2 a_pos, Vector2 a_size, s8 a_hsp, s8 a_vsp);
 extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 
 #endif //__GBA_ENTITIY_H__

@@ -4,6 +4,19 @@
         "gba_types.h": "c",
         "streambuf": "c",
         "gba_gfx.h": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "array": "c",
+        "deque": "c",
+        "initializer_list": "c",
+        "list": "c",
+        "queue": "c",
+        "random": "c",
+        "type_traits": "c",
+        "vector": "c",
+        "xhash": "c",
+        "xstring": "c",
+        "xutility": "c",
+        "string_view": "c",
+        "utility": "c"
     }
 }

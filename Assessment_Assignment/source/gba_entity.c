@@ -111,6 +111,31 @@ void DisablePickup(Pickup* a_pickup){
     a_pickup->enabled = false;
 }
 
+//Check AABB Collsion against a wall
+//a_pos - Position to Check
+//a_spd - Speed that the object is moving at
+//a_size - Size of the object to check
+u8 AABBWallCollision(Vector2 a_pos, Vector2 a_size, s8 a_hsp, s8 a_vsp){
+
+    //Get Sprite Cordinates (i.e top left, top right, bottom left, bottom right)
+    Vector2 topLeft = a_pos;
+    Vector2 topRight = {a_pos.x + a_size.x, a_pos.y};
+    Vector2 bottomLeft = {a_pos.x, a_pos.y + a_size.y};
+    Vector2 bottomRight = {a_pos.x + a_size.x, a_pos.y + a_size.y};
+
+    //Form Speed Vector
+    Vector2 spd = {a_hsp, a_vsp};
+
+    if(CheckCollision(&topLeft, spd.x, spd.y) ||
+    CheckCollision(&topRight, spd.x, spd.y)   ||
+    CheckCollision(&bottomLeft, spd.x, spd.y) ||
+    CheckCollision(&bottomRight, spd.x, spd.y)){
+        return 1;
+    }
+
+    return 0;
+}
+
 //Check a collision at a point infront of the player 
 //a_pos - Current Player Position
 //a_addX - Position difference from player (X Direction)

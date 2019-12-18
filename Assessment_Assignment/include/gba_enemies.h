@@ -19,8 +19,7 @@ typedef struct Enemy{
 	s8 health;
 
     //Width and height
-    u8 spriteWidth;
-    u8 spriteHeight;
+    Vector2 size;
 }PACKED(4) Enemy;
 
 //Array to store enimies 

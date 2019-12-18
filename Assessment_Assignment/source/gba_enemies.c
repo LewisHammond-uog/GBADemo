@@ -27,6 +27,10 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
     HideSpriteObject(a_sprite);
     newEnemy.visible = false;
 
+    //Set sprite width and height values
+    Vector2 enemySize = {a_width, a_height};
+    newEnemy.size = enemySize;
+
     //Set world pos
     newEnemy.worldPos = a_worldPos;
     //Set screen pos to 0 as we need to work out if we are visible on screen or not
@@ -36,6 +40,9 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
     newEnemy.screenPos = zero;
 
     newEnemy.health = 3;
+
+    //Set Size
+    
 
     //Enable Enemy
     newEnemy.enabled = true;
@@ -49,7 +56,7 @@ extern Enemy InitEnemy(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a
 void UpdateEnemy(Enemy* a_enemy){
 
     if(a_enemy->enabled){
-        if(CheckCollision(&(a_enemy->worldPos), a_enemy->spd.x, a_enemy->spd.y) != 1){
+        if(!AABBWallCollision(a_enemy->worldPos, a_enemy->size, a_enemy->spd.x, a_enemy->spd.y)){
             a_enemy->worldPos.x += a_enemy->spd.x;
             a_enemy->worldPos.y += a_enemy->spd.y;
         }else{

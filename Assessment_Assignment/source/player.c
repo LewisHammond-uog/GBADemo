@@ -16,8 +16,8 @@ Player InitPlayer(SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_h
     newPlayer.screenPos = a_worldPos;
 
     //Set sprite width and height values
-    newPlayer.spriteWidth = a_width;
-    newPlayer.spriteHeight = a_height;
+    Vector2 playerSize = {a_width, a_height};
+    newPlayer.size = playerSize;
 
     //Set visible
     UnHideSpriteObject(a_sprite, A0_MODE_REG);
@@ -42,16 +42,11 @@ void UpdatePlayer(Player* a_player){
     //Check Player input
     s8 vsp = -getAxis(VERTICAL); //Vertical Speed
     s8 hsp = getAxis(HORIZONTAL); //Horizontal Speed
-
-    //Calculate Position to check collision at
-    Vector2 collsionCheckPos;
-    collsionCheckPos.x = a_player->worldPos.x + (a_player->spriteWidth >> 1);
-    collsionCheckPos.y = a_player->worldPos.y + (a_player->spriteHeight >> 1);
     
     //----Movement----//
     if(vsp != 0){
         //Check Collision
-        if(CheckCollision(&collsionCheckPos,0,vsp) != 1){
+        if(!AABBWallCollision(a_player->worldPos, a_player->size, 0, vsp)){
             //Check if we are on the edge of the screen
             if(CheckMapScroll(a_player, 0, vsp) && MapScrollInBounds(0, 0, vsp)){
                 //Scroll the background
@@ -68,7 +63,7 @@ void UpdatePlayer(Player* a_player){
 
     if(hsp != 0){
         //Check Collision
-        if(CheckCollision(&collsionCheckPos,hsp,0) != 1){
+        if(!AABBWallCollision(a_player->worldPos, a_player->size, hsp, 0)){
             //Check if we are on the edge of the screen
             if(CheckMapScroll(a_player, hsp, 0) && MapScrollInBounds(0, hsp, 0)){
                 //Scroll the background

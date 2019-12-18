@@ -99,7 +99,7 @@ int main()
 	//Initalise Player to the center of the screen
 	Vector2 pos;
 	pos.x = SCREEN_W >> 1;
-	pos.y = SCREEN_H >> 1;
+	pos.y = (SCREEN_H >> 1) - 20;
 	Player p = InitPlayer(playerSprite, pos, 16, 16);
 	p.weaponSprite = playerHeldSprite;
 
@@ -114,7 +114,7 @@ int main()
 	InitEnemyMem();
 	Vector2 epos;
 	epos.x = SCREEN_W >> 1;
-	epos.y = SCREEN_H >> 1;
+	epos.y = (SCREEN_H >> 1) - 20;
 	Enemy testEnemy = InitEnemy(0, heartSprite, epos, 16, 16);
 	createdEnemies[0] = &testEnemy;
 
