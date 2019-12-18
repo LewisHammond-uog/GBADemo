@@ -28,10 +28,10 @@ extern s32 Fix2Int(fixed a_f);
 extern float Fix2Float(fixed a_f); //NEVER USE ON GBA HARDWARE
 
 //Fixed Point Math Functions
-extern fixed FixAdd(fixed a_fa, fixed a_fb);
-extern fixed FixSub(fixed a_fa, fixed a_fb);
-extern fixed FixMul(fixed a_fa, fixed a_fb);
-extern fixed FixDiv(fixed a_fa, fixed a_fb);
+extern fixed fixAdd(fixed a_fa, fixed a_fb);
+extern fixed fixSub(fixed a_fa, fixed a_fb);
+extern fixed fixMul(fixed a_fa, fixed a_fb);
+extern fixed fixDiv(fixed a_fa, fixed a_fb);
 
 //Vector 2 Distance
 extern s32 Vector2DistSqrd(Vector2 a, Vector2 b);
