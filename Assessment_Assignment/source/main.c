@@ -26,33 +26,43 @@ int main()
 	//Register that we want to catch a v-blank
 	register_vblank_isr();
 
-	//set GBA rendering context to MODE 0 Tile Rendering and enable 1D sprites enable backgrounds 0 & 1
-	REG_DISPCNT = VIDEOMODE_3 | BGMODE_2;
-	memcpy(SCREENBUFFER, img_MenuScreenBitmap, img_MenuScreenBitmapLen);
-	//REG_DISPCNT = VIDEOMODE_0 | ENABLE_OBJECTS | MAPPING_MODE_1D | BGMODE_0;
-
-
 	//Setup Vars that are used by more than 1 games state
 	Player playerObject;
 	ParticleSystem playerParticles;
 	Emitter emitter;
 
+	bool runGame = true;
 
 	//Game Forever Loop
-	while (1) { //loop forever
+	while (runGame) { //loop forever
+
+						
+		//Wait for VBlank before we do any updates
+		vblank_int_wait();
 		
 		//Poll Keys always as they are used across Game States
 		PollKeys();
 
-		if(gameState == MENU){
-			
-			//Wait for Input
-			if(KeyHit(START)){
-				gameState = 1;
-			}
+		//Load Menu
+		if(gameState == MENU_LOAD){
 
+			//set GBA rendering context to MODE 3 for Menu Screen Rendering 
+			REG_DISPCNT = VIDEOMODE_3 | BGMODE_2;
+			memcpy(SCREENBUFFER, img_MenuScreenBitmap, img_MenuScreenBitmapLen);
+
+			gameState = MENU_RUN;
 		}
 
+		//Check for input to advance from menu
+		if(gameState == MENU_RUN){
+			
+			//Wait for Input - Start to begin dem0
+			if(KeyHit(START)){
+				gameState = GAME_LOAD;
+			}
+		}
+
+		//Load Game
 		if(gameState == GAME_LOAD){
 
 			#pragma region Load Game
@@ -253,9 +263,8 @@ int main()
 		
 		}
 
+		//Run Main Game Loop
 		if(gameState == GAME_RUN){
-			//Wait for VBlank before we do any updates
-			vblank_int_wait();
 
 			//Update Player, Pickups and Enimies
 			UpdatePlayer(&playerObject);
@@ -267,8 +276,28 @@ int main()
 			emitter.x = Int2Fix(playerObject.screenPos.x);
 			emitter.y = Int2Fix(playerObject.screenPos.y);
 
+			if(KeyHit(SELECT)){
+				gameState = GAME_RESET;
+			}
+
 			//Copy sprites from the buffer in to OAM
 			oam_copy(MEM_OAM, obj_buffer, 128);
+		}
+
+		//Reset Game back to menu
+		if(gameState == GAME_RESET){
+
+			InitBGMem(0, NULL, NULL);
+			//Copy sprite pallet in to memory
+			memcpy(PAL_SP_BLOCK(0), NULL, GameSpritesPalLen);
+			//Copy all of the sprites in to memory
+			memcpy(sprite_tile_address(0), NULL, GameSpritesTilesLen);
+
+			//Initalise the Object Buffer
+			oam_init(obj_buffer, 128);
+
+			gameState = MENU_LOAD;
+
 		}
 	}
 	return 0;
