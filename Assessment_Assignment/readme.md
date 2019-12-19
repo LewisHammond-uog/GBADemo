@@ -1,28 +1,17 @@
+***How to Play***
+**Menu** 
 
-To get this project to build and run from the root directory, the following files in the **.vscode** directory will need to be modified. On the following lines:
+The game loads in to a menu screen. Simply press “START” to progress in to the demo. 
+ 
+**In Game Controls**
 
-**.c_cpp_properties.json**\
-**Line 3 should read**: "proj_name":"000_Hello_Pixel"\
+The D-Pad is used to walk around the level. 
+Press A to Pickup and item. Coins and hearts are tracked as stats within the player but are not used within the demo. 
+Press B to use the weapon (once one has been picked up). Please note the weapon must be unsheathed (visible) with left bumper (L) 
+Press the Left Bumper (L) to show/hide the weapon. 
+Press Select to reset the demo to the menu screen. 
 
-**launch.json**  
-Line 7 : *"proj_name":"000_Hello_Pixel"* \
-Line 20: *"program": "${workspaceFolder}/000_Hello_Pixel/000_Hello_Pixel.elf",*\
+**Tips** 
 
-**tasks.json**
-Lines 05 - 10 :\
-```JSON
-"options": {
-        "env": {
-          "proj_working_dir": "PWD=000_Hello_Pixel",
-          "proj_name":"000_Hello_Pixel"
-        }
-     },
-```
-
- **Only need to modify if you are using PC** \
-Line 71: *"command": "**path_to_mGBA**/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"* \
-Line 90: *"command": "**path_to_mGBA**/mGBA-0.6.3-win32/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"* \
-**Only need to modify if you are using OS X** \
-Line 74 & 93: *"command": "**path_to_mGBA**/mGBA.app/Contents/MacOS/mGBA",* \
-
-![Look It Works](./images/screenshot.PNG)
+To pickup a pickup you must be standing within 20px and press A. 
+To hit an enemy, you must be within 30px and press B. Enemies have 3 health so hitting them 3 times will kill them.  
