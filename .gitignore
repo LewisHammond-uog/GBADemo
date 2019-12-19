@@ -5,6 +5,7 @@
 **/build/
 .vscode/ipch/
 xxx_*/
+
 *.ss1
 *.docx
 *.pdf

@@ -1,0 +1,1 @@
+For this weeks tutorial session follow along with the video tutorial in creating a simple particle effect for the rocket sprite that we have been using in the previous sessions.

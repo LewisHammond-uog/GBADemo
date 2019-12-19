@@ -1,28 +1,5 @@
+This weeks tutorial session we will implement a fixed point number system and use some fixed point data look up tables to implement some Affine sprite manipulation. This will allow us to use the GBA hardware to rotate and scale sprites. We will be using a base project that is a slight modification to last session's tutorial code. More of the content for the GBA registers defines and other core functionality has been placed into separate headers and source files.
 
-To get this project to build and run from the root directory, the following files in the **.vscode** directory will need to be modified. On the following lines:
+As part of the assessed portion of this tutorial you are to create Sine and Cosine lookup tables that can be utilised by your GBA program. There is an example of a sine generation lookup table provided in this weeks lecture slides. The slide that demonstrates how to implement this lookup table generator is not commented as effectively as it could be, part of the implementation of this weeks code is to add in thorough commenting better indicating the purpose of the code being utilised and some further appropriate commenting on the generated Sine table, generating a separate header and source file would be an improvement on the implementation demonstrated in the lecture slides.
 
-**.c_cpp_properties.json**\
-**Line 3 should read**: "proj_name":"000_Hello_Pixel"\
-
-**launch.json**  
-Line 7 : *"proj_name":"000_Hello_Pixel"* \
-Line 20: *"program": "${workspaceFolder}/000_Hello_Pixel/000_Hello_Pixel.elf",*\
-
-**tasks.json**
-Lines 05 - 10 :\
-```JSON
-"options": {
-        "env": {
-          "proj_working_dir": "PWD=000_Hello_Pixel",
-          "proj_name":"000_Hello_Pixel"
-        }
-     },
-```
-
- **Only need to modify if you are using PC** \
-Line 71: *"command": "**path_to_mGBA**/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"* \
-Line 90: *"command": "**path_to_mGBA**/mGBA-0.6.3-win32/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"* \
-**Only need to modify if you are using OS X** \
-Line 74 & 93: *"command": "**path_to_mGBA**/mGBA.app/Contents/MacOS/mGBA",* \
-
-![Look It Works](./images/screenshot.PNG)
+In the GBA project that you are working on in class tutorials I have simply placed any item that is graphically related into a gba_gfx.h/.c file. It would be a wiser approach to compartmentalise this file's structure even more into a separate gba_oam.h/.c file that contains only those defines and functions which directly relate to Object Attribute Memory and separate this out from the rest of the graphical functionality on the GBA.

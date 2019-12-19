@@ -1,3 +1,5 @@
+**WK1 TUTORIAL**
+
 This week's tutorial will be assessed as part of your assessment for this module. This work will need to be submitted with your assignment on the assignment deadline. For further information please see the Assessment criteria available on this Moodle page.
 
 Ensure that the sample project Hello_GBA is able to be set up and be deployed to the mGBA emulator from within Visual Studio Code and that everything is displayed correctly. Add a breakpoint to ensure that debugging information is available!

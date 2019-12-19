@@ -1,1 +1,1 @@
-# 001_GBA_Hello_Pixel
+This session breaks down the technology behind some of the oldest FPS games that were published. We will be looking at the rendering algorithm behind titles such as Wolfenstien 3D, Eye of the Beholder and early entries in the Wizardry series.

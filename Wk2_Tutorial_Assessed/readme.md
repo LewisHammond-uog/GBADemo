@@ -1,28 +1,7 @@
+This week's tutorial will be assessed as part of your assessment for this module. This work will need to be submitted with your assignment on the assignment deadline. For further information please see the Assessment criteria available on this Moodle page.
+Once basic input is in you should complete the demo version of Pong that is shown in the tutorial video, by adding in collision between the ball and the paddles. Then attempt something more complex like a rudimentary version of Arkanoid, or if you have line and circle drawing implemented then a simple version of Missile Commands control interface.
 
-To get this project to build and run from the root directory, the following files in the **.vscode** directory will need to be modified. On the following lines:
+The v-sync function that we have been making use of is not the best way of handling v-sync. It is quite rudimentary at best to occupy the CPU with a while loop until a certain hardware criteria is me. This is a wast of CPU cycles and on a handheld console is a great way to simply waste battery life.
 
-**.c_cpp_properties.json**\
-**Line 3 should read**: "proj_name":"000_Hello_Pixel"\
-
-**launch.json**  
-Line 7 : *"proj_name":"000_Hello_Pixel"* \
-Line 20: *"program": "${workspaceFolder}/000_Hello_Pixel/000_Hello_Pixel.elf",*\
-
-**tasks.json**
-Lines 05 - 10 :\
-```JSON
-"options": {
-        "env": {
-          "proj_working_dir": "PWD=000_Hello_Pixel",
-          "proj_name":"000_Hello_Pixel"
-        }
-     },
-```
-
- **Only need to modify if you are using PC** \
-Line 71: *"command": "**path_to_mGBA**/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"* \
-Line 90: *"command": "**path_to_mGBA**/mGBA-0.6.3-win32/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"* \
-**Only need to modify if you are using OS X** \
-Line 74 & 93: *"command": "**path_to_mGBA**/mGBA.app/Contents/MacOS/mGBA",* \
-
-![Look It Works](./images/screenshot.PNG)
+The GBA has some built in hardware interrupt features that we can take advantage of to make sure that we have an efficient and more correct way to handle v-sync. The following video tutorial demonstrate how to get set up with hardware interrupts and how to process a vblankwaitInterrupt.
+Make sure that you have implemented the hardware interrupt handling aspect of this tutorial as this method of v-sync is the only method we should be making use of progressing from here in GBA development.

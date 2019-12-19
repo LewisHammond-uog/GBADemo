@@ -1,0 +1,1 @@
+Generates a Sin Lookup Table for GBA hardware
