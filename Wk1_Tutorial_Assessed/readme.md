@@ -1,28 +1,11 @@
+This week's tutorial will be assessed as part of your assessment for this module. This work will need to be submitted with your assignment on the assignment deadline. For further information please see the Assessment criteria available on this Moodle page.
 
-To get this project to build and run from the root directory, the following files in the **.vscode** directory will need to be modified. On the following lines:
+Ensure that the sample project Hello_GBA is able to be set up and be deployed to the mGBA emulator from within Visual Studio Code and that everything is displayed correctly. Add a breakpoint to ensure that debugging information is available!
 
-**.c_cpp_properties.json**\
-**Line 3 should read**: "proj_name":"000_Hello_Pixel"\
+The current state of the Hello_GBA project simply draws four pixels to screen buffer memory and displays these each frame. Your task for this tutorial is to expand upon this sample program and create some functionality to allow  greater control of drawing to the screen. Allowing Boxes, filled and outline to be drawn, lines to be drawn and the colour of each line and box to be set.
 
-**launch.json**  
-Line 7 : *"proj_name":"000_Hello_Pixel"* \
-Line 20: *"program": "${workspaceFolder}/000_Hello_Pixel/000_Hello_Pixel.elf",*\
+You should set about configuring some #defines to map out GBA memory addresses for VRAM and Display Modes . All hardware defines you need are outlined in the GBATEK documentation.
 
-**tasks.json**
-Lines 05 - 10 :\
-```JSON
-"options": {
-        "env": {
-          "proj_working_dir": "PWD=000_Hello_Pixel",
-          "proj_name":"000_Hello_Pixel"
-        }
-     },
-```
+Create type defines for the basic integer input types that will be used throughout this module where there bitsize is denoted in their define E.G. uint8, uint16, uint32 (or simply u8, u16, u32 and s8, s16, and s32 for their signed counterparts).
 
- **Only need to modify if you are using PC** \
-Line 71: *"command": "**path_to_mGBA**/mGBA.exe -g ${workspaceFolder}/$env:proj_name/$env:proj_name.gba;sleep 5;echo debuggerReady"* \
-Line 90: *"command": "**path_to_mGBA**/mGBA-0.6.3-win32/mGBA.exe ${cwd}/$env:proj_name/$env:proj_name.gba"* \
-**Only need to modify if you are using OS X** \
-Line 74 & 93: *"command": "**path_to_mGBA**/mGBA.app/Contents/MacOS/mGBA",* \
-
-![Look It Works](./images/screenshot.PNG)
+Once this has been done create a simple scene that demonstrates coloured boxes moving around the screen. Create some paddle style boxes and a square ball and demonstrate a quick game of pong without any user input. If you want to push your skills you should implement a circle drawing routine using Bresenham's Algorithm
