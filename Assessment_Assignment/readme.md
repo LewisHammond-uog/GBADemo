@@ -1,4 +1,5 @@
 ***How to Play***
+
 **Menu** 
 
 The game loads in to a menu screen. Simply press “START” to progress in to the demo. 
