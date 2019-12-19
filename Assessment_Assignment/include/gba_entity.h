@@ -35,7 +35,7 @@ typedef enum Weapons{
 #define WeaponDamange_SwordBow 0
 
 //Weapon Ranges
-#define WeaponRange_SwordSmall 20
+#define WeaponRange_SwordSmall 30
 #define WeaponRange_SwordLarge 100
 #define WeaponRange_Bow 0
 
