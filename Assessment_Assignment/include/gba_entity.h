@@ -82,9 +82,18 @@ typedef struct Player{
     Vector2 size;
 }PACKED(4) Player;
 
+
+//Defines for each of a given pickup in a level
+#define COIN_PICKUP_COUNT 4
+#define HEART_PICKUP_COUNT 2
+#define SWORD_PICKUP_COUNT 1
+
 //Array to store all of the created Pickups
-#define MAX_PICKUPS 16
-Pickup createdPickups[MAX_PICKUPS];
+#define PICKUP_COUNT COIN_PICKUP_COUNT + HEART_PICKUP_COUNT + SWORD_PICKUP_COUNT
+Pickup createdPickups[PICKUP_COUNT];
+
+//Pickup Range
+#define DEFAULT_PICKUP_RANGE 20
 
 extern void InitPickupMem();
 extern void UpdateAllPickups();

@@ -142,7 +142,7 @@ void UpdatePlayer(Player* a_player){
 void CheckForPickup(Player* a_player){
 
     //Loop through all pickups and check if we are close enough to that pickup, pick it up
-    for(u8 i = 0; i < MAX_PICKUPS; i++){
+    for(u8 i = 0; i < PICKUP_COUNT; i++){
         Pickup* currentPickup = &createdPickups[i];
         //Check that we are both in range and the pickup is enabled
         if(Vector2DistSqrd(currentPickup->worldPos, a_player->worldPos) < (currentPickup->pickupRange * currentPickup->pickupRange) && currentPickup->enabled){

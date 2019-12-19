@@ -4,7 +4,7 @@
 extern void InitPickupMem(){
     
     //Set memory to zero - removing existing pickups
-    for(u16 i = 0; i < MAX_PICKUPS - 1; i++){
+    for(u16 i = 0; i < PICKUP_COUNT - 1; i++){
         Pickup newPickup;
         newPickup.enabled = false;
         createdPickups[i] = newPickup;
@@ -18,7 +18,7 @@ extern void InitPickupMem(){
 void UpdateAllPickups(){
 
     //Loop though all pickups, null check them update them
-    for(u16 i = 0; i < MAX_PICKUPS; i++){
+    for(u16 i = 0; i < PICKUP_COUNT; i++){
         Pickup* currentPickup = &createdPickups[i];
 
         if(currentPickup->enabled){
@@ -32,7 +32,7 @@ void UpdateAllPickups(){
 Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange){
     
     //Check that ID is less than max pickups
-    if(a_id > MAX_PICKUPS){
+    if(a_id > PICKUP_COUNT){
         return NULL;
     }
 

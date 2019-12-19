@@ -101,16 +101,27 @@ int main()
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(CoinPickupLocation, A2_PRIORITY_0, 0));
-	SpriteObject* heartSprite = &obj_buffer[pickupStartOAM + 1];
+	SpriteObject* heartSprite = &obj_buffer[pickupStartOAM + COIN_PICKUP_COUNT];
 	SetupSprite(heartSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(HeartPickupLocation, A2_PRIORITY_0, 0));
-	SpriteObject* weaponSprite = &obj_buffer[pickupStartOAM + 2];
+	SpriteObject* weaponSprite = &obj_buffer[pickupStartOAM + COIN_PICKUP_COUNT + HEART_PICKUP_COUNT];
 	SetupSprite(weaponSprite,  
 		SetSpriteObjectAttribute0(0, A0_MODE_DISABLE, A0_GFX_MODE_REG, 0, 1, A0_SHAPE_SQUARE), 
 		SetSpriteObjectAttribute1(0, 0, A1_SIZE_1), 
 		SetSpriteObjectAttribute2(SwordPickupLocation, A2_PRIORITY_0, 0));
+
+	s8 currentOAMPos = pickupStartOAM; //Current position in OAM starting at pickup start
+	for(s8 i = 0; i < COIN_PICKUP_COUNT; ++i){
+		obj_buffer[currentOAMPos++] = *coinSprite;
+	}
+	for(s8 i = 0; i < HEART_PICKUP_COUNT; ++i){
+		obj_buffer[currentOAMPos++] = *heartSprite;
+	}
+	for(s8 i = 0; i < SWORD_PICKUP_COUNT; ++i){
+		obj_buffer[currentOAMPos++] = *weaponSprite;
+	}
 
 	//Enemy Sprite
 	SpriteObject* enemySprite = &obj_buffer[enemyStartOAM];
@@ -120,7 +131,7 @@ int main()
 		SetSpriteObjectAttribute2(EnemySpriteLocation, A2_PRIORITY_0, 0));
 	//Duplicate 5 more times - total of 6 - in OAM
 	for(int i = 1; i < ENEMY_COUNT; ++i){
-		obj_buffer[enemyStartOAM + i] = obj_buffer[enemyStartOAM];
+		obj_buffer[enemyStartOAM + i] = *enemySprite;
 	}
 
 	/*--------END OF SPRITES-------*/
@@ -141,18 +152,37 @@ int main()
 	#pragma region Object Intitalisation
 
 	//Initalise Player to the center of the screen
-	Vector2 pos;
-	pos.x = SCREEN_W >> 1;
-	pos.y = (SCREEN_H >> 1) - 20;
-	Player p = InitPlayer(playerSprite, pos, 16, 16);
+	Vector2 playerStartPos;
+	playerStartPos.x = 87;
+	playerStartPos.y = 46;
+	Player p = InitPlayer(playerSprite, playerStartPos, 16, 16);
 	p.weaponSprite = playerHeldSprite;
 
-	//Initalise Pickup Memory and create a test pickup
+	//Initalise Pickup Memory and create pickups
 	InitPickupMem();
-	pos.x = SCREEN_W;
-	pos.y = SCREEN_H >> 1;
-	Pickup* t = InitPickup(0, coinSprite, pos, 16, 16, 100);
-	SetPickupType(t, Weapon, SwordSmall);
+	Vector2 coinPositions[COIN_PICKUP_COUNT] = {{65, 23}, {74, 169}, {394, 178}, {464, 28}};
+	Vector2 heartPositions[HEART_PICKUP_COUNT] = {{65, 72} , {220, 196}}; 
+	Vector2 swordPositions[SWORD_PICKUP_COUNT] = {{130, 50}};
+	
+	s8 pickupID = 0;
+	Pickup* currentPickup;
+
+	//Loop through all of the types of pickups and initalise them
+	for(s8 i = 0; i < COIN_PICKUP_COUNT; ++i){
+		currentPickup = InitPickup(pickupID, &obj_buffer[pickupStartOAM + pickupID], coinPositions[i], 16, 16, DEFAULT_PICKUP_RANGE);
+		SetPickupType(currentPickup, Coin, 1);
+		pickupID++;
+	}
+	for(s8 i = 0; i < HEART_PICKUP_COUNT; ++i){
+		currentPickup = InitPickup(pickupID, &obj_buffer[pickupStartOAM + pickupID], heartPositions[i], 16, 16, DEFAULT_PICKUP_RANGE);
+		SetPickupType(currentPickup, Health, 1);
+		pickupID++;
+	}
+	for(s8 i = 0; i < SWORD_PICKUP_COUNT; ++i){
+		currentPickup = InitPickup(pickupID, &obj_buffer[pickupStartOAM + pickupID], swordPositions[i], 16, 16, DEFAULT_PICKUP_RANGE);
+		SetPickupType(currentPickup, Weapon, SwordSmall);
+		pickupID++;
+	}
 
 	//Loop and create enemies at correct positions
 	InitEnemyMem();
@@ -160,6 +190,7 @@ int main()
 	for(int i = 1; i < ENEMY_COUNT; ++i){
 		InitEnemy(i, &(obj_buffer[enemyStartOAM + i]), enemyPositions[i], 16, 16);
 	}
+
 
 	#pragma endregion
 
