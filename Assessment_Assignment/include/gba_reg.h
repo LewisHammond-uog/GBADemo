@@ -1,6 +1,7 @@
 /*
 Header to contain all of the GBA Memory address defines that we use
 */
+
 #ifndef __GBA_REG_H__
 #define __GBA_REG_H__
 

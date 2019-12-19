@@ -1,4 +1,6 @@
-
+/*
+Handles functionaility used by world entites (Player, Pickups and Enimies).
+*/
 #ifndef __GBA_ENTITIY_H__
 #define __GBA_ENTITIY_H__
 
@@ -12,6 +14,7 @@
 #include "gba_input.h"
 #include "gba_particles.h"
 
+//Types of pickups within the game
 typedef enum Pickups{
 	Health,
 	Weapon,
@@ -31,6 +34,7 @@ typedef enum Weapons{
 #define WeaponDamange_SwordLarge 3
 #define WeaponDamange_SwordBow 0
 
+//Weapon Ranges
 #define WeaponRange_SwordSmall 20
 #define WeaponRange_SwordLarge 100
 #define WeaponRange_Bow 0
@@ -95,14 +99,19 @@ Pickup createdPickups[PICKUP_COUNT];
 //Pickup Range
 #define DEFAULT_PICKUP_RANGE 20
 
+//Intialistation Functions
 extern void InitPickupMem();
-extern void UpdateAllPickups();
-extern void UpdatePickup(Pickup* a_entity);
-
 extern Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange);
 extern void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType);
+
+//Update Functions
+extern void UpdateAllPickups();
+extern void UpdatePickup(Pickup* a_pickup);
+
+//Disable Function
 extern void DisablePickup(Pickup* a_pickup);
 
+//Collision Functions
 extern u8 AABBWallCollision(Vector2 a_pos, Vector2 a_size, s8 a_hsp, s8 a_vsp);
 extern u8 CheckCollision(Vector2* pos, int addx, int addy);
 

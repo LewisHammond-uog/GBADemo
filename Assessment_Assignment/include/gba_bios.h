@@ -1,3 +1,7 @@
+/*
+BIOS defines and interupt handiling
+*/
+
 #ifndef __GBA_BIOS_H__
 #define __GBA_BIOS_H__
 

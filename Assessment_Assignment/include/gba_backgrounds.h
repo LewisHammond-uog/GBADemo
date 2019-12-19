@@ -1,3 +1,7 @@
+/*
+Functionality to Initalise, Move and Update Backgrounds
+*/
+
 #ifndef __GBA_BACKGROUNDS_H__
 #define __GBA_BACKGROUNDS_H__
 
@@ -6,7 +10,7 @@
 #include "gba_tiles.h"
 #include "gba_drawing.h"
 
-//Backgrounds
+//Backgrounds themselves
 #include "LVL1BG_Externs.h"
 
 //Define a base registry for the background controller
@@ -102,19 +106,24 @@ typedef struct Background{
 #define BG_MAPBLOCK_MASK      0x1F //There are only 32 mapblocks
 
 //Array for all of the BGs we have created
-Background createdBackgrounds[4];
+#define MAX_BACKGROUNDS 4
+Background createdBackgrounds[MAX_BACKGROUNDS];
 
 //Get a pallet block for background
 #define PAL_BG_BLOCK(n) (PAL_BG_MEM + (n & 0xF) * 16)
 
+//Functions for initalising BG Mem and Backgrounds
+extern void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles);
+extern Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiledHeight, const u16* a_mapData, u16 a_regData);
+
+//Functions for getting and setting the background control registers
 extern u16* GetBGTileBlock(u8 a_tileblock);
 extern u16* GetBGMapBlock(u8 a_mapBlock);
 extern u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
   u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize);
 
-extern void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles);
-extern Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiledHeight, const u16* a_mapData, u16 a_regData);
-
+//Functions for manipulating backgrouds and getting infomation about
+//the current positions of the backgrounds
 extern void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y);
 extern bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y);
 extern Vector2 GetBackgroundOffset(u8 a_bgID);

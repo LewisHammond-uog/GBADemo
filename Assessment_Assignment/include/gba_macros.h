@@ -1,4 +1,6 @@
-#pragma once
+/*
+Macros
+*/
 
 #ifndef __GBA_MACROS_H__
 #define __GBA_MACROS_H__

@@ -1,3 +1,6 @@
+/*
+Basic Pixel Plotting Drawing Functionaility
+*/
 #ifndef __GBA_DRAWING_H__
 #define __GBA_DRAWING_H__
 

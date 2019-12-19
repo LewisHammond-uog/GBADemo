@@ -53,7 +53,7 @@ INLINE void PollKeys(void)
 }
 
 /*
-Functions for getting the current state of keys such as pressed, held and state changed
+Inline Functions for getting the current state of keys such as pressed, held and state changed
 */
 INLINE u16 currentKeyState(void) { return __currentKeys;}
 INLINE u16 previousKeyState(void) { return __prevKeys;}
@@ -64,6 +64,7 @@ INLINE u16 KeyReleased( u16 a_key) { return (__prevKeys & ~__currentKeys) & a_ke
 INLINE u16 KeyHit (u16 a_key) { return (~__prevKeys & __currentKeys) & a_key;}
 INLINE u16 KeyStateChange (u16 a_key) { return (__prevKeys ^ __currentKeys) & a_key;}
 
+//D-Pad Axies
 typedef enum AXIS{
     HORIZONTAL = 0,
     VERTICAL,

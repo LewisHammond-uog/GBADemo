@@ -1,5 +1,7 @@
-//File contains defines for the locations of different sprites
-//within the spritesheet
+/*
+File contains defines for the locations of different sprites
+within the spritesheet
+*/
 #ifndef __SPRITE_LOCATIONS_H__
 #define __SPRITE_LOCATIONS_H__
 

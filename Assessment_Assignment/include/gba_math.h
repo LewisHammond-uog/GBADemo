@@ -1,4 +1,6 @@
-//Maths Utilities for GBA (mostly fixed point numbers)
+/*
+Maths Utilities for GBA (mostly fixed point numbers)
+*/
 #ifndef __GBA_MATH_H__
 #define __GBA_MATH_H__
 

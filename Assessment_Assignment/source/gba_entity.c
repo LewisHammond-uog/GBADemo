@@ -1,9 +1,9 @@
 #include "gba_entity.h"
 
-//Init Pickup Mem
+//Init Pickup Memory
 extern void InitPickupMem(){
     
-    //Set memory to zero - removing existing pickups
+    ///Fill Memory with disabled pickup
     for(u16 i = 0; i < PICKUP_COUNT - 1; i++){
         Pickup newPickup;
         newPickup.enabled = false;
@@ -12,12 +12,10 @@ extern void InitPickupMem(){
     
 }
 
-//Functions for removing all current pickups and entites
-
-//Functions to Update all Pickups and Entites
+//Function to Update all Pickups
 void UpdateAllPickups(){
 
-    //Loop though all pickups, null check them update them
+    //Loop though all pickups, check if they are enabled and then update them
     for(u16 i = 0; i < PICKUP_COUNT; i++){
         Pickup* currentPickup = &createdPickups[i];
 
@@ -28,7 +26,13 @@ void UpdateAllPickups(){
 
 }
 
-//Intialises an pickup within the world
+//Initalise an inviviual pickup within the world
+//a_id - ID of the pickup within the array
+//a_sprite - pickup Sprite Object
+//a_worldpos - Postion to start the pickup at
+//a_width - Width of the pickup sprite
+//a_height - Height of the pickup sprite
+//a_pickupRange - Range the item can be picked up from
 Pickup* InitPickup(u8 a_id, SpriteObject* a_sprite, Vector2 a_worldPos, u8 a_width, u8 a_height, u16 a_pickupRange){
     
     //Check that ID is less than max pickups
@@ -66,17 +70,19 @@ void SetPickupType(Pickup* a_pickup, PickupType a_type, u8 a_subType){
     a_pickup->pickupSub = a_subType;
 }
 
+//Update and Indiviual Pickup
+//a_pickup - Pickup to Update
+void UpdatePickup(Pickup* a_pickup){
 
-void UpdatePickup(Pickup* a_entity){
-
-    if(a_entity->enabled){
+    //Check that pickup is enabled
+    if(a_pickup->enabled){
         //Get current screen offset
         Vector2 currentOffset = GetBackgroundOffset(0);
 
         //Calculate the screen position of this entity
         Vector2 screenPos = {
-            a_entity->worldPos.x - currentOffset.x,
-            a_entity->worldPos.y - currentOffset.y
+            a_pickup->worldPos.x - currentOffset.x,
+            a_pickup->worldPos.y - currentOffset.y
         };
 
 
@@ -84,21 +90,21 @@ void UpdatePickup(Pickup* a_entity){
         if(screenPos.x < SCREEN_W && screenPos.y < SCREEN_H){
 
             //Set visible and position
-            if(!a_entity->visible){
-                UnHideSpriteObject(a_entity->sprite, A0_MODE_REG);
-                a_entity->visible = true;
+            if(!a_pickup->visible){
+                UnHideSpriteObject(a_pickup->sprite, A0_MODE_REG);
+                a_pickup->visible = true;
             }
 
-            a_entity->screenPos = screenPos;
+            a_pickup->screenPos = screenPos;
 
             //Update screen pos
-            SetSpriteScreenPos(a_entity->sprite, screenPos.x, screenPos.y);
+            SetSpriteScreenPos(a_pickup->sprite, screenPos.x, screenPos.y);
 
         }else{
             //Make sure sprite is hidden
-            if(a_entity->visible){
-                HideSpriteObject(a_entity->sprite);
-                a_entity->visible = false;
+            if(a_pickup->visible){
+                HideSpriteObject(a_pickup->sprite);
+                a_pickup->visible = false;
             }
         }
     }

@@ -155,7 +155,7 @@ void oam_init(SpriteObject* a_obj, u8 a_count){
         ++currentSprite;
     }
 
-    //Initalise OAM
+    //Copy new data to OAM
     oam_copy(MEM_OAM, a_obj, a_count);
     
 }

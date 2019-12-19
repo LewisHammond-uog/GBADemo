@@ -1,3 +1,7 @@
+/*
+Handles Graphics Defines and Functionaility
+*/
+
 #ifndef __GBA_GFX_H__
 #define __GBA_GFX_H__
 

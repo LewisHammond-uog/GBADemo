@@ -1,3 +1,7 @@
+/*
+Contains all of the functions to use and create sprites, in addition to sprite memory defines
+*/
+
 #ifndef __GBA_SPRITES_H__
 #define __GBA_SPRITES_H__
 

@@ -1,6 +1,13 @@
 #include "gba_backgrounds.h"
 
 //Function to setup/configure BG Control Register
+//a_priority - Background Priority
+//a_tileblock - Memory Location of background tiles
+//a_mosaic - Should be background be mosaic?
+//a_colourMode - Background Colour Mode
+//a_mapblock - Map Block
+//a_affineWrap - Should the background wrap?
+//a_bgSize - Size of the background
 u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colourMode,
   u8 a_mapblock, u8 a_affineWrap, u8 a_bgSize ){
     u16 controlReg = BGCNT_PRIORITY(a_priority) | BGCNT_TILEBLOCK(a_tileblock) | BGCNT_MOSAIC(a_mosaic) |
@@ -10,17 +17,22 @@ u16 SetBGControlRegister(u8 a_priority, u8 a_tileblock, u8 a_mosaic, u8 a_colour
 }
 
 //Get the address to the tile map in memory by providing a number (0-32)
+//a_mapBlockIndex - Map Block Index
 u16* GetBGMapBlock(u8 a_mapBlockIndex){
     return (u16*)(VRAM + (a_mapBlockIndex & BG_MAPBLOCK_MASK) * TILEMAP_BLOCK_SIZE);
 }
 
 //Gets the address of a tile block memory by providing a number (0-3)
+//a_tileBlockIndex - Tile Block Index
 u16* GetBGTileBlock(u8 a_tileBlockIndex)
 {
     return  (u16*)(TILE_MEM[(a_tileBlockIndex & BG_TILEBLOCK_MASK)]);
 }
 
 //Initalises Background Memory - Pallets and Tiles
+//a_tileBlockIndex - Tile Block Index
+//a_pallet - Pallet to load
+//a_tiles - Tiles to load
 void InitBGMem(u8 a_tileBlockID, PalletInfo* a_pallet, TilesInfo* a_tiles){
 
     //Copy Pallet Data in to memory
@@ -62,6 +74,7 @@ Background* InitBackground(u8 a_id, u8 a_tileSize, u16 a_tiledWidth, u16 a_tiled
     //Add BG to array
     createdBackgrounds[a_id] = bg;
 
+    //Return pointer to item in array
     return &createdBackgrounds[a_id];
 }
 
@@ -72,11 +85,15 @@ void MoveBackground(u8 a_bgID, s16 a_x, s16 a_y){
     createdBackgrounds[a_bgID].offset.x += a_x;
     createdBackgrounds[a_bgID].offset.y += a_y;
 
+    //Set BG Registers
     REG_BG_OFFSET[a_bgID].x = createdBackgrounds[a_bgID].offset.x;
     REG_BG_OFFSET[a_bgID].y = createdBackgrounds[a_bgID].offset.y;
 }
 
 //Check if scrolling the map by a given x and y value would exceed the maximum offsett of the map
+//a_bgID - ID of the background (given when the background was initalised)
+//a_x - X of potential scroll
+//a_y - Y of potential scroll
 bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y){
     
     //Check Horizontal Bounds
@@ -94,7 +111,7 @@ bool MapScrollInBounds(u8 a_bgID, s16 a_x, s16 a_y){
     return true;
 }
 
-//Get offset for background with givenid
+//Get offset for background with given id
 //a_bgID - Background ID
 Vector2 GetBackgroundOffset(u8 a_bgID){
     //Return background offset as a vector 2
@@ -102,9 +119,11 @@ Vector2 GetBackgroundOffset(u8 a_bgID){
 }
 
 //Function to convert 64x32 MapED Maps to GBA format
+//a_mapData - Data of map
+//a_mapBlockAddress - Map Block
 void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress )
 {
-	//get a pointer to the map ed data we want
+	//get a pointer to the map data we want
 	HALF_ROW* src = (HALF_ROW*)a_mapData;
 
 	//a 32x32 map occupies one address space
@@ -112,13 +131,14 @@ void copy64x32MapIntoMemory( const u16* a_mapData, u16 a_mapBlockAddress )
 	HALF_ROW* dst0 = (HALF_ROW*)GetBGMapBlock(a_mapBlockAddress);
 	HALF_ROW* dst1 = (HALF_ROW*)GetBGMapBlock(a_mapBlockAddress + 1);
 
-	//as there are 32 tiles per page row the following loop can be used.
-	//Using post increment - so assignment happens before the increment
+    //Loop through the 32 tiles per page
 	for( u32 i = 0; i < 32; ++i)
 	{
 		//copy row i of the left page
-		*dst0++ = *src++;   *dst0++ = *src++;
+		*dst0++ = *src++;   
+        *dst0++ = *src++;
 		//copy row i of the right page
-		*dst1++ = *src++;   *dst1++ = *src++;
+		*dst1++ = *src++;   
+        *dst1++ = *src++;
 	}
 }

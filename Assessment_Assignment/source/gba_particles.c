@@ -9,6 +9,8 @@ fixed g_pixels2Meter = 0x200;
 //before being re-emitted
 const int maxPartDist = 40;
 
+//Initalise are particle with 0'ed values
+//a_p - Particle to Init
 void InitParticle(Particle* a_p){
 	a_p->x = 0;
 	a_p->y = 0;
@@ -16,8 +18,13 @@ void InitParticle(Particle* a_p){
 	a_p->vy = 0;
 }
 
-ParticleSystem InitParticleSystem(Emitter* a_partEmitter, SpriteObject a_sprite, SpriteObject* a_memLocation){
+//Initalise a particle system
+//a_partEmitter - Particle Emitter
+//a_sprite - Sprite of particle
+ParticleSystem InitParticleSystem(Emitter* a_partEmitter, SpriteObject a_sprite){
 	
+	//Create a particle system and loop through all particles and add them 
+	//to OAM
 	ParticleSystem ps;
 	for(s8 i =0; i < PARTICLE_COUNT; ++i){
 		EmitParticle(&ps.particles, a_partEmitter);
@@ -26,8 +33,12 @@ ParticleSystem InitParticleSystem(Emitter* a_partEmitter, SpriteObject a_sprite,
 
 }
 
+//Update a particle
+//a_p - Particle to Update
+//a_e - Emitter of particle
 void UpdateParticle(Particle* a_p, Emitter* a_e){
 	
+	//Add velocities to the particle
 	a_p->x = fixAdd(a_p->x, fixMul(fixMul(a_p->vx, g_frameTime), g_pixels2Meter));
 	a_p->y = fixAdd(a_p->y, fixMul(fixMul(a_p->vy, g_frameTime), g_pixels2Meter));
 	a_p->vy -= fixMul(g_gravity, g_frameTime); 
@@ -38,21 +49,26 @@ void UpdateParticle(Particle* a_p, Emitter* a_e){
 	}
 }
 
+//Update an entire particle system
+//a_ps - Particle System
+//a_e - Emitter of particles
 extern void UpdateParticleSystem(ParticleSystem* a_ps, Emitter* a_e){
 
+	//Loop through all particles and update
 	for(s8 i = 0; i < PARTICLE_COUNT; ++i){
 
-		//update each particle
 		UpdateParticle(&a_ps->particles[i], a_e);
 		//update oam Buffer wioth new particle pos
 		SetSpriteScreenPos(&(particleOAM[i]), Fix2Int(a_ps->particles[i].x), Fix2Int(a_ps->particles[i].y));
-
-		particleOAM[i].attr2 = SetSpriteObjectAttribute2(ParticleSpriteLocation, 0, 1);
 	}
 
 }
 
+//Emit a Particle from an emtiter
+//a_p - Particle
+//a_e - Emitter of particle
 void EmitParticle(Particle* a_p, Emitter* a_e){
+	
 	//Set pos to emitter
 	a_p->x = a_e->x;
 	a_p->y = a_e->y;

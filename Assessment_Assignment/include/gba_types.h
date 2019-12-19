@@ -27,7 +27,7 @@ typedef volatile int32_t v_s32;
 //uses 8.8 so allow for better overflow
 typedef s32 fixed;
 
-//Position struct
+//Vector 2 structure
 typedef struct Vector2{
     s32 x;
     s32 y;

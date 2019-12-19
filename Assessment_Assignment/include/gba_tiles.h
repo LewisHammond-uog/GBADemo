@@ -1,3 +1,7 @@
+/*
+Data to store infomation for tiles, used by both backgrounds and sprites
+*/
+
 #ifndef __GBA_TILES_H__
 #define __GBA_TILES_H__
 

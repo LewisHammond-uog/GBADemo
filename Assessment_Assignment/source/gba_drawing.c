@@ -1,23 +1,32 @@
 #include "gba_drawing.h"
 #include "gba_gfx.h"
 
-/*
-Creates the block of memory that can be used to create a colour at a given pixel
-*/
+
+//Creates the block of memory that can be used to create a colour at a given pixel
+//a_red - Red Value
+//a_green - Green Value
+//a_blue - Blue Value
 u16 SetColour(u8 a_red, u8 a_green, u8 a_blue){
 	return (a_red &0x1F) | (a_green & 0x1F) << 5 | (a_blue & 0x1F) << 10; 
 }
 
-/*
-Plots a pixel on the screen of a given colour
-*/
+
+//Plots a pixel on the screen of a given colour
+//a_x - X
+//a_y - Y
+//a_colour - Colour
 void PlotPixel(s32 a_x, s32 a_y, u16 a_colour){
 	SCREENBUFFER[a_y * SCREEN_W + a_x] = a_colour; //Find the pixel and plot the colour to that pixels memory address
 }
 
-/*
-Draws a rectangle (filled or unfilled) to the screen
-*/
+
+//Draws a rectangle (filled or unfilled) to the screen
+//a_left - Left (X) Coordinate
+//a_top - Top (Y) Coordinate
+//a_width - Width of Rect
+//a_height - Height of Rect
+//a_colour - Colour of Rect
+//a_filled - Filled or Outline Rect?
 void DrawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bool a_filled){
 	
 	//Check if we want a filled or "empty" rect
@@ -37,9 +46,13 @@ void DrawRect(s32 a_left, s32 a_top, s32 a_width, s32 a_height, u16 a_colour, bo
 	}
 }
 
-/*
-Draws a line to the screen of a given colour
-*/
+
+//Draws a line to the screen of a given colour
+//a_x - Starting X
+//a_y - Starting Y
+//a_x2 - Ending X
+//a_y2 - Ending Y
+//a_colour - Colour
 void DrawLine(s32 a_x, s32 a_y, s32 a_x2, s32 a_y2, u16 a_colour){
 
 	//Get the horizontal and vertical displacement of the line

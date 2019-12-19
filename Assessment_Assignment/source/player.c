@@ -243,5 +243,6 @@ bool CheckMapScroll(Player* a_player, s8 a_hsp, s8 a_vsp){
     if(a_hsp < 0 && a_player->screenPos.x < hScrollLimit){
         return true;
     }
+    
     return false;
 }

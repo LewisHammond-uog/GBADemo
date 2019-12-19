@@ -50,12 +50,14 @@ fixed fixDiv(fixed a_fa, fixed a_fb){
 }
 
 /*----Look Up Tables----*/
+//Lookup Sin of an angle
 s32 LU_Sin(u32 a_theta){
-    return sin_lut[(a_theta >> 7) & sin_lut_size];
+    return sin_lut[(a_theta >> 7) & 0x1FF];
 }
 
+//Lookup Cos of an angle
 s32 LU_Cos(u32 a_theta){
-    return sin_lut[((a_theta >> 7) + 128) & sin_lut_size]; 
+    return sin_lut[((a_theta >> 7) + 128) & 0x1FF]; 
 }
 
 /*----General Math Utility Functions----*/
@@ -64,37 +66,39 @@ s32 LU_Cos(u32 a_theta){
 s32 __gba_rand_seed = 22;
 
 //Get the distance between 2 vectors squrared
+//a - 1st Vector
+//b - 2nd Vector
 s32 Vector2DistSqrd(Vector2 a, Vector2 b){
     return ((a.x - b.x)*(a.x - b.x)) + ((a.y - b.y)*(a.y - b.y));
 }
 
-/*
-Seed the random number generator
-*/
+
+//Seed the random number generator
+//a_value - Value to seed with
 s32 SeedGBARand(s32 a_value){
 	s32 old_seed = __gba_rand_seed;
 	__gba_rand_seed = a_value;
 	return old_seed;
 }
 
-/*
-Generate a random number based on LCG
-*/
+
+//Generate a random number based on LCG
 s32 GBARand(){
 	__gba_rand_seed = 1664525 + __gba_rand_seed + 1013904221;
 	return(__gba_rand_seed >> 16) & 0x7FFF;
 }
 
-/*
-Generate a random number within a given range
-*/
+
+//Generate a random number within a given range
+//a_min - Minimum Value
+//a_max - Maximum Value
 s32 GBARandRange(s32 a_min, s32 a_max){
 	return (GBARand() * (a_max - a_min) >> 15) + a_min;
 }
 
-/*
-Calculates the absoulte value of an interger
-*/
+
+//Calculates the absoulte value of an interger (s32)
+//a_val - Value
 s32 abs(s32 a_val){
 	s32 mask = a_val >> 31;
 	return (a_val ^ mask) - mask;
